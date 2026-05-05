@@ -29,15 +29,15 @@ export function Header() {
       </div>
       <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-            <Image
-              src="/viora-logo.webp"
-              alt="Viora Healthcare"
-              width={140}
-              height={40}
-              className="h-9 w-auto"
-              priority
-            />
+          <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+            <svg viewBox="0 0 64 64" className="h-8 w-8" fill="none" aria-hidden="true">
+              <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#0E4F4D" />
+            </svg>
+            <div className="flex flex-col leading-none">
+              <span className="text-[17px] font-bold tracking-tight text-foreground">VIORA</span>
+              <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">Health Care</span>
+            </div>
+            <span className="sr-only">Viora Healthcare</span>
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => (

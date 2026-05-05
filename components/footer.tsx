@@ -44,13 +44,16 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Image
-              src="/viora-logo.webp"
-              alt="Viora Healthcare"
-              width={160}
-              height={48}
-              className="h-10 w-auto"
-            />
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" aria-hidden="true">
+                <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#0E4F4D" />
+              </svg>
+              <div className="flex flex-col leading-none">
+                <span className="text-lg font-bold tracking-tight text-foreground">VIORA</span>
+                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">Health Care</span>
+              </div>
+              <span className="sr-only">Viora Healthcare</span>
+            </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Lab-tested research peptides, third-party verified, doctor-backed,
               and shipped from the USA.

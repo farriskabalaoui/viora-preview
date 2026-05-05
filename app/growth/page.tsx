@@ -669,9 +669,6 @@ export default function GrowthPage() {
             sprints starting the day we sign. Phase 3 (the apps) starts when the
             agents stabilize and we have real channel data to design against.
           </p>
-          <p className="mt-10 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-            Internal · For Marvin & Khaled · Not linked publicly
-          </p>
         </div>
       </section>
     </>
