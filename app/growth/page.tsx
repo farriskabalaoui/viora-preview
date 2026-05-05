@@ -91,7 +91,7 @@ const agents = [
       { label: "% of revenue from email/SMS", value: "25–35%" },
       { label: "Abandoned-cart recovery", value: "10–15% of carts" },
     ],
-    stack: ["Klaviyo", "Twilio (SMS)", "Claude (subject-line optimization)", "Stripe events"],
+    stack: ["Klaviyo", "Twilio (SMS)", "Claude (subject-line optimization)", "Lightspeed order events"],
   },
   {
     n: "05",
@@ -99,14 +99,14 @@ const agents = [
     impact:
       "Recruits + activates 50–100 affiliates: longevity podcasters, performance clinics, functional med practitioners.",
     body:
-      "Discovery agent's cousin — finds podcasters, YouTube channels, clinic owners, and longevity influencers in the peptide research space. Outreach agent pitches them the affiliate program. New page builds tier-customized landing pages per affiliate (their photo, their angle, custom code). Real-time dashboard so they see commissions accrue. Auto-payout via Stripe Connect.",
+      "Discovery agent's cousin — finds podcasters, YouTube channels, clinic owners, and longevity influencers in the peptide research space. Outreach agent pitches them the affiliate program. New page builds tier-customized landing pages per affiliate (their photo, their angle, custom code). Real-time dashboard so they see commissions accrue. Monthly ACH payouts to affiliates via your existing payment processor.",
     revenue:
       "100 active affiliates × $500/mo avg in driven sales × 15% commission = **+$50K/month gross sales, $7.5K paid out**.",
     metrics: [
       { label: "Active affiliates (target)", value: "50–100" },
       { label: "Avg revenue / affiliate", value: "$300–800/mo" },
     ],
-    stack: ["Rewardful / FirstPromoter", "Stripe Connect", "Custom landing-page generator", "Discovery agent"],
+    stack: ["Rewardful / FirstPromoter", "ACH via approved processor", "Custom landing-page generator", "Discovery agent"],
   },
   {
     n: "06",
@@ -172,7 +172,7 @@ const apps = [
     features: [
       {
         title: "PO + Net-30 Invoicing",
-        body: "Submit a purchase order, get an invoice, pay net-30. Stripe Invoicing or Bill.com integration. Removes the #1 reason institutions buy elsewhere.",
+        body: "Submit a purchase order, get an invoice, pay net-30. Bill.com or your high-risk-approved processor (Citi merchant services / NMI / Authorize.Net) handles invoicing. Removes the #1 reason institutions buy elsewhere.",
       },
       {
         title: "Multi-User Lab Accounts",
@@ -196,7 +196,7 @@ const apps = [
       },
     ],
     timeline: "10–14 weeks for v1",
-    stack: "Next.js extension of current site, Stripe + Bill.com",
+    stack: "Next.js extension, Citi/NMI gateway + Bill.com invoicing",
   },
 ];
 
@@ -427,7 +427,7 @@ export default function GrowthPage() {
                 title: "Auto-Fulfillment Pipeline",
                 body:
                   "Orders placed on viorahealthcare.com sync to Lightspeed in real time. Fulfillment uses your existing Lightspeed flow — pick, pack, ship — with zero double-entry. Order status (paid → fulfilled → shipped → delivered) flows back so Vee can answer 'where's my order?' instantly.",
-                stack: ["Stripe → Lightspeed sync", "Webhook order events", "Status machine"],
+                stack: ["Approved gateway → Lightspeed sync", "Webhook order events", "Status machine"],
                 impact:
                   "Cuts ~6 hours/week of manual order entry. Eliminates fulfillment errors from copy-paste mistakes.",
               },
@@ -609,7 +609,7 @@ export default function GrowthPage() {
                 title: "Data & Encryption",
                 bullets: [
                   "AES-256 encryption at rest, TLS 1.3 in transit",
-                  "Card data never touches our servers — Stripe Elements + tokenization (PCI scope minimized)",
+                  "Card data never touches our servers — tokenized through your approved high-risk gateway (Citi merchant services / NMI / Authorize.Net), PCI scope minimized",
                   "Per-row PII encryption for researcher records",
                   "Encrypted backups, 90-day retention, DR drills quarterly",
                 ],
