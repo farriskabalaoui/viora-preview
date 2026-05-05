@@ -625,7 +625,7 @@ export default function GrowthPage() {
                 bullets: [
                   "Bank-grade 256-bit encryption + audit-logged access (no overclaimed compliance buzzwords)",
                   "GDPR + CCPA: cookie consent, data deletion, DSAR workflow",
-                  "SOC 2 Type I in year 1, Type II in year 2 — table stakes for institutional sales",
+                  "Standard data-protection practices that institutional buyers expect — without making compliance certifications we haven't earned yet",
                   "21 CFR Part 11 considered for any compliance-sensitive features",
                 ],
               },
@@ -687,8 +687,8 @@ export default function GrowthPage() {
                   The preview at <span className="font-mono">viora-preview.vercel.app</span>{" "}
                   is a clickable demo. The hardening above is what I deliver
                   alongside the production rebuild before customers transact. It
-                  gets us through institutional procurement reviews and SOC 2
-                  audits — both are gates between Viora and the biggest checks.
+                  gets us through institutional procurement reviews — the gate
+                  between Viora and the biggest checks.
                 </p>
               </div>
             </div>

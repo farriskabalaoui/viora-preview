@@ -1,4 +1,12 @@
-export type Lang = "en" | "es";
+export type Lang = "en" | "es" | "ar";
+
+export const LANG_LABELS: Record<Lang, string> = {
+  en: "English",
+  es: "Español",
+  ar: "العربية",
+};
+
+export const RTL_LANGS: Lang[] = ["ar"];
 
 export const dict = {
   en: {
@@ -124,6 +132,68 @@ export const dict = {
     "product.low_stock": "Stock Bajo",
     "product.out_of_stock": "Agotado",
     "lang.toggle": "English",
+  },
+  ar: {
+    "banner.taglineRes": "نقبل طلبات الأبحاث الآن",
+    "banner.shipDate": "بدء الشحن في 1 يونيو 2026",
+    "nav.research_compounds": "المركّبات البحثية",
+    "nav.stacks": "الحزم",
+    "nav.research_library": "مكتبة الأبحاث",
+    "nav.about": "من نحن",
+    "nav.affiliate": "البرنامج التابع",
+    "nav.contact": "اتصل بنا",
+    "nav.signin": "تسجيل الدخول",
+    "nav.shop": "تسوّق المركّبات",
+    "nav.shopShort": "تسوّق",
+    "hero.pill": "مختبر · مُتحقَّق من طرف ثالث · صُنع في الولايات المتحدة",
+    "hero.headline_1": "ببتيدات بمستوى البحث،",
+    "hero.headline_2": "بدعم من الأطباء.",
+    "hero.subheadline":
+      "ببتيدات بحثية عالية النقاء مُصنّعة ومُعبّأة في الولايات المتحدة، مع تقارير COA معتمدة واختبارات مستقلة لكل دفعة. موثوقة من قبل الباحثين في جميع أنحاء الولايات المتحدة.",
+    "hero.cta_shop": "تسوّق المركّبات",
+    "hero.cta_coa": "عرض شهادات COA",
+    "hero.purity": "نقاء HPLC ≥ 99٪",
+    "hero.physician": "بدعم من أطباء معتمدين",
+    "hero.us": "مُصنّع ومُعبّأ في الولايات المتحدة",
+    "trust.tested": "اختبار مستقل",
+    "trust.tested_body":
+      "كل دفعة يتم التحقق منها بشكل مستقل بواسطة مختبرات معتمدة — HPLC + قياس الكتلة الطيفية.",
+    "trust.physician": "بدعم طبي",
+    "trust.physician_body":
+      "الجودة مُراجَعة من قبل أطباء معتمدين وكيميائيين حاصلين على الدكتوراه.",
+    "trust.us": "صُنع في الولايات المتحدة",
+    "trust.us_body":
+      "مُصنّع ومُعبّأ في الولايات المتحدة — شحن سريع وآمن مع تحكم بدرجة الحرارة.",
+    "trust.portal": "أمان على مستوى المؤسسات",
+    "trust.portal_body":
+      "تشفير 256-بت بمستوى البنوك مع ضوابط وصول مُسجّلة وحماية بيانات على مستوى الصف.",
+    "catalog.eyebrow": "المركّبات المميزة",
+    "catalog.title": "استكشف الكتالوج.",
+    "catalog.subtitle":
+      "حزم جاهزة، خلطات ببتيدية، ومركّبات فردية — كل دفعة مُتحقَّق منها بواسطة HPLC وتُشحَن من منشأتنا في الولايات المتحدة.",
+    "catalog.cta": "تصفّح كل المنتجات →",
+    "card.from": "ابتداءً من",
+    "card.view": "عرض المنتج",
+    "cart.title": "سلّتك",
+    "cart.empty": "سلّتك فارغة.",
+    "cart.empty_cta": "تصفّح الكتالوج",
+    "cart.subtotal": "المجموع الفرعي",
+    "cart.note":
+      "سلّة تجريبية — قدّم طلب عرض سعر وسيقوم فريقنا بتوجيهه إلى الباحثين المعتمدين عبر البوابة.",
+    "cart.checkout": "اطلب عرض سعر",
+    "cart.continue": "متابعة التصفّح",
+    "cart.qty_plus": "إضافة واحد",
+    "cart.qty_minus": "إزالة واحد",
+    "cart.remove": "إزالة",
+    "cart.added": "تمّت الإضافة إلى السلّة",
+    "product.add": "أضف إلى السلّة",
+    "product.added": "تمّت الإضافة — عرض السلّة",
+    "product.request": "اطلب عرض سعر",
+    "product.coa": "عرض شهادة COA",
+    "product.in_stock": "متوفر",
+    "product.low_stock": "كمية محدودة",
+    "product.out_of_stock": "غير متوفر",
+    "lang.toggle": "العربية",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
