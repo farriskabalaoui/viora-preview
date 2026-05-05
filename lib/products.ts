@@ -35,13 +35,11 @@ export const STACK_PEPTIDES: Record<string, string[]> = {
 };
 
 /**
- * Blend → peptide mapping (sourced from viorahealthcare.com/store).
+ * Blend → peptide mapping. Empty for now — blends already have clean combined
+ * photos at /products/<slug>.webp (both vials in one shot), so we use those
+ * directly instead of compositing individual peptides we don't have isolated.
  */
-export const BLEND_PEPTIDES: Record<string, string[]> = {
-  "bpc-tb-500": ["bpc-157", "tb-500"],
-  "cjc-1295-ipamorelin": ["cjc-1295-no-dac", "ipamorelin"],
-  "klow": ["bpc-157", "ghk-cu"],
-};
+export const BLEND_PEPTIDES: Record<string, string[]> = {};
 
 export const products: Product[] = [
   // ── PEPTIDE STACKS ───────────────────────────────────────────

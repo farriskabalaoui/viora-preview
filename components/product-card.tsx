@@ -19,7 +19,12 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex h-[480px] flex-col overflow-hidden rounded-2xl border border-border bg-muted/60 transition-all hover:-translate-y-0.5 hover:bg-muted/80 hover:shadow-lg"
+      className="group relative flex h-[480px] flex-col overflow-hidden rounded-2xl border border-border bg-muted/60 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+      style={{
+        backgroundImage: "radial-gradient(#dbe2ec 0.8px, transparent 0.8px)",
+        backgroundSize: "14px 14px",
+        backgroundColor: "#f4f6f8",
+      }}
     >
       {/* Top: text + CTA */}
       <div className="relative flex flex-col items-center px-6 pt-7 pb-4 text-center">
