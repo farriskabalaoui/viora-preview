@@ -12,7 +12,6 @@ export default function Home() {
   const { t } = useI18n();
   const featured = products.filter((p) => p.featured).slice(0, 8);
   const stacks = products.filter((p) => p.category === "Stack");
-  const allProducts = products.slice(0, 12);
 
   return (
     <>
@@ -104,53 +103,44 @@ export default function Home() {
 
       <TrustBar />
 
-      {/* Featured Stacks — horizontal carousel */}
-      <section className="mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6">
-        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <div className="text-xs font-medium uppercase tracking-wider text-brand">
-              {t("stacks.eyebrow")}
-            </div>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              {t("stacks.title")}
-            </h2>
-            <p className="mt-3 max-w-2xl text-muted-foreground">{t("stacks.subtitle")}</p>
-          </div>
-          <Link
-            href="/products?category=Stack"
-            className="text-sm font-medium text-brand hover:underline"
-          >
-            {t("stacks.cta")}
-          </Link>
-        </div>
-      </section>
-      <div className="-mt-2 mb-12">
-        <StackMarquee products={stacks} speed="slow" />
-      </div>
-
-      {/* Featured Compounds — horizontal carousel */}
+      {/* One carousel — mixed stacks, blends, and single peptides */}
       <section className="bg-muted/30">
         <div className="mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <div className="text-xs font-medium uppercase tracking-wider text-brand">
-                {t("products.eyebrow")}
+                {t("catalog.eyebrow")}
               </div>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                {t("products.title")}
+                {t("catalog.title")}
               </h2>
+              <p className="mt-3 max-w-2xl text-muted-foreground">{t("catalog.subtitle")}</p>
             </div>
             <Link href="/products" className="text-sm font-medium text-brand hover:underline">
-              {t("products.cta")}
+              {t("catalog.cta")}
             </Link>
           </div>
         </div>
         <div className="-mt-2 pb-16">
           <StackMarquee
-            products={[...featured, ...allProducts]
-              .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
-              .slice(0, 12)}
-            speed="normal"
+            products={(() => {
+              // Interleave stacks + featured singles + remaining catalog so the
+              // carousel feels diverse: stack, single, blend, stack, single, blend...
+              const singles = featured.filter((p) => p.category === "Peptide");
+              const blends = products.filter((p) => p.category === "Blend");
+              const ordered: typeof stacks = [];
+              const buckets = [stacks, singles, blends];
+              const max = Math.max(stacks.length, singles.length, blends.length);
+              for (let i = 0; i < max; i++) {
+                for (const bucket of buckets) {
+                  if (bucket[i]) ordered.push(bucket[i]);
+                }
+              }
+              return ordered
+                .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
+                .slice(0, 14);
+            })()}
+            speed="slow"
           />
         </div>
       </section>

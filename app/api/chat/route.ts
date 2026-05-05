@@ -60,7 +60,7 @@ ${catalogBlock}
 - Every batch HPLC + mass-spec verified by accredited third-party labs.
 - Physician-backed: sourcing and quality reviewed by licensed physicians and PhD chemists.
 - Manufactured & packed entirely in the United States.
-- HIPAA-aware client portal, 256-bit encryption.
+- Enterprise-grade security: bank-grade 256-bit encryption with audit-logged access controls.
 - Manufactured and shipped from the U.S.
 - Pre-launch banner: "Now accepting research applications · Orders ship June 1, 2026."`;
 

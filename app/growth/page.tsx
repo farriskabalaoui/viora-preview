@@ -623,7 +623,7 @@ export default function GrowthPage() {
               {
                 title: "Compliance Roadmap",
                 bullets: [
-                  "HIPAA-aware data handling on the customer portal (already claimed on site)",
+                  "Bank-grade 256-bit encryption + audit-logged access (no overclaimed compliance buzzwords)",
                   "GDPR + CCPA: cookie consent, data deletion, DSAR workflow",
                   "SOC 2 Type I in year 1, Type II in year 2 — table stakes for institutional sales",
                   "21 CFR Part 11 considered for any compliance-sensitive features",

@@ -98,9 +98,9 @@ export default function AboutPage() {
                   "Manufactured and packed in the United States — discreet, temperature-controlled fulfillment.",
               },
               {
-                title: "HIPAA-Aware Portal",
+                title: "Enterprise-Grade Security",
                 body:
-                  "256-bit encrypted client portal with research-use compliance baked into every order.",
+                  "Bank-grade 256-bit encryption, audit-logged access controls, and research-use compliance baked into every order.",
               },
             ].map((p) => (
               <div

@@ -34,15 +34,12 @@ export const dict = {
       "Manufactured & packed in the United States — discreet, temperature-controlled fulfillment.",
     "trust.portal": "Secure Portal",
     "trust.portal_body":
-      "256-bit encrypted client portal with HIPAA-aware data handling.",
-    "stacks.eyebrow": "Pre-Built Research Stacks",
-    "stacks.title": "Designed for reproducible research.",
-    "stacks.subtitle":
-      "Pre-portioned peptide stacks with standardized ratios across batches — built around the most-cited research protocols.",
-    "stacks.cta": "View all stacks →",
-    "products.eyebrow": "Research Compounds",
-    "products.title": "Single peptides, lab-verified.",
-    "products.cta": "Browse all compounds →",
+      "Bank-grade 256-bit encryption with audit-logged access controls and per-row data protection.",
+    "catalog.eyebrow": "Featured Compounds",
+    "catalog.title": "Explore the catalog.",
+    "catalog.subtitle":
+      "Pre-built stacks, peptide blends, and single compounds — every batch HPLC-verified and shipped from our U.S. facility.",
+    "catalog.cta": "Browse all products →",
     "card.from": "from",
     "card.view": "View product",
     "cart.title": "Your Cart",
@@ -99,15 +96,12 @@ export const dict = {
       "Fabricado y empacado en EE. UU. — envío discreto y con temperatura controlada.",
     "trust.portal": "Portal Seguro",
     "trust.portal_body":
-      "Portal cifrado de 256 bits con manejo de datos consciente de HIPAA.",
-    "stacks.eyebrow": "Stacks de Investigación",
-    "stacks.title": "Diseñados para investigación reproducible.",
-    "stacks.subtitle":
-      "Stacks pre-porcionados con ratios estandarizados en cada lote — basados en los protocolos más citados.",
-    "stacks.cta": "Ver todos los stacks →",
-    "products.eyebrow": "Compuestos de Investigación",
-    "products.title": "Péptidos individuales, verificados.",
-    "products.cta": "Ver todos los compuestos →",
+      "Cifrado de grado bancario de 256 bits con controles de acceso auditados.",
+    "catalog.eyebrow": "Compuestos Destacados",
+    "catalog.title": "Explora el catálogo.",
+    "catalog.subtitle":
+      "Stacks pre-mezclados, blends y compuestos individuales — cada lote verificado por HPLC y enviado desde EE. UU.",
+    "catalog.cta": "Ver todos los productos →",
     "card.from": "desde",
     "card.view": "Ver producto",
     "cart.title": "Tu Carrito",
