@@ -1,75 +1,124 @@
-import { NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 import { products } from "@/lib/products";
+
+export const runtime = "nodejs";
+export const maxDuration = 30;
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-export const runtime = "nodejs";
+const client = new Anthropic();
+
+const catalogBlock = products
+  .map((p) => {
+    const sizes = p.sizes
+      ? p.sizes.map((s) => `${s.mg}mg=$${s.price}`).join(", ")
+      : "see product page";
+    const tags = p.tags.length ? `Tags: ${p.tags.join(", ")}. ` : "";
+    return `- ${p.name} (slug: /products/${p.slug}, category: ${p.category})
+  Price: from $${p.priceFrom}${p.priceMax ? `–$${p.priceMax}` : ""}. Sizes: ${sizes}. Purity: ${p.purity}. ${tags}
+  ${p.long}`;
+  })
+  .join("\n\n");
+
+const systemBase = `You are "Vee" — Viora Healthcare's research assistant. You help researchers, clinicians, and lab purchasers explore Viora's catalog of lab-tested research peptides.
+
+# Brand voice
+- Warm, knowledgeable, concise. You sound like a sharp colleague at a research-grade peptide supplier — not a pushy salesperson and not a sterile FAQ bot.
+- Use plain language. Explain compounds in 1–3 sentences unless the user asks for depth.
+- Keep messages short (under 120 words usually). Use line breaks generously. Bullet only when it genuinely helps.
+- Never invent facts. If you don't know something specific (a niche compound, a current shipping ETA), say so and offer to route them to the team.
+
+# Compliance — non-negotiable
+- Every product is for RESEARCH USE ONLY. Never recommend a dose for human use, never imply human consumption is OK, never give medical advice.
+- If someone asks for human dosing, treatment advice, or anything implying they want to use a peptide on themselves: politely decline, restate research-use scope, and suggest they consult their physician.
+- Customers must be 21+. If anyone hints they're under 21, politely decline.
+- All preclinical research references (e.g., "studied in tissue-repair research") are framed as research literature, not health claims.
+
+# What you can confidently help with
+- Compound profiles (mechanism class, what it's commonly studied for) — based on the catalog below.
+- Stack recommendations for a stated research focus (recovery, metabolism, longevity, cognition, hormone signaling, gut, etc.).
+- Pricing, sizes, and pointing them to the right /products/[slug] page.
+- COA and lab-testing questions — Viora publishes COAs for Tesamorelin, MOTS-c, GHK-Cu, and Retatrutide at /research#coa.
+- Shipping & launch: orders begin shipping June 1, 2026, from Viora's U.S. facility, temperature-controlled and discreet.
+- Portal access: researchers/clinicians (21+) can apply at /contact; approvals typically within 1 business day.
+- Affiliate program: 10% / 15% / 20% tiers, details at /affiliate.
+
+# When to route to a human
+- Bulk / institutional orders, custom formulations, batch-specific COAs, regulatory questions, or anything you're unsure of: route to research@viorahealthcare.com or /contact.
+
+# Output style
+- When you mention a product, link it inline like: [BPC-157](/products/bpc-157). Use the slug from the catalog.
+- For stack recommendations, suggest 1–3 specific options from the catalog, never invent SKUs.
+- When users ask about COAs by name, link the PDF: [Tesamorelin COA](/coas/Tesamorelin-purity.pdf), [MOTS-c COA](/coas/MOTS-c-purity.pdf), [GHK-Cu COA](/coas/GHK-Cu-purity.pdf), [Retatrutide COA](/coas/Retatrutide-purity.pdf).
+- End with a soft next step (a question, a link to apply, etc.) when natural — but never push.
+
+# Catalog (authoritative — only recommend products that appear here)
+
+${catalogBlock}
+
+# Trust signals you can reference
+- Every batch HPLC + mass-spec verified by accredited third-party labs.
+- Doctor-backed: sourcing and quality reviewed by licensed physicians and PhD chemists.
+- HIPAA-aware client portal, 256-bit encryption.
+- Manufactured and shipped from the U.S.
+- Pre-launch banner: "Now accepting research applications · Orders ship June 1, 2026."`;
 
 export async function POST(req: Request) {
   const { messages } = (await req.json()) as { messages: Msg[] };
-  const last = messages.filter((m) => m.role === "user").pop();
-  const text = (last?.content || "").toLowerCase();
 
-  const reply = generateReply(text);
-  return NextResponse.json({ reply });
-}
-
-function generateReply(text: string): string {
-  // Match against product names
-  const matched = products.find((p) =>
-    text.includes(p.name.toLowerCase()) ||
-    text.includes(p.slug.replace(/-/g, " ")),
-  );
-
-  if (matched) {
-    return `${matched.name} — ${matched.short}\n\nStarting at $${matched.priceFrom}${matched.priceMax ? ` (up to $${matched.priceMax})` : ""}, ${matched.purity}. Want me to send the COA or open the product page?`;
+  // Filter to last ~12 turns to keep context small
+  const trimmed = messages.slice(-12).filter((m) => m.content?.trim());
+  if (trimmed.length === 0) {
+    return new Response("data: {\"error\": \"empty\"}\n\n", {
+      headers: { "content-type": "text/event-stream" },
+    });
   }
 
-  if (/coa|certificate|purity|hplc|verif/.test(text)) {
-    return "Every Viora batch is independently HPLC + mass-spec verified. We publish recent COAs publicly — Tesamorelin, MOTS-c, GHK-Cu, and Retatrutide are all live on /research#coa. For a specific batch lot, our team can pull it for you.";
-  }
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const apiStream = client.messages.stream({
+          model: "claude-sonnet-4-6",
+          max_tokens: 700,
+          system: [
+            {
+              type: "text",
+              text: systemBase,
+              cache_control: { type: "ephemeral" },
+            },
+          ],
+          messages: trimmed,
+        });
 
-  if (/ship|deliver|when|june|order|launch/.test(text)) {
-    return "Orders begin shipping June 1, 2026. We ship discreet, temperature-controlled packages from our U.S. facility — typically 2-3 business days. You can apply for portal access today so you're approved by launch.";
-  }
+        for await (const event of apiStream) {
+          if (
+            event.type === "content_block_delta" &&
+            event.delta.type === "text_delta"
+          ) {
+            const payload = JSON.stringify({ delta: event.delta.text });
+            controller.enqueue(encoder.encode(`data: ${payload}\n\n`));
+          }
+        }
 
-  if (/account|portal|sign|login|access|apply/.test(text)) {
-    return "Portal access is open to verified researchers and clinicians (21+). Apply through our contact form and our team typically approves within one business day. Want me to send you the link?";
-  }
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
+        controller.close();
+      } catch (err) {
+        console.error("[chat] stream error", err);
+        const msg = err instanceof Error ? err.message : "unknown";
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ error: msg })}\n\n`),
+        );
+        controller.close();
+      }
+    },
+  });
 
-  if (/stack|blend|protocol/.test(text)) {
-    const stacks = products.filter((p) => p.category === "Stack");
-    const list = stacks.slice(0, 4).map((s) => `• ${s.name} — from $${s.priceFrom}`).join("\n");
-    return `We offer 9 pre-built research stacks. Most popular:\n\n${list}\n\nWant me to recommend one based on your research focus?`;
-  }
-
-  if (/weight|metabolic|fat|glp/.test(text)) {
-    return "For metabolic research we offer GLP-3 (Reta) and GLP-2 (T) as single peptides, plus pre-built stacks: Viora Weight Loss Stack ($303), Viora Premium Weight Loss Stack ($388 — adds MOTS-c), and the Metabolic Stack ($430). All HPLC verified, COAs published.";
-  }
-
-  if (/recovery|injury|tissue|bpc|tb-?500|tb500/.test(text)) {
-    return "For recovery research, BPC-157 ($25 from) and TB-500 are the two most-cited compounds — we sell them individually and as a pre-blended BPC-157/TB-500 stack ($75). All HPLC verified.";
-  }
-
-  if (/cognit|focus|memory|nootropic|semax|selank/.test(text)) {
-    return "Cognitive research compounds in the catalog: Selank ($25) and Semax ($25), plus the Viora CEO Stack ($100) and Mood & Balance Stack ($70). Want product pages?";
-  }
-
-  if (/anti.?aging|longevity|nad|mots|aging/.test(text)) {
-    return "For longevity research: NAD+ ($43+), MOTS-c ($25+), GHK-Cu ($22+), and the Viora Longevity Stack ($189). Each is HPLC verified with published COAs.";
-  }
-
-  if (/contact|email|talk|human|representative|call/.test(text)) {
-    return "Easiest way: research@viorahealthcare.com or use the contact form on /contact. Our team replies within one business day.";
-  }
-
-  if (/hello|hi|hey|good (morning|afternoon|evening)/.test(text)) {
-    return "Hi! I can help with compound details, COAs, pricing, shipping, or portal access. What are you researching?";
-  }
-
-  if (/price|cost|how much/.test(text)) {
-    return "Single peptides start at $19 (Ipamorelin); pre-built research stacks range from $50 (Intimacy) to $430 (Metabolic). Bulk and institutional pricing available — drop a note on /contact.";
-  }
-
-  return "I can help with compound details, COAs, pricing, portal access, or shipping. Try asking about a specific peptide (e.g. 'tell me about BPC-157') or a research focus (e.g. 'what do you have for recovery?').";
+  return new Response(stream, {
+    headers: {
+      "content-type": "text/event-stream; charset=utf-8",
+      "cache-control": "no-cache, no-transform",
+      "x-accel-buffering": "no",
+    },
+  });
 }
