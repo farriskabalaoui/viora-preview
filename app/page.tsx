@@ -62,26 +62,28 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Right: real product photo on clean dotted bg */}
+          {/* Right: real product photo on clean solid bg */}
           <div className="relative">
-            <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted/60 shadow-md">
+            <div
+              className="relative aspect-square overflow-hidden rounded-3xl border border-border shadow-md"
+              style={{ backgroundColor: "#f4f6f8" }}
+            >
               <div
-                aria-hidden
-                className="absolute inset-0 opacity-50"
+                className="relative h-full w-full"
                 style={{
-                  backgroundImage:
-                    "radial-gradient(#cbd5e1 1px, transparent 1px)",
-                  backgroundSize: "16px 16px",
+                  filter:
+                    "drop-shadow(0 18px 24px rgba(31, 38, 71, 0.16)) drop-shadow(0 6px 8px rgba(31, 38, 71, 0.08))",
                 }}
-              />
-              <Image
-                src="/products/bpc-157.webp"
-                alt="Viora research peptide vial"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="relative z-10 object-contain p-12"
-              />
+              >
+                <Image
+                  src="/products/bpc-157.webp"
+                  alt="Viora research peptide vial"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain p-10"
+                />
+              </div>
             </div>
             <div className="absolute -bottom-4 -left-4 hidden rounded-2xl border border-border bg-background p-4 shadow-lg sm:block">
               <div className="flex items-center gap-3">
@@ -193,22 +195,25 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-muted">
+          <div
+            className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border"
+            style={{ backgroundColor: "#f4f6f8" }}
+          >
             <div
-              aria-hidden
-              className="absolute inset-0 opacity-50"
+              className="relative h-full w-full"
               style={{
-                backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)",
-                backgroundSize: "14px 14px",
+                filter:
+                  "drop-shadow(0 16px 22px rgba(31, 38, 71, 0.16)) drop-shadow(0 4px 6px rgba(31, 38, 71, 0.08))",
               }}
-            />
-            <Image
-              src="/products/tesamorelin.webp"
-              alt="Lab-tested research peptide"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="relative z-10 object-contain p-12"
-            />
+            >
+              <Image
+                src="/products/tesamorelin.webp"
+                alt="Lab-tested research peptide"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain p-10"
+              />
+            </div>
             <div className="pointer-events-none absolute inset-0 flex items-end p-8">
               <div className="rounded-2xl border border-border bg-background/95 p-5 backdrop-blur">
                 <div className="text-xs font-medium uppercase tracking-wider text-brand">

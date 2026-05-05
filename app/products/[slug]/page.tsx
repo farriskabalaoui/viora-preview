@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, getProduct } from "@/lib/products";
+import {
+  products,
+  getProduct,
+  STACK_PEPTIDES,
+  BLEND_PEPTIDES,
+} from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
-import { Vial, vialVariantFor } from "@/components/vial";
+import { ProductPhoto } from "@/components/product-photo";
 import { AddToCart } from "@/components/add-to-cart";
 import { stockStatusFor, stockLabel } from "@/lib/stock";
 
@@ -59,12 +64,24 @@ export default async function ProductPage({ params }: Props) {
       </nav>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* Image — Vial illustration */}
+        {/* Image — real photo */}
         <div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted">
-            <Vial variant={vialVariantFor(product.category)} className="h-full w-full" />
+          <div
+            className="relative aspect-square overflow-hidden rounded-3xl border border-border"
+            style={{ backgroundColor: "#f4f6f8" }}
+          >
+            <ProductPhoto
+              primary={product.image}
+              alt={product.name}
+              peptides={
+                product.peptides ??
+                STACK_PEPTIDES[product.slug] ??
+                BLEND_PEPTIDES[product.slug]
+              }
+              className="h-full"
+            />
             {product.tags.includes("Best Seller") && (
-              <span className="absolute left-4 top-4 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
+              <span className="absolute left-4 top-4 z-20 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
                 Best Seller
               </span>
             )}

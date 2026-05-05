@@ -88,29 +88,89 @@ export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Proactive greeting bubble — shows once per session after a short delay
+  /**
+   * Vee popup behavior (modified-c):
+   * - Pop up 2.2s after first page load of session
+   * - If dismissed without opening chat, re-show ONCE after 5 min of browsing
+   * - Max 2 auto-pops total per session
+   * - If user opens chat anytime, never auto-pop again
+   */
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (pathname?.startsWith("/growth")) return;
     if (open) return;
-    try {
-      if (sessionStorage.getItem("vee-teaser-seen")) return;
-    } catch {}
-    const timer = setTimeout(() => setTeaser(true), 2200);
-    return () => clearTimeout(timer);
-  }, [pathname, open]);
+
+    let cancelled = false;
+
+    const popCount = () => {
+      try {
+        return parseInt(sessionStorage.getItem("vee-pop-count") || "0", 10);
+      } catch {
+        return 0;
+      }
+    };
+    const chatOpened = () => {
+      try {
+        return sessionStorage.getItem("vee-chat-opened") === "1";
+      } catch {
+        return false;
+      }
+    };
+    const lastPopAt = () => {
+      try {
+        return parseInt(sessionStorage.getItem("vee-last-pop") || "0", 10);
+      } catch {
+        return 0;
+      }
+    };
+
+    function showTeaser() {
+      if (cancelled || chatOpened()) return;
+      const count = popCount();
+      if (count >= 2) return;
+      setTeaser(true);
+      try {
+        sessionStorage.setItem("vee-pop-count", String(count + 1));
+        sessionStorage.setItem("vee-last-pop", String(Date.now()));
+      } catch {}
+    }
+
+    // First pop: 2.2s after page load (only if zero pops so far)
+    let firstTimer: ReturnType<typeof setTimeout> | null = null;
+    if (popCount() === 0) {
+      firstTimer = setTimeout(showTeaser, 2200);
+    }
+
+    // Re-show check: every 30s, see if eligible for second pop
+    const interval = setInterval(() => {
+      if (cancelled || teaser || chatOpened()) return;
+      const count = popCount();
+      if (count !== 1) return; // only re-show if exactly 1 pop has happened
+      const last = lastPopAt();
+      if (Date.now() - last >= 5 * 60 * 1000) {
+        showTeaser();
+      }
+    }, 30 * 1000);
+
+    return () => {
+      cancelled = true;
+      if (firstTimer) clearTimeout(firstTimer);
+      clearInterval(interval);
+    };
+  }, [pathname, open, teaser]);
 
   function dismissTeaser() {
     setTeaser(false);
-    try {
-      sessionStorage.setItem("vee-teaser-seen", "1");
-    } catch {}
+    // Note: we don't mark "seen" here — the count system handles re-show eligibility.
   }
 
   useEffect(() => {
     if (open) {
       setUnread(false);
-      dismissTeaser();
+      setTeaser(false);
+      try {
+        sessionStorage.setItem("vee-chat-opened", "1");
+      } catch {}
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [open]);
@@ -250,7 +310,7 @@ export function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open chat"
-          className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-medium text-brand-foreground shadow-lg shadow-brand/20 transition-transform hover:-translate-y-0.5"
+          className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-medium text-brand-foreground shadow-lg shadow-brand/20 transition-transform hover:-translate-y-0.5 ${teaser ? "" : "vee-idle"}`}
         >
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />

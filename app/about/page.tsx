@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Vial } from "@/components/vial";
 
 export const metadata = { title: "About Viora" };
 
@@ -46,8 +46,25 @@ export default function AboutPage() {
               from synthesis to fulfillment — entirely within the United States.
             </p>
           </div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted">
-            <Vial variant="blend" className="h-full w-full" />
+          <div
+            className="relative aspect-square overflow-hidden rounded-3xl border border-border"
+            style={{ backgroundColor: "#f4f6f8" }}
+          >
+            <div
+              className="relative h-full w-full"
+              style={{
+                filter:
+                  "drop-shadow(0 16px 22px rgba(31, 38, 71, 0.16)) drop-shadow(0 4px 6px rgba(31, 38, 71, 0.08))",
+              }}
+            >
+              <Image
+                src="/products/bpc-tb-500.webp"
+                alt="Viora research peptide vials"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain p-10"
+              />
+            </div>
           </div>
         </div>
       </section>
