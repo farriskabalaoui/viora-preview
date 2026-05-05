@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,10 +8,11 @@ const cols = [
     title: "Shop",
     links: [
       { href: "/products", label: "All Compounds" },
-      { href: "/products?category=Blend", label: "Blends & Stacks" },
-      { href: "/products?category=Recovery", label: "Recovery" },
-      { href: "/products?category=Anti-Aging", label: "Anti-Aging" },
-      { href: "/products?category=Weight+Loss", label: "Weight Loss" },
+      { href: "/products?category=Stack", label: "Stacks" },
+      { href: "/products?category=Blend", label: "Blends" },
+      { href: "/products?tag=Recovery", label: "Recovery" },
+      { href: "/products?tag=Anti-Aging", label: "Anti-Aging" },
+      { href: "/products?tag=Weight+Loss", label: "Weight Loss" },
     ],
   },
   {
@@ -39,6 +39,7 @@ const cols = [
 export function Footer() {
   const pathname = usePathname();
   if (pathname?.startsWith("/growth")) return null;
+
   return (
     <footer className="mt-24 border-t border-border bg-muted/40">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
@@ -46,17 +47,19 @@ export function Footer() {
           <div className="md:col-span-4">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" aria-hidden="true">
-                <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#0E4F4D" />
+                <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#007EFF" />
               </svg>
               <div className="flex flex-col leading-none">
                 <span className="text-lg font-bold tracking-tight text-foreground">VIORA</span>
-                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">Health Care</span>
+                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">
+                  Health Care
+                </span>
               </div>
               <span className="sr-only">Viora Healthcare</span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Lab-tested research peptides, third-party verified, doctor-backed,
-              and shipped from the USA.
+              Lab-tested research peptides, third-party verified, physician-backed,
+              manufactured & packed in the United States.
             </p>
             <form
               className="mt-6 flex max-w-sm gap-2"
@@ -131,14 +134,13 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <div>
-            © 2026 Viora Health Care. All rights reserved.
-          </div>
+          <div>© 2026 Viora Health Care. All rights reserved.</div>
           <div className="max-w-2xl text-[11px] leading-relaxed">
             <strong className="text-foreground/80">For research use only.</strong> All
             products are intended for in-vitro research and laboratory experimentation.
             Not for human consumption, diagnostic, or therapeutic use. Customers must
-            be 21+ and acknowledge all compliance requirements.
+            be 21+ and acknowledge all compliance requirements. Manufactured & packed
+            in the United States.
           </div>
         </div>
       </div>

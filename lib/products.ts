@@ -12,7 +12,35 @@ export type Product = {
   purity: string;
   sizes?: ProductSize[];
   image: string;
+  /** For stacks/blends: ordered slugs of the individual peptides included.
+   *  Used to render a clean multi-vial composition in cards. */
+  peptides?: string[];
   featured?: boolean;
+};
+
+/**
+ * Stack → peptide mapping (sourced from viorahealthcare.com/store).
+ * Used by ProductCard to render multi-vial composite imagery.
+ */
+export const STACK_PEPTIDES: Record<string, string[]> = {
+  "viora-premium-weight-loss-stack": ["glp-3-reta", "tesamorelin", "mots-c"],
+  "viora-weight-loss-stack": ["tesamorelin", "glp-3-reta"],
+  "viora-metabolic-stack": ["glp-3-reta", "mots-c", "nad-plus"],
+  "viora-gut-health-stack": ["bpc-157", "glp-2-t"],
+  "viora-longevity-stack": ["nad-plus", "mots-c", "ghk-cu"],
+  "viora-hormone-signaling-stack": ["tesamorelin", "ipamorelin", "igf-1-lr3"],
+  "viora-mood-balance-stack": ["selank", "semax", "oxytocin"],
+  "viora-intimacy-research-stack": ["pt-141", "oxytocin"],
+  "viora-ceo-stack": ["nad-plus", "semax", "selank"],
+};
+
+/**
+ * Blend → peptide mapping (sourced from viorahealthcare.com/store).
+ */
+export const BLEND_PEPTIDES: Record<string, string[]> = {
+  "bpc-tb-500": ["bpc-157", "tb-500"],
+  "cjc-1295-ipamorelin": ["cjc-1295-no-dac", "ipamorelin"],
+  "klow": ["bpc-157", "ghk-cu"],
 };
 
 export const products: Product[] = [
@@ -28,7 +56,7 @@ export const products: Product[] = [
     long:
       "The Viora Premium Weight Loss Stack expands on metabolic research by adding MOTS-C, a mitochondrial peptide studied for cellular energy regulation, on top of the core weight-loss compounds. Designed for advanced research protocols studying compound metabolic and mitochondrial pathways together.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Premium-Weight-Loss-Stack.webp",
+    image: "/products/tesamorelin.webp",
     featured: true,
   },
   {
@@ -42,7 +70,7 @@ export const products: Product[] = [
     long:
       "The Viora Weight Loss Stack combines peptides studied for their role in metabolic signaling and fat metabolism research. Each component is independently lab-verified and pre-portioned for reproducible study protocols.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Weight-Loss-Stack.webp",
+    image: "/products/glp-3-reta.webp",
     featured: true,
   },
   {
@@ -56,7 +84,7 @@ export const products: Product[] = [
     long:
       "The Viora Metabolic Stack combines peptides studied for their potential role in metabolic signaling, glucose regulation, and energy homeostasis. Designed for comprehensive metabolic research protocols.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Metabolic-Stack.webp",
+    image: "/products/mots-c.webp",
   },
   {
     slug: "viora-gut-health-stack",
@@ -69,7 +97,7 @@ export const products: Product[] = [
     long:
       "The Viora Gut Health Stack combines peptides commonly researched for their influence on gastrointestinal repair, mucosal integrity, and gut-brain axis signaling. Pre-portioned for reproducible GI research.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Gut-Health-Stack.webp",
+    image: "/products/glp-2-t.webp",
   },
   {
     slug: "viora-longevity-stack",
@@ -82,7 +110,7 @@ export const products: Product[] = [
     long:
       "The Viora Longevity Stack focuses on compounds studied for their role in cellular health, mitochondrial function, and longevity-related signaling pathways. Includes peptides frequently cited in aging-research literature.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Longevity-Stack.webp",
+    image: "/products/nad-plus.webp",
     featured: true,
   },
   {
@@ -96,7 +124,7 @@ export const products: Product[] = [
     long:
       "The Viora Hormone Signaling Stack combines peptides researched for their interaction with growth hormone-releasing hormone, somatotropic axis, and broader endocrine signaling.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Hormone-Signaling-Stack.webp",
+    image: "/products/ipamorelin.webp",
   },
   {
     slug: "viora-mood-balance-stack",
@@ -109,7 +137,7 @@ export const products: Product[] = [
     long:
       "The Viora Mood & Balance Stack focuses on peptides researched for their influence on neurological signaling, neurotransmitter modulation, and stress-response pathways.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Mood-Balance-Stack.webp",
+    image: "/products/selank.webp",
   },
   {
     slug: "viora-intimacy-research-stack",
@@ -122,7 +150,7 @@ export const products: Product[] = [
     long:
       "The Viora Intimacy Research Stack includes peptides studied for their interaction with melanocortin receptors and related neuroendocrine pathways. Designed for behavioral and receptor-level research.",
     purity: "≥99% (HPLC verified, all components)",
-    image: "/stacks/Viora-Intimacy-Research-Stack.webp",
+    image: "/products/pt-141.webp",
   },
   {
     slug: "viora-ceo-stack",

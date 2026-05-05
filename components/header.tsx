@@ -1,41 +1,56 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/lib/i18n-context";
+import { LangToggle } from "@/components/lang-toggle";
+import { CartButton } from "@/components/cart-button";
+import { FeatureBar } from "@/components/feature-bar";
+import type { DictKey } from "@/lib/i18n";
 
-const nav = [
-  { href: "/products", label: "Research Compounds" },
-  { href: "/products?category=Stack", label: "Stacks" },
-  { href: "/research", label: "Research Library" },
-  { href: "/about", label: "About" },
-  { href: "/affiliate", label: "Affiliate" },
-  { href: "/contact", label: "Contact" },
+const nav: { href: string; key: DictKey }[] = [
+  { href: "/products", key: "nav.research_compounds" },
+  { href: "/products?category=Stack", key: "nav.stacks" },
+  { href: "/research", key: "nav.research_library" },
+  { href: "/about", key: "nav.about" },
+  { href: "/affiliate", key: "nav.affiliate" },
+  { href: "/contact", key: "nav.contact" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useI18n();
   if (pathname?.startsWith("/growth")) return null;
 
   return (
     <>
-      <div className="bg-brand text-brand-foreground text-xs">
+      {/* Top contact bar (DP-style) */}
+      <div className="bg-muted/60 text-foreground/85 text-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center">
-          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-          <span>Now accepting research applications · Orders ship June 1, 2026</span>
+          <span>Need help? Text us, a team member replies in minutes</span>
+          <a
+            href="tel:+13109996246"
+            className="font-semibold text-brand transition-opacity hover:opacity-80"
+          >
+            +1 (310) 999-VIORA
+          </a>
         </div>
       </div>
+
+      {/* Brand + Nav */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
             <svg viewBox="0 0 64 64" className="h-8 w-8" fill="none" aria-hidden="true">
-              <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#0E4F4D" />
+              <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#007EFF" />
             </svg>
             <div className="flex flex-col leading-none">
               <span className="text-[17px] font-bold tracking-tight text-foreground">VIORA</span>
-              <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">Health Care</span>
+              <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">
+                Health Care
+              </span>
             </div>
             <span className="sr-only">Viora Healthcare</span>
           </Link>
@@ -46,22 +61,24 @@ export function Header() {
                 href={item.href}
                 className="text-sm text-foreground/75 transition-colors hover:text-brand"
               >
-                {item.label}
+                {t(item.key)}
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <LangToggle className="hidden sm:inline-flex" />
             <Link
               href="/contact"
-              className="hidden text-sm text-foreground/75 transition-colors hover:text-brand sm:block lg:inline-block"
+              className="hidden text-sm text-foreground/75 transition-colors hover:text-brand lg:inline-block"
             >
-              Sign in
+              {t("nav.signin")}
             </Link>
+            <CartButton />
             <Link
               href="/products"
               className="hidden rounded-full bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90 sm:inline-block"
             >
-              Shop Compounds
+              {t("nav.shop")}
             </Link>
             <button
               onClick={() => setOpen((v) => !v)}
@@ -96,29 +113,41 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className="border-b border-border py-3 text-base font-medium text-foreground last:border-b-0 hover:text-brand"
                 >
-                  {item.label}
+                  {t(item.key)}
                 </Link>
               ))}
-              <div className="flex gap-2 py-4">
+              <div className="flex items-center gap-2 py-4">
+                <LangToggle />
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
                   className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-medium text-foreground hover:border-brand hover:text-brand"
                 >
-                  Sign in
+                  {t("nav.signin")}
                 </Link>
                 <Link
                   href="/products"
                   onClick={() => setOpen(false)}
                   className="flex-1 rounded-full bg-brand px-4 py-2 text-center text-sm font-medium text-brand-foreground"
                 >
-                  Shop
+                  {t("nav.shopShort")}
                 </Link>
               </div>
             </nav>
           </div>
         )}
       </header>
+
+      {/* Auto-scrolling feature bar (dark blue) */}
+      <FeatureBar />
+
+      {/* Research-use disclaimer line */}
+      <div className="bg-muted/40 border-b border-border text-foreground/70 text-[11px]">
+        <div className="mx-auto max-w-7xl px-4 py-2 text-center sm:px-6">
+          <span className="font-semibold text-foreground">Research Use Only:</span>{" "}
+          All products listed on this site are for in-vitro research only · Not for human consumption · Researchers must be 21+
+        </div>
+      </div>
     </>
   );
 }

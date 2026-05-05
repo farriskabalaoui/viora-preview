@@ -1,98 +1,92 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { TrustBar } from "@/components/trust-bar";
+import { StackMarquee } from "@/components/stack-marquee";
 import { products } from "@/lib/products";
+import { useI18n } from "@/lib/i18n-context";
 
 export default function Home() {
+  const { t } = useI18n();
   const featured = products.filter((p) => p.featured).slice(0, 8);
-  const stacks = products.filter((p) => p.category === "Stack").slice(0, 6);
+  const stacks = products.filter((p) => p.category === "Stack");
+  const allProducts = products.slice(0, 12);
 
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-background">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[url('/bg/dna-molecules.jpg')] bg-cover bg-center opacity-[0.04]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-soft/50 via-background to-background" />
+      <section className="relative overflow-hidden border-b border-border bg-background">
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-soft/40 via-background to-background" />
         <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:py-28">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-medium text-brand">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand" />
-              Lab Tested · Third-Party Verified · Fast U.S. Shipping
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+              {t("hero.pill")}
             </div>
             <h1 className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Research-grade peptides,
+              {t("hero.headline_1")}
               <br />
-              <span className="text-brand">doctor-backed.</span>
+              <span className="text-brand">{t("hero.headline_2")}</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              High-purity research peptides manufactured under strict laboratory
-              standards, with verified COA reports and third-party testing on every
-              batch. Trusted by researchers across the U.S.
+              {t("hero.subheadline")}
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/products"
                 className="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
               >
-                Shop Compounds →
+                {t("hero.cta_shop")} →
               </Link>
               <Link
                 href="/research#coa"
                 className="inline-flex items-center justify-center rounded-full border border-border bg-background px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
               >
-                View COAs
+                {t("hero.cta_coa")}
               </Link>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-muted-foreground">
               <div className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                ≥99% HPLC Purity
+                {t("hero.purity")}
               </div>
               <div className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                Backed by Licensed Doctors
+                {t("hero.physician")}
               </div>
               <div className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                256-bit Encrypted Portal
+                {t("hero.us")}
               </div>
             </div>
           </div>
+          {/* Right: real product photo on clean dotted bg */}
           <div className="relative">
-            <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-brand-soft to-muted shadow-xl">
+            <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted/60 shadow-md">
+              <div
+                aria-hidden
+                className="absolute inset-0 opacity-50"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(#cbd5e1 1px, transparent 1px)",
+                  backgroundSize: "16px 16px",
+                }}
+              />
               <Image
-                src="/stacks/Viora-Premium-Weight-Loss-Stack.webp"
-                alt="Viora Premium Stack"
+                src="/products/bpc-157.webp"
+                alt="Viora research peptide vial"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="relative z-10 object-contain p-12"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-                <div className="text-xs font-medium uppercase tracking-wider opacity-80">
-                  Featured
-                </div>
-                <div className="mt-1 text-lg font-semibold">
-                  Viora Premium Weight Loss Stack
-                </div>
-                <div className="text-sm opacity-80">From $388</div>
-              </div>
             </div>
             <div className="absolute -bottom-4 -left-4 hidden rounded-2xl border border-border bg-background p-4 shadow-lg sm:block">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-brand-foreground">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
@@ -108,59 +102,54 @@ export default function Home() {
 
       <TrustBar />
 
-      {/* Featured Stacks */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      {/* Featured Stacks — horizontal carousel */}
+      <section className="mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="text-xs font-medium uppercase tracking-wider text-brand">
-              Pre-Built Research Stacks
+              {t("stacks.eyebrow")}
             </div>
             <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              Designed for reproducible research.
+              {t("stacks.title")}
             </h2>
-            <p className="mt-3 max-w-2xl text-muted-foreground">
-              Pre-portioned peptide stacks with standardized ratios across batches —
-              built around the most-cited research protocols.
-            </p>
+            <p className="mt-3 max-w-2xl text-muted-foreground">{t("stacks.subtitle")}</p>
           </div>
           <Link
             href="/products?category=Stack"
             className="text-sm font-medium text-brand hover:underline"
           >
-            View all stacks →
+            {t("stacks.cta")}
           </Link>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {stacks.map((p) => (
-            <ProductCard key={p.slug} product={p} />
-          ))}
-        </div>
       </section>
+      <div className="-mt-2 mb-12">
+        <StackMarquee products={stacks} speed="slow" />
+      </div>
 
-      {/* Featured Compounds */}
-      <section className="bg-muted/40">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      {/* Featured Compounds — horizontal carousel */}
+      <section className="bg-muted/30">
+        <div className="mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <div className="text-xs font-medium uppercase tracking-wider text-brand">
-                Research Compounds
+                {t("products.eyebrow")}
               </div>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                Single peptides, lab-verified.
+                {t("products.title")}
               </h2>
             </div>
-            <Link
-              href="/products"
-              className="text-sm font-medium text-brand hover:underline"
-            >
-              Browse all compounds →
+            <Link href="/products" className="text-sm font-medium text-brand hover:underline">
+              {t("products.cta")}
             </Link>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.slice(0, 8).map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
+        </div>
+        <div className="-mt-2 pb-16">
+          <StackMarquee
+            products={[...featured, ...allProducts]
+              .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
+              .slice(0, 12)}
+            speed="normal"
+          />
         </div>
       </section>
 
@@ -197,33 +186,36 @@ export default function Home() {
                     <div className="text-sm font-semibold text-foreground group-hover:text-brand">
                       {coa.name}
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      Purity COA · PDF
-                    </div>
+                    <div className="text-xs text-muted-foreground">Purity COA · PDF</div>
                   </div>
                   <span className="text-brand">↗</span>
                 </a>
               ))}
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-muted">
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-50"
+              style={{
+                backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)",
+                backgroundSize: "14px 14px",
+              }}
+            />
             <Image
-              src="/bg/atmospheric.webp"
-              alt="Lab atmosphere"
+              src="/products/tesamorelin.webp"
+              alt="Lab-tested research peptide"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="relative z-10 object-contain p-12"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand/80 via-brand/30 to-transparent" />
-            <div className="absolute inset-0 flex items-end p-8 text-white">
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wider opacity-80">
+            <div className="pointer-events-none absolute inset-0 flex items-end p-8">
+              <div className="rounded-2xl border border-border bg-background/95 p-5 backdrop-blur">
+                <div className="text-xs font-medium uppercase tracking-wider text-brand">
                   Quality Standard
                 </div>
-                <div className="mt-1 text-2xl font-semibold">
-                  HPLC + Mass Spec
-                  <br />
-                  on every batch.
+                <div className="mt-1 text-xl font-semibold text-foreground">
+                  HPLC + Mass Spec on every batch.
                 </div>
               </div>
             </div>

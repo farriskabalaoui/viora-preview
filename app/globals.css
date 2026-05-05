@@ -2,16 +2,18 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0a0a0a;
-  --muted: #fafaf9;
-  --muted-foreground: #57534e;
-  --border: #e7e5e4;
-  --brand: #0e4f4d;
+  --foreground: #1a2342;
+  --muted: #f4f6f8;
+  --muted-foreground: #5a6a7e;
+  --border: #e4e8ee;
+  --brand: #007eff;
   --brand-foreground: #ffffff;
-  --brand-soft: #ecf6f5;
-  --brand-soft-foreground: #0e4f4d;
-  --accent: #c8a27c;
-  --ring: #0e4f4d;
+  --brand-soft: #ebf3ff;
+  --brand-soft-foreground: #007eff;
+  --brand-dark: #1f2647;
+  --brand-dark-foreground: #ffffff;
+  --accent: #007eff;
+  --ring: #007eff;
 }
 
 @theme inline {
@@ -24,10 +26,36 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-soft: var(--brand-soft);
   --color-brand-soft-foreground: var(--brand-soft-foreground);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-dark-foreground: var(--brand-dark-foreground);
   --color-accent: var(--accent);
   --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Marquee animations */
+  --animate-marquee: marquee 35s linear infinite;
+  --animate-marquee-slow: marquee 60s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+.animate-marquee-slow {
+  animation: marquee 60s linear infinite;
+}
+.marquee-pause:hover .animate-marquee,
+.marquee-pause:hover .animate-marquee-slow {
+  animation-play-state: paused;
 }
 
 html,
@@ -41,4 +69,12 @@ body {
 ::selection {
   background: var(--brand);
   color: var(--brand-foreground);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

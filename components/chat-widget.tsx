@@ -84,14 +84,33 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [unread, setUnread] = useState(true);
+  const [teaser, setTeaser] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  if (pathname?.startsWith("/growth")) return null;
+  // Proactive greeting bubble — shows once per session after a short delay
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (pathname?.startsWith("/growth")) return;
+    if (open) return;
+    try {
+      if (sessionStorage.getItem("vee-teaser-seen")) return;
+    } catch {}
+    const timer = setTimeout(() => setTeaser(true), 2200);
+    return () => clearTimeout(timer);
+  }, [pathname, open]);
+
+  function dismissTeaser() {
+    setTeaser(false);
+    try {
+      sessionStorage.setItem("vee-teaser-seen", "1");
+    } catch {}
+  }
 
   useEffect(() => {
     if (open) {
       setUnread(false);
+      dismissTeaser();
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [open]);
@@ -180,8 +199,53 @@ export function ChatWidget() {
     send(input);
   }
 
+  if (pathname?.startsWith("/growth")) return null;
+
   return (
     <>
+      {/* Proactive greeting teaser */}
+      {!open && teaser && (
+        <div className="fixed bottom-[78px] right-5 z-50 w-[280px] sm:w-[300px]">
+          <div className="relative rounded-2xl border border-border bg-background p-4 shadow-xl ring-1 ring-black/5">
+            <button
+              onClick={dismissTeaser}
+              aria-label="Dismiss"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <div className="flex gap-3">
+              <div className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-brand text-brand-foreground">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <div className="pr-4">
+                <div className="text-sm font-semibold text-foreground">Hi, I'm Vee 👋</div>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Looking for a compound, COA, or stack recommendation? I'm here to make it easy.
+                </p>
+                <button
+                  onClick={() => {
+                    setOpen(true);
+                    dismissTeaser();
+                  }}
+                  className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
+                >
+                  Start chatting
+                  <span aria-hidden>→</span>
+                </button>
+              </div>
+            </div>
+            {/* Pointer triangle pointing down to button */}
+            <div className="absolute -bottom-2 right-7 h-4 w-4 rotate-45 border-b border-r border-border bg-background" />
+          </div>
+        </div>
+      )}
+
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -189,12 +253,12 @@ export function ChatWidget() {
           className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-medium text-brand-foreground shadow-lg shadow-brand/20 transition-transform hover:-translate-y-0.5"
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
           </span>
           Ask Vee
-          {unread && (
-            <span className="ml-1 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold text-foreground">
+          {(unread || teaser) && (
+            <span className="ml-1 rounded-full bg-white px-1.5 py-0.5 text-[10px] font-bold text-brand">
               1
             </span>
           )}

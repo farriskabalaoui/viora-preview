@@ -374,6 +374,108 @@ export default function GrowthPage() {
         </div>
       </section>
 
+      {/* Phase 2.5 — Operations Foundation */}
+      <section className="border-y border-border bg-background">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+          <div className="max-w-3xl">
+            <div className="text-xs font-medium uppercase tracking-wider text-brand">
+              Phase 2.5 — Operations Foundation
+            </div>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+              The plumbing that lets Viora run with no human babysitting the site.
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Marvin's already moved Viora onto Lightspeed for e-commerce — that's the
+              foundation. Layer the agents and apps on top of it, and the site
+              becomes self-driving: inventory updates itself, orders auto-route to
+              fulfillment, Vee answers every customer question. No one full-time
+              managing the site.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {[
+              {
+                title: "Real-Time Inventory Module",
+                body:
+                  "Live stock levels pulled from Lightspeed — every product page shows In Stock / Low Stock / Out of Stock, no manual updates. Solves the 10,000-vial tracking problem head-on. Optional barcode-scan flow in the Viora Lab app for receiving + cycle counts.",
+                stack: ["Lightspeed Retail API", "Stock webhook listener", "Cache + revalidation"],
+                impact:
+                  "No more lost sales from showing out-of-stock as available. No more frustrated customers ordering items you can't ship.",
+              },
+              {
+                title: "Auto-Fulfillment Pipeline",
+                body:
+                  "Orders placed on viorahealthcare.com sync to Lightspeed in real time. Fulfillment uses your existing Lightspeed flow — pick, pack, ship — with zero double-entry. Order status (paid → fulfilled → shipped → delivered) flows back so Vee can answer 'where's my order?' instantly.",
+                stack: ["Stripe → Lightspeed sync", "Webhook order events", "Status machine"],
+                impact:
+                  "Cuts ~6 hours/week of manual order entry. Eliminates fulfillment errors from copy-paste mistakes.",
+              },
+              {
+                title: "Vee Handles Ops, Not Just Sales",
+                body:
+                  "Expanded scope: order status, shipping ETAs, COA-by-batch lookups, quote generation for institutional buyers, return requests, refund routing, support escalation. The agent answers what your team currently answers — 24/7, never tires, always on-brand. A human only steps in for the edge cases.",
+                stack: ["Claude Sonnet 4.6", "Lightspeed orders API", "Cal.com escalation"],
+                impact:
+                  "Replaces ~20 hours/week of customer-service work. Frees Marvin and team to focus on sourcing, compliance, and growth.",
+              },
+            ].map((c) => (
+              <div
+                key={c.title}
+                className="flex flex-col rounded-2xl border border-border bg-muted/30 p-6"
+              >
+                <h3 className="text-lg font-semibold text-foreground">{c.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {c.body}
+                </p>
+                <div className="mt-4 rounded-xl border border-brand/30 bg-brand-soft p-3">
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-brand">
+                    Impact
+                  </div>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground">
+                    {c.impact}
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <div className="text-xs font-medium uppercase tracking-wider text-foreground/70">
+                    Stack
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {c.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-full border border-border bg-background px-2.5 py-0.5 font-mono text-[10px] text-muted-foreground"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 rounded-2xl border border-brand/30 bg-brand-soft p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div className="text-xs font-medium uppercase tracking-wider text-brand">
+                  Why this matters first
+                </div>
+                <h4 className="mt-1 text-lg font-semibold text-foreground">
+                  Operations is the unsexy moat. Most peptide suppliers ignore it — that's the opening.
+                </h4>
+                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground/85">
+                  Direct Peptides, Bio-Techne, and the rest still have humans
+                  manually updating stock and answering "where's my order?" emails.
+                  Viora doesn't have to. The Lightspeed integration + Vee + an inventory
+                  module makes the site run itself — and that's the foundation that
+                  lets all the agent and app revenue actually scale without hiring 5 people.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Phase 3 — Two apps */}
       <section className="border-y border-border bg-muted/30">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">

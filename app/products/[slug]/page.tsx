@@ -1,8 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { products, getProduct } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
+import { Vial, vialVariantFor } from "@/components/vial";
+import { AddToCart } from "@/components/add-to-cart";
+import { stockStatusFor, stockLabel } from "@/lib/stock";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,17 +27,25 @@ export default async function ProductPage({ params }: Props) {
   const product = getProduct(slug);
   if (!product) notFound();
 
+  const stock = stockStatusFor(product.slug);
   const related = products
     .filter((p) => p.slug !== product.slug && p.category === product.category)
     .slice(0, 3);
 
   const coaMap: Record<string, string> = {
-    "tesamorelin": "/coas/Tesamorelin-purity.pdf",
+    tesamorelin: "/coas/Tesamorelin-purity.pdf",
     "mots-c": "/coas/MOTS-c-purity.pdf",
     "ghk-cu": "/coas/GHK-Cu-purity.pdf",
     "glp-3-reta": "/coas/Retatrutide-purity.pdf",
   };
   const coaFile = coaMap[product.slug];
+
+  const stockBadgeClass =
+    stock === "in_stock"
+      ? "bg-emerald-50 text-emerald-700"
+      : stock === "low_stock"
+        ? "bg-amber-50 text-amber-800"
+        : "bg-rose-50 text-rose-700";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
@@ -49,19 +59,12 @@ export default async function ProductPage({ params }: Props) {
       </nav>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* Image */}
+        {/* Image — Vial illustration */}
         <div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-brand-soft to-muted">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
+          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted">
+            <Vial variant={vialVariantFor(product.category)} className="h-full w-full" />
             {product.tags.includes("Best Seller") && (
-              <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-medium text-foreground">
+              <span className="absolute left-4 top-4 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
                 Best Seller
               </span>
             )}
@@ -70,12 +73,17 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Detail */}
         <div>
-          <div className="text-xs font-medium uppercase tracking-wider text-brand">
-            {product.category === "Stack"
-              ? "Pre-Built Stack"
-              : product.category === "Blend"
-                ? "Peptide Blend"
-                : "Single Peptide"}
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand">
+              {product.category === "Stack"
+                ? "Pre-Built Stack"
+                : product.category === "Blend"
+                  ? "Peptide Blend"
+                  : "Single Peptide"}
+            </span>
+            <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${stockBadgeClass}`}>
+              {stockLabel(stock)}
+            </span>
           </div>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground">
             {product.name}
@@ -102,15 +110,13 @@ export default async function ProductPage({ params }: Props) {
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.sizes.map((s) => (
-                  <button
+                  <div
                     key={s.mg}
-                    className="rounded-xl border border-border bg-background px-4 py-3 text-left transition-colors hover:border-brand"
+                    className="rounded-xl border border-border bg-background px-4 py-3"
                   >
-                    <div className="text-sm font-semibold text-foreground">
-                      {s.mg} mg
-                    </div>
+                    <div className="text-sm font-semibold text-foreground">{s.mg} mg</div>
                     <div className="text-xs text-muted-foreground">${s.price}</div>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -134,7 +140,7 @@ export default async function ProductPage({ params }: Props) {
               <div className="text-xs uppercase tracking-wider text-muted-foreground">
                 Origin
               </div>
-              <div className="mt-1 font-semibold text-foreground">Manufactured in USA</div>
+              <div className="mt-1 font-semibold text-foreground">Manufactured & Packed in U.S.</div>
             </div>
             <div>
               <div className="text-xs uppercase tracking-wider text-muted-foreground">
@@ -144,14 +150,14 @@ export default async function ProductPage({ params }: Props) {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* Add to Cart + COA */}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/contact?topic=order"
-              className="flex-1 rounded-full bg-brand px-6 py-3 text-center text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
-            >
-              Request Quote
-            </Link>
+            <AddToCart
+              slug={product.slug}
+              name={product.name}
+              priceFrom={product.priceFrom}
+              outOfStock={stock === "out_of_stock"}
+            />
             {coaFile ? (
               <a
                 href={coaFile}

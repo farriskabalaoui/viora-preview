@@ -1,52 +1,76 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 import type { Product } from "@/lib/products";
+import { STACK_PEPTIDES, BLEND_PEPTIDES } from "@/lib/products";
+import { ProductPhoto } from "@/components/product-photo";
+import { stockStatusFor } from "@/lib/stock";
+import { useI18n } from "@/lib/i18n-context";
 
 export function ProductCard({ product }: { product: Product }) {
+  const stock = stockStatusFor(product.slug);
+  const { t } = useI18n();
+
+  const peptides =
+    product.peptides ??
+    STACK_PEPTIDES[product.slug] ??
+    BLEND_PEPTIDES[product.slug];
+
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-brand/40 hover:shadow-md"
+      className="group flex h-[480px] flex-col overflow-hidden rounded-2xl border border-border bg-muted/60 transition-all hover:-translate-y-0.5 hover:bg-muted/80 hover:shadow-lg"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-brand-soft to-muted">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-          className="object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-        />
+      {/* Top: text + CTA */}
+      <div className="relative flex flex-col items-center px-6 pt-7 pb-4 text-center">
         {product.category === "Blend" && (
-          <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-brand backdrop-blur">
+          <span className="absolute left-4 top-4 rounded-full bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
             Blend
           </span>
         )}
         {product.category === "Stack" && (
-          <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-brand backdrop-blur">
+          <span className="absolute left-4 top-4 rounded-full bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
             Stack
           </span>
         )}
-      </div>
-      <div className="flex flex-1 flex-col gap-1 p-4">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="text-base font-semibold text-foreground">{product.name}</h3>
-          <span className="whitespace-nowrap text-sm text-muted-foreground">
-            from <span className="font-medium text-foreground">${product.priceFrom}</span>
+        {stock !== "in_stock" && (
+          <span
+            className={`absolute right-4 top-4 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
+              stock === "low_stock"
+                ? "bg-amber-100 text-amber-900"
+                : "bg-rose-100 text-rose-900"
+            }`}
+          >
+            {stock === "low_stock" ? t("product.low_stock") : t("product.out_of_stock")}
           </span>
-        </div>
-        {product.tags?.[0] && (
-          <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {product.tags[0]}
-          </div>
         )}
-        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-          {product.short}
-        </p>
-        <div className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-brand transition-transform group-hover:translate-x-0.5">
-          View product
+
+        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          {product.tags?.[0] ?? product.category}
+        </div>
+
+        <h3 className="mt-2 line-clamp-2 min-h-[2.5em] text-lg font-bold leading-tight tracking-tight text-foreground">
+          {product.name}
+        </h3>
+
+        <div className="mt-1 text-sm text-muted-foreground">
+          {t("card.from")}{" "}
+          <span className="font-semibold text-foreground">${product.priceFrom}</span>
+        </div>
+
+        <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2 text-xs font-semibold text-brand-foreground transition-opacity group-hover:opacity-90">
+          {t("card.view")}
           <span aria-hidden>→</span>
         </div>
       </div>
+
+      {/* Bottom: clean multi-vial photo composition */}
+      <ProductPhoto
+        primary={product.image}
+        alt={product.name}
+        peptides={peptides}
+        className="flex-1"
+      />
     </Link>
   );
 }

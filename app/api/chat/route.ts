@@ -58,7 +58,8 @@ ${catalogBlock}
 
 # Trust signals you can reference
 - Every batch HPLC + mass-spec verified by accredited third-party labs.
-- Doctor-backed: sourcing and quality reviewed by licensed physicians and PhD chemists.
+- Physician-backed: sourcing and quality reviewed by licensed physicians and PhD chemists.
+- Manufactured & packed entirely in the United States.
 - HIPAA-aware client portal, 256-bit encryption.
 - Manufactured and shipped from the U.S.
 - Pre-launch banner: "Now accepting research applications · Orders ship June 1, 2026."`;

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Vial } from "@/components/vial";
 
 export const metadata = { title: "About Viora" };
 
@@ -7,23 +7,20 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[url('/bg/dna-molecules.jpg')] bg-cover bg-center opacity-[0.04]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-soft/60 via-background to-background" />
+      <section className="relative overflow-hidden border-b border-border bg-background">
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-soft/40 via-background to-background" />
         <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
           <div className="text-xs font-medium uppercase tracking-wider text-brand">
             About Viora
           </div>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Built for researchers, backed by doctors.
+            Built for researchers, backed by physicians.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Viora exists because research deserves better. We supply high-purity peptide
-            compounds with verified COAs, transparent lab testing, and the kind of
-            quality control researchers need to trust their data.
+            Viora exists because research deserves better. We supply high-purity
+            peptide compounds with verified COAs, transparent lab testing, and the
+            quality control researchers need to trust their data — manufactured and
+            packed in the United States.
           </p>
         </div>
       </section>
@@ -44,26 +41,19 @@ export default function AboutPage() {
               the COAs publicly, because trust in research starts with transparency.
             </p>
             <p className="mt-4 text-muted-foreground">
-              Our quality control standards are reviewed by licensed physicians and PhD
-              chemists. Every peptide moves through documented chain-of-custody from
-              synthesis to fulfillment.
+              Our quality control standards are reviewed by licensed physicians and
+              PhD chemists. Every peptide moves through documented chain-of-custody
+              from synthesis to fulfillment — entirely within the United States.
             </p>
           </div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border">
-            <Image
-              src="/bg/atmospheric.webp"
-              alt="Viora lab"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand/70 via-brand/10 to-transparent" />
+          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-muted">
+            <Vial variant="blend" className="h-full w-full" />
           </div>
         </div>
       </section>
 
       {/* Pillars */}
-      <section className="bg-muted/40">
+      <section className="bg-muted/30">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <div className="text-center">
             <div className="text-xs font-medium uppercase tracking-wider text-brand">
@@ -77,19 +67,23 @@ export default function AboutPage() {
             {[
               {
                 title: "Third-Party Tested",
-                body: "Every compound independently verified by accredited labs — HPLC and mass spectrometry on every batch.",
+                body:
+                  "Every compound independently verified by accredited labs — HPLC and mass spectrometry on every batch.",
               },
               {
-                title: "Doctor-Backed",
-                body: "Sourcing and quality decisions reviewed by licensed physicians and PhD chemists.",
+                title: "Physician-Backed",
+                body:
+                  "Sourcing and quality decisions reviewed by licensed physicians and PhD chemists.",
               },
               {
-                title: "Fast U.S. Shipping",
-                body: "Discreet, temperature-controlled fulfillment from our domestic facility.",
+                title: "Made in the U.S.",
+                body:
+                  "Manufactured and packed in the United States — discreet, temperature-controlled fulfillment.",
               },
               {
                 title: "HIPAA-Aware Portal",
-                body: "256-bit encrypted client portal with research-use compliance baked into every order.",
+                body:
+                  "256-bit encrypted client portal with research-use compliance baked into every order.",
               },
             ].map((p) => (
               <div
