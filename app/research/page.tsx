@@ -1,99 +1,159 @@
 import Link from "next/link";
+import {
+  articles,
+  categories,
+  articleHeroImage,
+  articleHeroPeptides,
+} from "@/lib/articles";
+import { ProductPhoto } from "@/components/product-photo";
 
 export const metadata = { title: "Research Library & COAs" };
 
-const articles = [
-  {
-    title: "BPC-157: A Survey of the Preclinical Literature",
-    category: "Compound Profile",
-    minutes: 7,
-    excerpt:
-      "An overview of the most-cited preclinical research on BPC-157 — tissue repair, angiogenesis, and gut-brain signaling.",
-  },
-  {
-    title: "GHK-Cu in Skin & Tissue Research",
-    category: "Compound Profile",
-    minutes: 6,
-    excerpt:
-      "How GHK-Cu's copper-binding activity has shaped extracellular-matrix and dermatology research.",
-  },
-  {
-    title: "Designing Reproducible Peptide Stack Protocols",
-    category: "Methodology",
-    minutes: 9,
-    excerpt:
-      "Why pre-blended stacks matter for reproducibility, and what to look for when choosing a research-grade supplier.",
-  },
-  {
-    title: "Reading a Certificate of Analysis (COA)",
-    category: "Quality",
-    minutes: 5,
-    excerpt:
-      "A field guide to interpreting HPLC purity reports, mass-spec confirmation, and what 'research grade' actually means.",
-  },
-  {
-    title: "GLP-3 / Retatrutide: What the Research Says",
-    category: "Compound Profile",
-    minutes: 8,
-    excerpt:
-      "A look at the multi-receptor mechanism behind one of the most-studied next-gen metabolic peptides.",
-  },
-  {
-    title: "Cold Chain & Reconstitution: Best Practices",
-    category: "Methodology",
-    minutes: 6,
-    excerpt:
-      "Temperature handling, reconstitution math, and storage protocols for lyophilized peptides.",
-  },
-];
+type Props = {
+  searchParams: Promise<{ category?: string }>;
+};
 
-export default function ResearchPage() {
+export default async function ResearchPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const activeCategory = sp.category;
+
+  const filtered = activeCategory
+    ? articles.filter((a) => a.category === activeCategory)
+    : articles;
+
+  const featured = articles.filter((a) => a.featured);
+  const featuredHero = featured[0];
+
   return (
     <>
       {/* Hero */}
       <section className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-20">
           <div className="text-xs font-medium uppercase tracking-wider text-brand">
             Research Library
           </div>
-          <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Compound profiles, methodology,
-            <br className="hidden sm:block" /> and lab-testing transparency.
+          <h1 className="mt-2 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
+            Compound profiles, methodology, and lab-testing transparency.
           </h1>
-          <p className="mt-4 max-w-2xl text-muted-foreground">
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             Educational content for researchers — peptide profiles, protocol design,
-            and Viora's published COAs.
+            and Viora's published COAs. All articles are sourced from the published
+            research literature and cite real PubMed-indexed studies.
           </p>
         </div>
       </section>
 
-      {/* Articles */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl font-semibold tracking-tight">Articles</h2>
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((a) => (
-            <article
-              key={a.title}
-              className="group flex flex-col rounded-2xl border border-border bg-background p-6 transition-shadow hover:shadow-md"
+      {/* Featured */}
+      {featuredHero && !activeCategory && (
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+          <Link
+            href={`/research/${featuredHero.slug}`}
+            className="group grid grid-cols-1 gap-8 overflow-hidden rounded-3xl border border-border bg-[#f4f6f8] transition-all hover:border-brand/40 hover:shadow-lg lg:grid-cols-12"
+          >
+            <div
+              className="relative aspect-[4/3] overflow-hidden lg:col-span-6 lg:aspect-auto lg:min-h-[360px]"
+              style={{ backgroundColor: "#f4f6f8" }}
             >
-              <div className="flex items-center justify-between text-xs">
-                <span className="rounded-full bg-brand-soft px-2.5 py-0.5 font-medium text-brand">
-                  {a.category}
+              <span className="absolute left-5 top-5 z-20 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
+                Featured
+              </span>
+              <ProductPhoto
+                primary={articleHeroImage(featuredHero)}
+                alt={featuredHero.title}
+                peptides={articleHeroPeptides(featuredHero) ?? undefined}
+                className="h-full"
+              />
+            </div>
+            <div className="flex flex-col justify-center px-8 pb-10 lg:col-span-6 lg:px-12 lg:py-12">
+              <div className="flex items-center gap-3 text-xs">
+                <span className="rounded-full bg-brand-soft px-2.5 py-1 font-semibold text-brand">
+                  {featuredHero.category}
                 </span>
-                <span className="text-muted-foreground">{a.minutes} min read</span>
+                <span className="text-muted-foreground">
+                  {featuredHero.readMinutes} min read
+                </span>
               </div>
-              <h3 className="mt-4 text-lg font-semibold leading-snug text-foreground group-hover:text-brand">
-                {a.title}
-              </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {a.excerpt}
+              <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-foreground group-hover:text-brand sm:text-4xl">
+                {featuredHero.title}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                {featuredHero.excerpt}
               </p>
-              <div className="mt-4 text-sm font-medium text-brand">
+              <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand">
                 Read article →
               </div>
-            </article>
+            </div>
+          </Link>
+        </section>
+      )}
+
+      {/* Filters + grid */}
+      <section className="mx-auto max-w-7xl px-4 pb-20 pt-4 sm:px-6">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+            All articles
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            <FilterChip href="/research" active={!activeCategory}>
+              All
+            </FilterChip>
+            {categories.map((c) => (
+              <FilterChip
+                key={c}
+                href={`/research?category=${encodeURIComponent(c)}`}
+                active={activeCategory === c}
+              >
+                {c}
+              </FilterChip>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((a) => (
+            <Link
+              key={a.slug}
+              href={`/research/${a.slug}`}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+            >
+              <div
+                className="relative aspect-[16/10] overflow-hidden"
+                style={{ backgroundColor: "#f4f6f8" }}
+              >
+                <ProductPhoto
+                  primary={articleHeroImage(a)}
+                  alt={a.title}
+                  peptides={articleHeroPeptides(a) ?? undefined}
+                  className="h-full"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="rounded-full bg-brand-soft px-2.5 py-0.5 font-semibold text-brand">
+                    {a.category}
+                  </span>
+                  <span className="text-muted-foreground">{a.readMinutes} min read</span>
+                </div>
+                <h3 className="mt-3 text-lg font-bold leading-snug text-foreground group-hover:text-brand">
+                  {a.title}
+                </h3>
+                <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {a.excerpt}
+                </p>
+                <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-brand">
+                  Read article
+                  <span aria-hidden>→</span>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div className="mt-8 rounded-2xl border border-dashed border-border py-16 text-center text-muted-foreground">
+            No articles match this filter yet.
+          </div>
+        )}
       </section>
 
       {/* COAs */}
@@ -106,7 +166,8 @@ export default function ResearchPage() {
             Published purity reports.
           </h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Every Viora batch is independently tested. COAs are publicly available — no
+            Every Viora batch is independently tested by accredited third-party labs
+            using HPLC and mass spectrometry. COAs are publicly available — no
             account required.
           </p>
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -152,8 +213,8 @@ export default function ResearchPage() {
             Need a COA for a specific batch?
           </h3>
           <p className="mt-3 max-w-xl text-muted-foreground">
-            Researchers can request the exact lot COA for any compound they've ordered
-            via the client portal.
+            Researchers can request the exact lot COA for any compound they've
+            ordered via the client portal.
           </p>
           <Link
             href="/contact"
@@ -164,5 +225,28 @@ export default function ResearchPage() {
         </div>
       </section>
     </>
+  );
+}
+
+function FilterChip({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors ${
+        active
+          ? "border-brand bg-brand text-brand-foreground"
+          : "border-border bg-background text-muted-foreground hover:border-brand/50 hover:text-brand"
+      }`}
+    >
+      {children}
+    </Link>
   );
 }
