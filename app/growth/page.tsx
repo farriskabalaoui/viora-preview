@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export const metadata = {
   title: "Viora · Revenue Engine + Apps (Internal)",
@@ -659,9 +658,9 @@ export default function GrowthPage() {
 
       {/* Engagement section intentionally removed — discussed live. */}
 
-      {/* CTA */}
+      {/* Closing — minimal, no CTAs (already in conversation) */}
       <section className="bg-background">
-        <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Ready when you are.
           </h2>
@@ -670,23 +669,8 @@ export default function GrowthPage() {
             sprints starting the day we sign. Phase 3 (the apps) starts when the
             agents stabilize and we have real channel data to design against.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/contact?topic=Phase%202%2B3%20%E2%80%94%20Revenue%20Engine%20%2B%20Apps"
-              className="inline-flex items-center justify-center rounded-full bg-brand px-7 py-3 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
-            >
-              Talk to Farris
-            </Link>
-            <a
-              href="mailto:farris@kabalaoui.com?subject=Viora%20Phase%202%2B3"
-              className="inline-flex items-center justify-center rounded-full border border-border bg-background px-7 py-3 text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
-            >
-              farris@kabalaoui.com
-            </a>
-          </div>
-          <p className="mt-8 text-xs text-muted-foreground">
-            This page is not linked from anywhere on viorahealthcare.com — direct
-            URL only.
+          <p className="mt-10 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+            Internal · For Marvin & Khaled · Not linked publicly
           </p>
         </div>
       </section>

@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const cols = [
   {
@@ -34,6 +37,8 @@ const cols = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/growth")) return null;
   return (
     <footer className="mt-24 border-t border-border bg-muted/40">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">

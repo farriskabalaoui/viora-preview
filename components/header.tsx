@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const nav = [
   { href: "/products", label: "Research Compounds" },
@@ -15,6 +16,8 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  if (pathname?.startsWith("/growth")) return null;
 
   return (
     <>
