@@ -97,16 +97,16 @@ const agents = [
     n: "05",
     title: "Affiliate Amplification Agent",
     impact:
-      "Recruits + activates 50–100 affiliates: longevity podcasters, performance clinics, functional med practitioners.",
+      "Recruits + activates 50–100 affiliates on LeadDyno: longevity podcasters, performance clinics, functional med practitioners.",
     body:
-      "Discovery agent's cousin — finds podcasters, YouTube channels, clinic owners, and longevity influencers in the peptide research space. Outreach agent pitches them the affiliate program. New page builds tier-customized landing pages per affiliate (their photo, their angle, custom code). Real-time dashboard so they see commissions accrue. Monthly ACH payouts to affiliates via your existing payment processor.",
+      "Discovery agent's cousin — finds podcasters, YouTube channels, clinic owners, and longevity influencers in the peptide research space. Outreach agent pitches them the affiliate program. Tracking runs through LeadDyno (custom commission tiers — 10% / 15% / 20%) with a real-time dashboard for each partner. We custom-build tier-specific landing pages per affiliate (their photo, their angle, their unique LeadDyno tracking code). Lightspeed orders sync to LeadDyno via webhook so attribution is real-time. Monthly mass ACH payouts handled through LeadDyno.",
     revenue:
       "100 active affiliates × $500/mo avg in driven sales × 15% commission = **+$50K/month gross sales, $7.5K paid out**.",
     metrics: [
       { label: "Active affiliates (target)", value: "50–100" },
       { label: "Avg revenue / affiliate", value: "$300–800/mo" },
     ],
-    stack: ["Rewardful / FirstPromoter", "ACH via approved processor", "Custom landing-page generator", "Discovery agent"],
+    stack: ["LeadDyno (tracking + payouts)", "Lightspeed → LeadDyno webhook", "Custom landing-page generator", "Discovery agent"],
   },
   {
     n: "06",
