@@ -657,73 +657,7 @@ export default function GrowthPage() {
         </div>
       </section>
 
-      {/* Engagement */}
-      <section className="border-y border-border bg-foreground text-background">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-          <div className="text-xs font-medium uppercase tracking-wider text-accent">
-            Engagement
-          </div>
-          <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-            What this looks like in dollars.
-          </h2>
-          <p className="mt-4 max-w-2xl text-background/70">
-            I build it, run it, and report on it. Three structures depending on how
-            you'd rather pay. The apps are priced separately as fixed-scope add-ons.
-          </p>
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {[
-              {
-                name: "Partner",
-                tagline: "Recommended",
-                price: "$5K + $2.5K/mo",
-                extra: "+ 5% equity + 10% rev share (18mo)",
-                body:
-                  "Cash floor pays for the work, equity aligns long term, rev share rewards what the agents bring in. Site rebuild + agents only — apps are priced separately ($25K Viora Lab v1, $35K Viora Direct v1).",
-                featured: true,
-              },
-              {
-                name: "Cash-Heavy",
-                tagline: "Clean transactional",
-                price: "$8.5K + $4.5K/mo",
-                extra: "Apps: +$35K + $50K. No equity, no rev share.",
-                body:
-                  "Higher cash, no cap-table conversation. Good if Viora is well-capitalized and prefers vendor relationships.",
-                featured: false,
-              },
-              {
-                name: "Equity-Heavy",
-                tagline: "Cash-light, upside-aligned",
-                price: "$0 cash",
-                extra: "10% equity + 15% rev share (24mo). Both apps included.",
-                body:
-                  "I take on the risk. You preserve runway. Only fits if Viora has a clear capital plan and you're comfortable with higher dilution.",
-                featured: false,
-              },
-            ].map((opt) => (
-              <div
-                key={opt.name}
-                className={`rounded-3xl border p-8 ${
-                  opt.featured
-                    ? "border-accent bg-accent/10"
-                    : "border-background/15 bg-background/[0.03]"
-                }`}
-              >
-                <div className="text-xs font-medium uppercase tracking-wider text-accent">
-                  {opt.tagline}
-                </div>
-                <div className="mt-3 text-2xl font-semibold">{opt.name}</div>
-                <div className="mt-4 text-3xl font-semibold tracking-tight">
-                  {opt.price}
-                </div>
-                <div className="mt-1 text-sm text-background/70">{opt.extra}</div>
-                <p className="mt-5 text-sm leading-relaxed text-background/80">
-                  {opt.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Engagement section intentionally removed — discussed live. */}
 
       {/* CTA */}
       <section className="bg-background">
