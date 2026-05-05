@@ -462,6 +462,139 @@ export default function GrowthPage() {
         </div>
       </section>
 
+      {/* Security & Compliance */}
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+          <div className="max-w-3xl">
+            <div className="text-xs font-medium uppercase tracking-wider text-brand">
+              Security & Compliance
+            </div>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Built secure by default — not bolted on later.
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              A peptide research supplier handles PII, payment data, and clinician
+              records. The site you're looking at is a fast preview — the production
+              build hardens every layer below before launch. This is the security
+              posture I'll deliver as part of Phase 2, baked into the rebuild rather
+              than patched in afterward.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: "Data & Encryption",
+                bullets: [
+                  "AES-256 encryption at rest, TLS 1.3 in transit",
+                  "Card data never touches our servers — Stripe Elements + tokenization (PCI scope minimized)",
+                  "Per-row PII encryption for researcher records",
+                  "Encrypted backups, 90-day retention, DR drills quarterly",
+                ],
+              },
+              {
+                title: "Identity & Access",
+                bullets: [
+                  "SSO (Google, Microsoft) for institutional buyers",
+                  "2FA mandatory for all admin and Viora staff accounts",
+                  "Role-based access: Researcher / Lab Admin / PI / Procurement / Staff",
+                  "Immutable audit log of every age and research-use attestation",
+                ],
+              },
+              {
+                title: "App & API Security",
+                bullets: [
+                  "Cloudflare WAF + per-endpoint rate limiting on day one",
+                  "Strict CSP, HSTS, parameterized queries, no inline scripts",
+                  "Mobile apps: cert pinning + Keychain/Keystore for tokens",
+                  "Penetration test by an external firm before each major release",
+                ],
+              },
+              {
+                title: "AI Agent Safety",
+                bullets: [
+                  "Prompt-injection defenses on every Vee message",
+                  "Per-IP and per-session rate limits on the chat endpoint",
+                  "Agents have zero direct DB write access — all changes via reviewed APIs",
+                  "Outbound email content filter blocks any non-compliant copy before send",
+                ],
+              },
+              {
+                title: "Compliance Roadmap",
+                bullets: [
+                  "HIPAA-aware data handling on the customer portal (already claimed on site)",
+                  "GDPR + CCPA: cookie consent, data deletion, DSAR workflow",
+                  "SOC 2 Type I in year 1, Type II in year 2 — table stakes for institutional sales",
+                  "21 CFR Part 11 considered for any compliance-sensitive features",
+                ],
+              },
+              {
+                title: "Operations & Incident Response",
+                bullets: [
+                  "Secrets in Vercel env vars — never in git (already enforced)",
+                  "Dependency scanning + Dependabot on every PR",
+                  "24/7 monitoring (Sentry + Vercel + uptime probes)",
+                  "Documented incident response plan, < 72h customer notification",
+                ],
+              },
+            ].map((c) => (
+              <div
+                key={c.title}
+                className="rounded-2xl border border-border bg-muted/30 p-6"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-brand-foreground">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-base font-semibold text-foreground">
+                    {c.title}
+                  </h3>
+                </div>
+                <ul className="mt-4 space-y-2.5 text-sm">
+                  {c.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-foreground/85">
+                      <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-brand" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 rounded-2xl border border-brand/30 bg-brand-soft p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div className="text-xs font-medium uppercase tracking-wider text-brand">
+                  The honest framing
+                </div>
+                <h4 className="mt-1 text-lg font-semibold text-foreground">
+                  This is the production blueprint — not what's live on the demo today.
+                </h4>
+                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground/85">
+                  The preview at <span className="font-mono">viora-preview.vercel.app</span>{" "}
+                  is a clickable demo. The hardening above is what I deliver
+                  alongside the production rebuild before customers transact. It
+                  gets us through institutional procurement reviews and SOC 2
+                  audits — both are gates between Viora and the biggest checks.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Reporting */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
