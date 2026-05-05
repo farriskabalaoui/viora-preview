@@ -29,7 +29,7 @@ export function Header() {
       {/* Top contact bar (DP-style) */}
       <div className="bg-muted/60 text-foreground/85 text-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center">
-          <span>Need help? Text us, a team member replies in minutes</span>
+          <span>{t("contact.help")}</span>
           <a
             href="tel:+13109996246"
             className="font-semibold text-brand transition-opacity hover:opacity-80"
@@ -144,8 +144,8 @@ export function Header() {
       {/* Research-use disclaimer line */}
       <div className="bg-muted/40 border-b border-border text-foreground/70 text-[11px]">
         <div className="mx-auto max-w-7xl px-4 py-2 text-center sm:px-6">
-          <span className="font-semibold text-foreground">Research Use Only:</span>{" "}
-          All products listed on this site are for in-vitro research only · Not for human consumption · Researchers must be 21+
+          <span className="font-semibold text-foreground">{t("ruo.label")}</span>{" "}
+          {t("ruo.body")}
         </div>
       </div>
     </>

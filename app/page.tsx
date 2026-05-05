@@ -92,7 +92,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground">Latest COA</div>
+                  <div className="text-xs text-muted-foreground">{t("hero.coa_label")}</div>
                   <div className="text-sm font-semibold">Tesamorelin · ≥99%</div>
                 </div>
               </div>

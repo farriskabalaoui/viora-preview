@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/lib/i18n-context";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -79,6 +80,7 @@ function renderMessage(content: string) {
 
 export function ChatWidget() {
   const pathname = usePathname();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([WELCOME]);
   const [input, setInput] = useState("");
@@ -284,9 +286,11 @@ export function ChatWidget() {
                 </svg>
               </div>
               <div className="pr-4">
-                <div className="text-sm font-semibold text-foreground">Hi, I'm Vee 👋</div>
+                <div className="text-sm font-semibold text-foreground">
+                  {t("vee.teaser_title")} 👋
+                </div>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  Looking for a compound, COA, or stack recommendation? I'm here to make it easy.
+                  {t("vee.teaser_body")}
                 </p>
                 <button
                   onClick={() => {
@@ -295,7 +299,7 @@ export function ChatWidget() {
                   }}
                   className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
                 >
-                  Start chatting
+                  {t("vee.teaser_cta")}
                   <span aria-hidden>→</span>
                 </button>
               </div>
@@ -316,7 +320,7 @@ export function ChatWidget() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
           </span>
-          Ask Vee
+          {t("vee.button")}
           {(unread || teaser) && (
             <span className="ml-1 rounded-full bg-white px-1.5 py-0.5 text-[10px] font-bold text-brand">
               1

@@ -70,6 +70,22 @@ export const dict = {
     "product.low_stock": "Low Stock",
     "product.out_of_stock": "Out of Stock",
     "lang.toggle": "Español",
+    "feature.us": "Manufactured & Packed in USA",
+    "feature.tested": "Third-Party Batch Tested",
+    "feature.shipping": "Fast Discreet Shipping",
+    "feature.support": "24/7 AI-Powered Support",
+    "feature.physician": "Physician-Backed Quality",
+    "feature.purity": "≥99% HPLC Verified",
+    "ruo.label": "Research Use Only:",
+    "ruo.body":
+      "All products listed on this site are for in-vitro research only · Not for human consumption · Researchers must be 21+",
+    "contact.help": "Need help? Text us, a team member replies in minutes",
+    "hero.coa_label": "Latest COA",
+    "vee.teaser_title": "Hi, I'm Vee",
+    "vee.teaser_body":
+      "Looking for a compound, COA, or stack recommendation? I'm here to make it easy.",
+    "vee.teaser_cta": "Start chatting",
+    "vee.button": "Ask Vee",
   },
   es: {
     "banner.taglineRes": "Aceptando solicitudes de investigación",
@@ -132,6 +148,23 @@ export const dict = {
     "product.low_stock": "Stock Bajo",
     "product.out_of_stock": "Agotado",
     "lang.toggle": "English",
+    "feature.us": "Fabricado y Empacado en EE. UU.",
+    "feature.tested": "Probado en Lote por Terceros",
+    "feature.shipping": "Envío Rápido y Discreto",
+    "feature.support": "Soporte IA 24/7",
+    "feature.physician": "Calidad Respaldada por Médicos",
+    "feature.purity": "Verificado HPLC ≥99%",
+    "ruo.label": "Solo para uso de investigación:",
+    "ruo.body":
+      "Todos los productos en este sitio son únicamente para investigación in-vitro · No para consumo humano · Los investigadores deben ser mayores de 21",
+    "contact.help":
+      "¿Necesitas ayuda? Envíanos un mensaje y un miembro del equipo responderá en minutos",
+    "hero.coa_label": "Último COA",
+    "vee.teaser_title": "Hola, soy Vee",
+    "vee.teaser_body":
+      "¿Buscas un compuesto, un COA o una recomendación de stack? Estoy aquí para ayudarte.",
+    "vee.teaser_cta": "Empezar a chatear",
+    "vee.button": "Preguntar a Vee",
   },
   ar: {
     "banner.taglineRes": "نقبل طلبات الأبحاث الآن",
@@ -194,6 +227,23 @@ export const dict = {
     "product.low_stock": "كمية محدودة",
     "product.out_of_stock": "غير متوفر",
     "lang.toggle": "العربية",
+    "feature.us": "مُصنّع ومُعبّأ في الولايات المتحدة",
+    "feature.tested": "اختبار مستقل للدفعات",
+    "feature.shipping": "شحن سريع وآمن",
+    "feature.support": "دعم بالذكاء الاصطناعي 24/7",
+    "feature.physician": "جودة بدعم طبي",
+    "feature.purity": "HPLC مُتحقَّق ≥99٪",
+    "ruo.label": "للاستخدام البحثي فقط:",
+    "ruo.body":
+      "جميع المنتجات في هذا الموقع للأبحاث المختبرية فقط · ليست للاستهلاك البشري · يجب أن يكون الباحثون فوق 21 سنة",
+    "contact.help":
+      "بحاجة إلى مساعدة؟ راسلنا وسيرد أحد أعضاء الفريق خلال دقائق",
+    "hero.coa_label": "آخر شهادة COA",
+    "vee.teaser_title": "مرحباً، أنا Vee",
+    "vee.teaser_body":
+      "تبحث عن مركّب أو شهادة COA أو توصية لحزمة؟ أنا هنا لأسهّل عليك ذلك.",
+    "vee.teaser_cta": "ابدأ المحادثة",
+    "vee.button": "اسأل Vee",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
