@@ -374,23 +374,44 @@ export default function GrowthPage() {
         </div>
       </section>
 
-      {/* Phase 2.5 — Operations Foundation */}
-      <section className="border-y border-border bg-background">
+      {/* Phase 2.5 — Inventory + Lightspeed Operations */}
+      <section
+        id="inventory"
+        className="border-y border-border bg-background scroll-mt-20"
+      >
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <div className="max-w-3xl">
             <div className="text-xs font-medium uppercase tracking-wider text-brand">
-              Phase 2.5 — Operations Foundation
+              Phase 2.5 — Inventory + Lightspeed Operations
             </div>
             <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-              The plumbing that lets Viora run with no human babysitting the site.
+              Real-time inventory management and auto-fulfillment, built on Lightspeed.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Marvin's already moved Viora onto Lightspeed for e-commerce — that's the
-              foundation. Layer the agents and apps on top of it, and the site
-              becomes self-driving: inventory updates itself, orders auto-route to
-              fulfillment, Vee answers every customer question. No one full-time
-              managing the site.
+              You're already on Lightspeed for e-commerce — we layer inventory
+              tracking, auto-fulfillment, and Vee on top of it. The site becomes
+              self-driving: stock levels update from your real warehouse, orders
+              route straight to your existing fulfillment flow, and Vee handles
+              every customer question. Solves the 10,000-vial tracking problem
+              head-on, with no human full-time managing the site.
             </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {[
+                "Real-time stock levels",
+                "Lightspeed two-way sync",
+                "Auto-fulfillment pipeline",
+                "Optional barcode scanning",
+                "Low-stock alerts",
+                "Order-status flow back to Vee",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-medium text-brand"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
             {[
