@@ -45,12 +45,12 @@ export function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
             <Image
-              src="/viora-logo.webp"
+              src="/viora-logo-horizontal-tight.png"
               alt="Viora Healthcare"
-              width={140}
-              height={40}
+              width={1080}
+              height={360}
               priority
-              className="h-9 w-auto"
+              className="h-10 w-auto"
             />
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">

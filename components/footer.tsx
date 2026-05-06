@@ -48,11 +48,11 @@ export function Footer() {
           <div className="md:col-span-4">
             <Link href="/" className="inline-flex items-center">
               <Image
-                src="/viora-logo.webp"
+                src="/viora-logo-horizontal-tight.png"
                 alt="Viora Healthcare"
-                width={160}
-                height={48}
-                className="h-10 w-auto"
+                width={1080}
+                height={360}
+                className="h-12 w-auto"
               />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
