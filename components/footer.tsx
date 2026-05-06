@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -45,19 +46,14 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <svg viewBox="0 0 64 64" className="h-10 w-10" fill="none" aria-hidden="true">
-                <rect x="5.5" y="5.5" width="53" height="53" rx="11" stroke="#284C3E" strokeWidth="3.5" fill="white" />
-                <path d="M15 17 L23 17 L32 39 L41 17 L43 17 L43 50 L37 50 L37 28 L34 35 L30 35 L20 17 Z" fill="#284C3E" />
-                <path d="M44 12 Q52 13 52 22 Q52 26 49 28 Q45 28 43 24 Q42 17 44 12 Z" fill="#284C3E" />
-              </svg>
-              <div className="flex flex-col leading-none">
-                <span className="font-display text-xl font-extrabold tracking-tight text-brand">VIORA</span>
-                <span className="mt-0.5 font-display text-[9px] font-medium uppercase tracking-[0.28em] text-brand/80">
-                  Health Care
-                </span>
-              </div>
-              <span className="sr-only">Viora Healthcare</span>
+            <Link href="/" className="inline-flex items-center">
+              <Image
+                src="/viora-logo.webp"
+                alt="Viora Healthcare"
+                width={160}
+                height={48}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Lab-tested research peptides, third-party verified, physician-backed,

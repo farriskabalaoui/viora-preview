@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -42,20 +43,15 @@ export function Header() {
       {/* Brand + Nav */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            {/* Brand-guide V mark: rounded frame + V + leaf accent */}
-            <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" aria-hidden="true">
-              <rect x="5.5" y="5.5" width="53" height="53" rx="11" stroke="#284C3E" strokeWidth="3.5" fill="white" />
-              <path d="M15 17 L23 17 L32 39 L41 17 L43 17 L43 50 L37 50 L37 28 L34 35 L30 35 L20 17 Z" fill="#284C3E" />
-              <path d="M44 12 Q52 13 52 22 Q52 26 49 28 Q45 28 43 24 Q42 17 44 12 Z" fill="#284C3E" />
-            </svg>
-            <div className="flex flex-col leading-none">
-              <span className="font-display text-[18px] font-extrabold tracking-tight text-brand">VIORA</span>
-              <span className="mt-0.5 font-display text-[9px] font-medium uppercase tracking-[0.28em] text-brand/80">
-                Health Care
-              </span>
-            </div>
-            <span className="sr-only">Viora Healthcare</span>
+          <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
+            <Image
+              src="/viora-logo.webp"
+              alt="Viora Healthcare"
+              width={140}
+              height={40}
+              priority
+              className="h-9 w-auto"
+            />
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => (
