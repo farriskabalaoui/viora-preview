@@ -60,7 +60,17 @@ export default async function ArticlePage({ params }: Props) {
             <span className="rounded-full bg-brand-soft px-2.5 py-1 font-semibold text-brand">
               {article.category}
             </span>
+            {article.inProgress && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 font-semibold text-amber-900">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-600" />
+                </span>
+                Study in progress
+              </span>
+            )}
             <span className="text-muted-foreground">
+              {article.inProgress ? "Started " : ""}
               {new Date(article.publishedAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",

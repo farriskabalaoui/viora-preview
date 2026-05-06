@@ -167,11 +167,22 @@ export default async function ResearchPage({ searchParams }: Props) {
                 />
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="rounded-full bg-brand-soft px-2.5 py-0.5 font-semibold text-brand">
-                    {a.category}
-                  </span>
-                  <span className="text-muted-foreground">{a.readMinutes} min read</span>
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="rounded-full bg-brand-soft px-2.5 py-0.5 font-semibold text-brand">
+                      {a.category}
+                    </span>
+                    {a.inProgress && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 font-semibold text-amber-900">
+                        <span className="relative flex h-1.5 w-1.5">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-75" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-600" />
+                        </span>
+                        Study in progress
+                      </span>
+                    )}
+                  </div>
+                  <span className="whitespace-nowrap text-muted-foreground">{a.readMinutes} min read</span>
                 </div>
                 <h3 className="mt-3 text-lg font-bold leading-snug text-foreground group-hover:text-brand">
                   {a.title}
