@@ -45,7 +45,7 @@ export function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
             <Image
-              src="/viora-logo-horizontal-tight.png"
+              src="/viora-logo-horizontal-tight-transparent.png"
               alt="Viora Healthcare"
               width={1080}
               height={360}

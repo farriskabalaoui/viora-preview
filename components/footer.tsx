@@ -48,7 +48,7 @@ export function Footer() {
           <div className="md:col-span-4">
             <Link href="/" className="inline-flex items-center">
               <Image
-                src="/viora-logo-horizontal-tight.png"
+                src="/viora-logo-horizontal-tight-transparent.png"
                 alt="Viora Healthcare"
                 width={1080}
                 height={360}
