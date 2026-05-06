@@ -43,6 +43,45 @@ export default async function ResearchPage({ searchParams }: Props) {
         </div>
       </section>
 
+      {/* Calculator CTA */}
+      <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6">
+        <Link
+          href="/research/calculator"
+          className="group flex flex-col items-center gap-4 rounded-3xl border border-brand bg-brand p-6 text-center text-brand-foreground transition-opacity hover:opacity-95 sm:flex-row sm:gap-8 sm:p-8 sm:text-left"
+        >
+          <div className="flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-white/10">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" />
+              <line x1="8" y1="6" x2="16" y2="6" />
+              <line x1="16" y1="14" x2="16" y2="18" />
+              <line x1="8" y1="10" x2="8" y2="10" />
+              <line x1="12" y1="10" x2="12" y2="10" />
+              <line x1="16" y1="10" x2="16" y2="10" />
+              <line x1="8" y1="14" x2="8" y2="14" />
+              <line x1="12" y1="14" x2="12" y2="14" />
+              <line x1="8" y1="18" x2="8" y2="18" />
+              <line x1="12" y1="18" x2="12" y2="18" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <div className="text-xs font-medium uppercase tracking-wider text-brand-foreground/70">
+              Lab Tool
+            </div>
+            <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
+              Peptide Reconstitution Calculator
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-brand-foreground/85 sm:text-base">
+              Calculate vial concentration and exact volume to draw — instant
+              results, supports U30/U50/U100 syringes, with quick-pick presets for
+              common Viora compounds.
+            </p>
+          </div>
+          <div className="flex-none rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand transition-transform group-hover:translate-x-0.5">
+            Open calculator →
+          </div>
+        </Link>
+      </section>
+
       {/* Featured */}
       {featuredHero && !activeCategory && (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
