@@ -2,17 +2,16 @@
 
 import { useMemo, useState } from "react";
 
-type Syringe = { mlMax: number; label: string; unitsMax: number };
+type Syringe = { mlMax: number; label: string; subLabel: string; unitsMax: number };
 
 const SYRINGES: Syringe[] = [
-  { mlMax: 0.3, label: "0.3 mL · U30", unitsMax: 30 },
-  { mlMax: 0.5, label: "0.5 mL · U50", unitsMax: 50 },
-  { mlMax: 1.0, label: "1 mL · U100", unitsMax: 100 },
+  { mlMax: 0.3, label: "0.3 mL", subLabel: "U-30 insulin", unitsMax: 30 },
+  { mlMax: 0.5, label: "0.5 mL", subLabel: "U-50 insulin", unitsMax: 50 },
+  { mlMax: 1.0, label: "1.0 mL", subLabel: "U-100 insulin", unitsMax: 100 },
 ];
 
 const VIAL_PRESETS = [2, 3, 5, 10, 15];
 const WATER_PRESETS = [1, 2, 3, 5];
-// Dose stored in mg internally; label shows the natural unit
 const DOSE_PRESETS: { mg: number; label: string }[] = [
   { mg: 0.05, label: "50 mcg" },
   { mg: 0.1, label: "100 mcg" },
@@ -27,22 +26,20 @@ type QuickPick = {
   vialMg: number;
   waterMl: number;
   doseMg: number;
-  href?: string;
 };
 
 const QUICK_PICKS: QuickPick[] = [
-  { label: "BPC-157 · 5 mg / 2 mL · 250 mcg dose", vialMg: 5, waterMl: 2, doseMg: 0.25, href: "/products/bpc-157" },
-  { label: "Tesamorelin · 10 mg / 3 mL · 1 mg dose", vialMg: 10, waterMl: 3, doseMg: 1, href: "/products/tesamorelin" },
-  { label: "Ipamorelin · 5 mg / 2 mL · 200 mcg dose", vialMg: 5, waterMl: 2, doseMg: 0.2, href: "/products/ipamorelin" },
-  { label: "GHK-Cu · 50 mg / 5 mL · 2 mg dose", vialMg: 50, waterMl: 5, doseMg: 2, href: "/products/ghk-cu" },
-  { label: "Semax · 30 mg / 3 mL · 500 mcg dose", vialMg: 30, waterMl: 3, doseMg: 0.5, href: "/products/semax" },
-  { label: "GLP-3 (Reta) · 10 mg / 2 mL · 2 mg dose", vialMg: 10, waterMl: 2, doseMg: 2, href: "/products/glp-3-reta" },
+  { label: "BPC-157 · 5 mg / 2 mL · 250 mcg", vialMg: 5, waterMl: 2, doseMg: 0.25 },
+  { label: "Tesamorelin · 10 mg / 3 mL · 1 mg", vialMg: 10, waterMl: 3, doseMg: 1 },
+  { label: "Ipamorelin · 5 mg / 2 mL · 200 mcg", vialMg: 5, waterMl: 2, doseMg: 0.2 },
+  { label: "GHK-Cu · 50 mg / 5 mL · 2 mg", vialMg: 50, waterMl: 5, doseMg: 2 },
+  { label: "Semax · 30 mg / 3 mL · 500 mcg", vialMg: 30, waterMl: 3, doseMg: 0.5 },
+  { label: "GLP-3 (Reta) · 10 mg / 2 mL · 2 mg", vialMg: 10, waterMl: 2, doseMg: 2 },
 ];
 
 function formatMg(mg: number): string {
   if (mg >= 1) return `${Number(mg.toFixed(3))} mg`;
-  const mcg = mg * 1000;
-  return `${Number(mcg.toFixed(2))} mcg`;
+  return `${Number((mg * 1000).toFixed(2))} mcg`;
 }
 
 export function PeptideCalculator() {
@@ -64,7 +61,7 @@ export function PeptideCalculator() {
     if (vialMg <= 0 || waterMl <= 0 || doseMg <= 0) return null;
     const concentrationMgPerMl = vialMg / waterMl;
     const drawMl = doseMg / concentrationMgPerMl;
-    const drawUnits = drawMl * 100; // U-100 insulin syringe convention
+    const drawUnits = drawMl * 100;
     const overflow = drawUnits > syringe.unitsMax;
     return { concentrationMgPerMl, drawMl, drawUnits, overflow };
   }, [vialMg, waterMl, doseMg, syringe.unitsMax]);
@@ -95,31 +92,29 @@ export function PeptideCalculator() {
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-background p-6 sm:p-10">
+    <div>
+      {/* Header */}
       <div className="text-center">
-        <div className="text-xs font-medium uppercase tracking-wider text-brand">
-          Lab Tool
-        </div>
-        <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Peptide Reconstitution Calculator
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-          Calculate the exact volume to draw based on your vial, your bacteriostatic
-          water, and your target dose. Results update instantly.
+        <h1 className="font-display text-4xl font-extrabold tracking-tight text-brand sm:text-5xl">
+          Peptide Calculator
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-foreground/75 sm:text-lg">
+          Easily calculate accurate dosages by selecting your parameters with our
+          Peptide Reconstitution Calculator below.
         </p>
       </div>
 
       {/* Quick picks */}
-      <div className="mt-8">
-        <div className="text-xs font-medium uppercase tracking-wider text-foreground/70">
-          Quick start
+      <div className="mt-10">
+        <div className="text-sm font-medium text-foreground/60">
+          Quick start with a Viora compound
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUICK_PICKS.map((q) => (
             <button
               key={q.label}
               onClick={() => applyQuickPick(q)}
-              className="rounded-full border border-border bg-muted/40 px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-brand hover:bg-brand-soft hover:text-brand"
+              className="rounded-full border border-border bg-muted/30 px-4 py-2 text-sm text-foreground/80 transition-colors hover:border-brand hover:bg-brand-soft hover:text-brand"
             >
               {q.label}
             </button>
@@ -127,113 +122,136 @@ export function PeptideCalculator() {
         </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* Left: syringe selection */}
+      <div className="mt-12 grid grid-cols-1 gap-x-12 gap-y-12 lg:grid-cols-2">
+        {/* LEFT: Syringe selector with SVG visuals */}
         <div>
-          <Label>1. What's your syringe size?</Label>
-          <div className="mt-3 space-y-2">
-            {SYRINGES.map((s) => (
-              <button
-                key={s.label}
-                onClick={() => setSyringe(s)}
-                className={`flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left transition-colors ${
-                  s.mlMax === syringe.mlMax
-                    ? "border-brand bg-brand text-brand-foreground shadow-md"
-                    : "border-border bg-muted/30 text-foreground hover:border-brand/40 hover:bg-muted/60"
-                }`}
-              >
-                <span className="font-semibold">{s.label}</span>
-                <span
-                  className={`text-xs ${s.mlMax === syringe.mlMax ? "text-brand-foreground/70" : "text-muted-foreground"}`}
+          <h3 className="font-display text-xl font-bold text-foreground">
+            What is the total volume of your syringe?
+          </h3>
+          <div className="mt-5 space-y-3">
+            {SYRINGES.map((s) => {
+              const selected = s.mlMax === syringe.mlMax;
+              return (
+                <button
+                  key={s.label}
+                  onClick={() => setSyringe(s)}
+                  className={`group flex w-full items-center gap-4 rounded-2xl border-2 px-4 py-3 text-left transition-all ${
+                    selected
+                      ? "border-brand bg-brand-soft shadow-sm"
+                      : "border-border bg-background hover:border-brand/40 hover:bg-muted/40"
+                  }`}
                 >
-                  Max {s.unitsMax} units
-                </span>
-              </button>
-            ))}
+                  <div className={`font-display text-lg font-bold ${selected ? "text-brand" : "text-foreground"}`}>
+                    {s.label}
+                  </div>
+                  <SyringeIllustration
+                    sizeFraction={s.mlMax / 1.0}
+                    selected={selected}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Right: vial + water + dose */}
-        <div className="space-y-8">
-          <ChipPicker
-            label="2. Peptide vial quantity"
-            presets={VIAL_PRESETS.map((mg) => ({ value: mg, label: `${mg} mg` }))}
-            value={vialMg}
-            isOther={vialIsOther}
-            otherText={vialOther}
-            onSelectPreset={(v) => {
-              setVialMg(v);
-              setVialIsOther(false);
-              setVialOther("");
-            }}
-            onOther={(text) => {
-              setVialIsOther(true);
-              setVialOther(text);
-              const n = Number(text);
-              if (!isNaN(n) && n > 0) setVialMg(n);
-            }}
-            otherSuffix="mg"
-          />
+        {/* RIGHT: Vial / water / dose */}
+        <div className="space-y-10">
+          <div className="flex items-start gap-4">
+            <VialIllustration accent="brand" />
+            <div className="flex-1">
+              <h3 className="font-display text-xl font-bold text-foreground">
+                Select Peptide Vial Quantity
+              </h3>
+              <ChipRow
+                presets={VIAL_PRESETS.map((mg) => ({ value: mg, label: `${mg} mg` }))}
+                value={vialMg}
+                isOther={vialIsOther}
+                otherText={vialOther}
+                onSelectPreset={(v) => {
+                  setVialMg(v);
+                  setVialIsOther(false);
+                  setVialOther("");
+                }}
+                onOther={(text) => {
+                  setVialIsOther(true);
+                  setVialOther(text);
+                  const n = Number(text);
+                  if (!isNaN(n) && n > 0) setVialMg(n);
+                }}
+                otherSuffix="mg"
+              />
+            </div>
+          </div>
 
-          <ChipPicker
-            label="3. Bacteriostatic water"
-            presets={WATER_PRESETS.map((ml) => ({ value: ml, label: `${ml} mL` }))}
-            value={waterMl}
-            isOther={waterIsOther}
-            otherText={waterOther}
-            onSelectPreset={(v) => {
-              setWaterMl(v);
-              setWaterIsOther(false);
-              setWaterOther("");
-            }}
-            onOther={(text) => {
-              setWaterIsOther(true);
-              setWaterOther(text);
-              const n = Number(text);
-              if (!isNaN(n) && n > 0) setWaterMl(n);
-            }}
-            otherSuffix="mL"
-          />
+          <div className="flex items-start gap-4">
+            <VialIllustration accent="accent" />
+            <div className="flex-1">
+              <h3 className="font-display text-xl font-bold text-foreground">
+                How much bacteriostatic water are you adding?
+              </h3>
+              <ChipRow
+                presets={WATER_PRESETS.map((ml) => ({ value: ml, label: `${ml} mL` }))}
+                value={waterMl}
+                isOther={waterIsOther}
+                otherText={waterOther}
+                onSelectPreset={(v) => {
+                  setWaterMl(v);
+                  setWaterIsOther(false);
+                  setWaterOther("");
+                }}
+                onOther={(text) => {
+                  setWaterIsOther(true);
+                  setWaterOther(text);
+                  const n = Number(text);
+                  if (!isNaN(n) && n > 0) setWaterMl(n);
+                }}
+                otherSuffix="mL"
+              />
+            </div>
+          </div>
 
           <div>
-            <Label>4. Dose per injection</Label>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {DOSE_PRESETS.map((d) => (
-                <button
-                  key={d.label}
-                  onClick={() => {
-                    setDoseMg(d.mg);
-                    setDoseIsOther(false);
-                    setDoseOther("");
-                  }}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                    !doseIsOther && Math.abs(doseMg - d.mg) < 0.0001
-                      ? "bg-brand text-brand-foreground"
-                      : "border border-border bg-muted/40 text-foreground hover:border-brand hover:text-brand"
-                  }`}
-                >
-                  {d.label}
-                </button>
-              ))}
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => {
-                    setDoseIsOther(true);
-                    if (doseOther) {
-                      const n = Number(doseOther);
-                      if (!isNaN(n) && n > 0)
-                        setDoseMg(doseUnit === "mcg" ? n / 1000 : n);
-                    }
-                  }}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                    doseIsOther
-                      ? "bg-brand text-brand-foreground"
-                      : "border border-border bg-muted/40 text-foreground hover:border-brand hover:text-brand"
-                  }`}
-                >
-                  Other
-                </button>
-              </div>
+            <h3 className="font-display text-xl font-bold text-foreground">
+              How much of the peptide do you want in each dose?
+            </h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {DOSE_PRESETS.map((d) => {
+                const sel = !doseIsOther && Math.abs(doseMg - d.mg) < 0.0001;
+                return (
+                  <button
+                    key={d.label}
+                    onClick={() => {
+                      setDoseMg(d.mg);
+                      setDoseIsOther(false);
+                      setDoseOther("");
+                    }}
+                    className={`rounded-full px-4 py-2 text-sm transition-colors ${
+                      sel
+                        ? "bg-brand font-semibold text-brand-foreground"
+                        : "border border-border bg-background text-foreground hover:border-brand hover:text-brand"
+                    }`}
+                  >
+                    {d.label}
+                  </button>
+                );
+              })}
+              <button
+                onClick={() => {
+                  setDoseIsOther(true);
+                  if (doseOther) {
+                    const n = Number(doseOther);
+                    if (!isNaN(n) && n > 0)
+                      setDoseMg(doseUnit === "mcg" ? n / 1000 : n);
+                  }
+                }}
+                className={`rounded-full px-4 py-2 text-sm transition-colors ${
+                  doseIsOther
+                    ? "bg-brand font-semibold text-brand-foreground"
+                    : "border border-border bg-background text-foreground hover:border-brand hover:text-brand"
+                }`}
+              >
+                Other
+              </button>
             </div>
             {doseIsOther && (
               <div className="mt-3 flex gap-2">
@@ -248,8 +266,8 @@ export function PeptideCalculator() {
                     if (!isNaN(n) && n > 0)
                       setDoseMg(doseUnit === "mcg" ? n / 1000 : n);
                   }}
-                  placeholder="e.g. 750"
-                  className="w-32 rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+                  placeholder="Custom amount"
+                  className="w-36 rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
                 />
                 <select
                   value={doseUnit}
@@ -271,71 +289,165 @@ export function PeptideCalculator() {
       </div>
 
       {/* Result */}
-      <div className="mt-10 rounded-3xl border border-brand/30 bg-brand-soft p-6 sm:p-8">
+      <div className="mt-14 border-t border-border pt-10">
         {!result ? (
-          <div className="text-center text-muted-foreground">
+          <p className="text-center text-foreground/60">
             Enter all four values to see your reconstitution.
-          </div>
+          </p>
         ) : (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              <Stat label="Vial concentration" value={`${result.concentrationMgPerMl.toFixed(2)} mg/mL`} />
-              <Stat label="Volume to draw" value={`${result.drawMl.toFixed(3)} mL`} />
-              <Stat
-                label={`Units on ${syringe.label.split("·")[1].trim()}`}
-                value={`${result.drawUnits.toFixed(1)} units`}
-                warn={result.overflow}
-              />
-            </div>
-
-            <p className="text-base leading-relaxed text-foreground">
-              <strong className="text-brand">Reconstitution recipe:</strong> Dissolve{" "}
-              <strong>{vialMg} mg</strong> of peptide in <strong>{waterMl} mL</strong>{" "}
-              of bacteriostatic water → vial concentration is{" "}
-              <strong>{result.concentrationMgPerMl.toFixed(2)} mg/mL</strong>. To get a{" "}
-              <strong>{formatMg(doseMg)}</strong> dose, draw{" "}
-              <strong>{result.drawMl.toFixed(3)} mL</strong>{" "}
-              <span className="text-muted-foreground">
-                ({result.drawUnits.toFixed(1)} units on a {syringe.label.split("·")[1].trim()} insulin syringe).
+            <p className="text-lg leading-relaxed text-foreground sm:text-xl">
+              Your vial concentration is{" "}
+              <strong className="font-display text-brand">
+                {result.concentrationMgPerMl.toFixed(2)} mg/mL
+              </strong>
+              .
+            </p>
+            <p className="text-lg leading-relaxed text-foreground sm:text-xl">
+              To achieve{" "}
+              <strong className="font-display text-brand">
+                {formatMg(doseMg)} ({doseMg.toFixed(3)} mg)
+              </strong>
+              , draw{" "}
+              <strong className="font-display text-brand">
+                {result.drawMl.toFixed(3)} mL
+              </strong>{" "}
+              <span className="text-foreground/70">
+                ({result.drawUnits.toFixed(1)} units on a {syringe.subLabel} syringe)
               </span>
             </p>
 
-            <SyringeScale unitsMax={syringe.unitsMax} drawUnits={result.drawUnits} overflow={result.overflow} />
+            <SyringeScale
+              unitsMax={syringe.unitsMax}
+              drawUnits={result.drawUnits}
+              overflow={result.overflow}
+            />
+
+            <p className="text-sm text-foreground/60">
+              <strong className="text-foreground">Bonus tip:</strong>{" "}
+              {formatMg(doseMg)} on a {result.concentrationMgPerMl.toFixed(2)} mg/mL
+              vial = draw {result.drawUnits.toFixed(1)} units on a {syringe.subLabel}{" "}
+              syringe.
+            </p>
 
             {result.overflow && (
               <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
-                <strong>Heads up:</strong> The required draw ({result.drawUnits.toFixed(1)}{" "}
-                units) exceeds your selected syringe's max ({syringe.unitsMax} units).
-                Choose a larger syringe or split into multiple injections — never
-                overfill.
+                <strong>Heads up:</strong> the required draw (
+                {result.drawUnits.toFixed(1)} units) exceeds your selected syringe&apos;s
+                max ({syringe.unitsMax} units). Choose a larger syringe or split into
+                multiple injections.
               </div>
             )}
           </div>
         )}
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4 text-xs leading-relaxed text-muted-foreground">
-        <strong className="text-foreground">For research use only.</strong> This
-        calculator is a research tool to help compute reconstitution math. It is
-        not medical guidance. All compounds are intended for in-vitro research and
-        laboratory use only — not for human consumption, diagnostic, or therapeutic
-        use.
-      </div>
+      <p className="mt-10 text-center text-xs leading-relaxed text-foreground/55">
+        For research use only. This calculator is a research tool to help compute
+        reconstitution math — not medical guidance. All compounds are intended for
+        in-vitro research and laboratory use only.
+      </p>
     </div>
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
+/* ────────────────────────────────────────────────────────────── */
+/* Syringe SVG illustration (length scales with mL size)         */
+/* ────────────────────────────────────────────────────────────── */
+
+function SyringeIllustration({
+  sizeFraction,
+  selected,
+}: {
+  sizeFraction: number; // 0.3, 0.5, 1.0
+  selected: boolean;
+}) {
+  // Body length scales with capacity. Plunger + needle stay constant.
+  const bodyLength = 60 + sizeFraction * 80; // 84 for 0.3, 100 for 0.5, 140 for 1.0
+  const total = 200; // viewBox width
+  const startX = (total - bodyLength - 50) / 2; // 50 = needle + plunger combined
+  const bodyEndX = startX + bodyLength;
+  const stroke = selected ? "#284C3E" : "#7a8a7e";
+  const accent = selected ? "#284C3E" : "#9aa9a0";
+
   return (
-    <label className="block text-sm font-semibold text-foreground">
-      {children}
-    </label>
+    <svg viewBox="0 0 200 36" className="h-9 flex-1" aria-hidden="true">
+      {/* Needle */}
+      <line x1={startX - 14} y1="18" x2={startX} y2="18" stroke={accent} strokeWidth="1.5" />
+      <rect x={startX - 4} y="15" width="6" height="6" rx="1" fill={accent} />
+      {/* Body (glass cylinder) */}
+      <rect
+        x={startX}
+        y="10"
+        width={bodyLength}
+        height="16"
+        rx="2"
+        fill="#ffffff"
+        stroke={stroke}
+        strokeWidth="1.5"
+      />
+      {/* Tick marks inside body */}
+      {Array.from({ length: Math.max(3, Math.round(bodyLength / 10)) }).map((_, i, arr) => {
+        const x = startX + ((i + 1) * bodyLength) / (arr.length + 1);
+        return (
+          <line
+            key={i}
+            x1={x}
+            y1="12"
+            x2={x}
+            y2="16"
+            stroke={stroke}
+            strokeWidth="0.8"
+            opacity="0.5"
+          />
+        );
+      })}
+      {/* Plunger seal */}
+      <rect x={bodyEndX - 6} y="9" width="6" height="18" fill={accent} opacity="0.85" />
+      {/* Plunger rod */}
+      <rect x={bodyEndX} y="14" width="32" height="8" fill="#e8a86a" />
+      {/* Plunger flange */}
+      <rect x={bodyEndX + 32} y="6" width="6" height="24" rx="1" fill="#e8a86a" />
+    </svg>
   );
 }
 
+/* Tiny vial illustration — used inline next to inputs */
+function VialIllustration({ accent }: { accent: "brand" | "accent" }) {
+  const accentColor = accent === "brand" ? "#284C3E" : "#56B2B1";
+  return (
+    <svg viewBox="0 0 40 56" className="h-14 w-10 flex-none" aria-hidden="true">
+      {/* Cap */}
+      <rect x="12" y="2" width="16" height="6" rx="1" fill="#cbd5d0" />
+      <rect x="12" y="6" width="16" height="2" fill="#9aa9a0" />
+      {/* Neck */}
+      <rect x="15" y="8" width="10" height="4" fill="#dde2eb" />
+      {/* Body */}
+      <rect
+        x="8"
+        y="12"
+        width="24"
+        height="38"
+        rx="2"
+        fill="#fafbfd"
+        stroke="#cbd5d0"
+        strokeWidth="0.8"
+      />
+      {/* Label */}
+      <rect x="9" y="22" width="22" height="22" fill="#ffffff" />
+      <rect x="9" y="22" width="22" height="4" fill={accentColor} />
+      {/* Liquid hint */}
+      <rect x="10" y="14" width="20" height="6" fill={accentColor} opacity="0.1" />
+    </svg>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* Reusable chip row                                             */
+/* ────────────────────────────────────────────────────────────── */
+
 type Preset = { value: number; label: string };
-function ChipPicker({
-  label,
+function ChipRow({
   presets,
   value,
   isOther,
@@ -344,7 +456,6 @@ function ChipPicker({
   onOther,
   otherSuffix,
 }: {
-  label: string;
   presets: Preset[];
   value: number;
   isOther: boolean;
@@ -354,28 +465,30 @@ function ChipPicker({
   otherSuffix: string;
 }) {
   return (
-    <div>
-      <Label>{label}</Label>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {presets.map((p) => (
-          <button
-            key={p.value}
-            onClick={() => onSelectPreset(p.value)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              !isOther && value === p.value
-                ? "bg-brand text-brand-foreground"
-                : "border border-border bg-muted/40 text-foreground hover:border-brand hover:text-brand"
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
+    <>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {presets.map((p) => {
+          const sel = !isOther && value === p.value;
+          return (
+            <button
+              key={p.value}
+              onClick={() => onSelectPreset(p.value)}
+              className={`rounded-full px-4 py-2 text-sm transition-colors ${
+                sel
+                  ? "bg-brand font-semibold text-brand-foreground"
+                  : "border border-border bg-background text-foreground hover:border-brand hover:text-brand"
+              }`}
+            >
+              {p.label}
+            </button>
+          );
+        })}
         <button
           onClick={() => onOther(otherText)}
-          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm transition-colors ${
             isOther
-              ? "bg-brand text-brand-foreground"
-              : "border border-border bg-muted/40 text-foreground hover:border-brand hover:text-brand"
+              ? "bg-brand font-semibold text-brand-foreground"
+              : "border border-border bg-background text-foreground hover:border-brand hover:text-brand"
           }`}
         >
           Other
@@ -392,35 +505,16 @@ function ChipPicker({
             placeholder={`Enter custom ${otherSuffix}`}
             className="w-40 rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
           />
-          <span className="text-sm text-muted-foreground">{otherSuffix}</span>
+          <span className="text-sm text-foreground/60">{otherSuffix}</span>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function Stat({
-  label,
-  value,
-  warn,
-}: {
-  label: string;
-  value: string;
-  warn?: boolean;
-}) {
-  return (
-    <div>
-      <div className="text-xs font-medium uppercase tracking-wider text-brand">
-        {label}
-      </div>
-      <div
-        className={`mt-1 text-2xl font-bold tracking-tight ${warn ? "text-amber-700" : "text-foreground"}`}
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
+/* ────────────────────────────────────────────────────────────── */
+/* Result — visual syringe scale                                 */
+/* ────────────────────────────────────────────────────────────── */
 
 function SyringeScale({
   unitsMax,
@@ -433,25 +527,18 @@ function SyringeScale({
 }) {
   const fillPct = Math.min(100, (drawUnits / unitsMax) * 100);
   const ticks: number[] = [];
-  const step = unitsMax >= 100 ? 10 : unitsMax >= 50 ? 5 : 5;
+  const step = unitsMax >= 100 ? 5 : unitsMax >= 50 ? 5 : 5;
   for (let v = 0; v <= unitsMax; v += step) ticks.push(v);
 
   return (
-    <div className="rounded-2xl border border-border bg-background p-5">
-      <div className="mb-2 flex items-baseline justify-between text-xs">
-        <span className="font-mono uppercase tracking-wider text-muted-foreground">
-          Insulin syringe scale
-        </span>
-        <span className="font-mono uppercase tracking-wider text-muted-foreground">
-          Max {unitsMax} units
-        </span>
-      </div>
-      <div className="relative h-12 w-full overflow-hidden rounded-xl border border-border bg-muted/40">
+    <div className="mt-2">
+      <div className="relative h-12 w-full overflow-hidden rounded-lg border border-border bg-background">
         <div
-          className={`absolute inset-y-0 left-0 ${overflow ? "bg-amber-500" : "bg-brand"}`}
+          className={`absolute inset-y-0 left-0 transition-all ${
+            overflow ? "bg-amber-500" : "bg-brand"
+          }`}
           style={{ width: `${fillPct}%` }}
         />
-        {/* tick lines */}
         {ticks.map((t) => (
           <div
             key={t}
@@ -460,7 +547,7 @@ function SyringeScale({
           />
         ))}
       </div>
-      <div className="mt-1 grid w-full grid-flow-col text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+      <div className="mt-1 grid w-full grid-flow-col text-[10px] text-foreground/60">
         {ticks.map((t) => (
           <div key={t} className="text-center" style={{ flex: 1 }}>
             {t}
