@@ -1,19 +1,38 @@
 @import "tailwindcss";
 
+/*
+ * BRAND THEME — easily revertible
+ *
+ * Active theme: GREEN (per Jordan's feedback)
+ * To revert to BLUE: swap the values in :root with the BLUE THEME comment block below.
+ *
+ * GREEN THEME (active):
+ *   --brand:           #0E4F4D  deep medical teal
+ *   --brand-soft:      #ECF6F5  light teal tint
+ *   --brand-dark:      #0a3938  darker teal (feature marquee)
+ *   --accent:          #007EFF  blue accent (used sparingly for info badges)
+ *
+ * BLUE THEME (backup — paste these to revert):
+ *   --brand:           #007EFF
+ *   --brand-soft:      #ebf3ff
+ *   --brand-dark:      #1f2647
+ *   --accent:          #007EFF
+ */
+
 :root {
   --background: #ffffff;
-  --foreground: #1a2342;
+  --foreground: #0f1e2c;
   --muted: #f4f6f8;
   --muted-foreground: #5a6a7e;
   --border: #e4e8ee;
-  --brand: #007eff;
+  --brand: #0e4f4d;
   --brand-foreground: #ffffff;
-  --brand-soft: #ebf3ff;
-  --brand-soft-foreground: #007eff;
-  --brand-dark: #1f2647;
+  --brand-soft: #ecf6f5;
+  --brand-soft-foreground: #0e4f4d;
+  --brand-dark: #0a3938;
   --brand-dark-foreground: #ffffff;
   --accent: #007eff;
-  --ring: #007eff;
+  --ring: #0e4f4d;
 }
 
 @theme inline {

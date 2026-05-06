@@ -10,10 +10,12 @@ type Props = {
   className?: string;
 };
 
+// Brand-band colors on the vial labels. Active GREEN palette.
+// To revert to BLUE: ["#007EFF"], ["#007EFF", "#0EA5E9"], ["#007EFF", "#0EA5E9", "#1E40AF"]
 const PALETTES: Record<Variant, string[]> = {
-  single: ["#007EFF"],
-  blend: ["#007EFF", "#0EA5E9"],
-  stack: ["#007EFF", "#0EA5E9", "#1E40AF"],
+  single: ["#0E4F4D"],
+  blend: ["#0E4F4D", "#147a76"],
+  stack: ["#0E4F4D", "#147a76", "#063b39"],
 };
 
 // All vials sit on a baseline so they look like they share a surface.
