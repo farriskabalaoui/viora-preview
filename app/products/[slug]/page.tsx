@@ -173,6 +173,7 @@ export default async function ProductPage({ params }: Props) {
               slug={product.slug}
               name={product.name}
               priceFrom={product.priceFrom}
+              image={product.image}
               outOfStock={stock === "out_of_stock"}
             />
             {coaFile ? (

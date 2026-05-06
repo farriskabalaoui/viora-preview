@@ -89,7 +89,7 @@ export function CartDrawer() {
                   <li key={it.slug} className="flex gap-4 py-4">
                     <div className="relative h-16 w-16 flex-none overflow-hidden rounded-xl bg-muted/40">
                       <Image
-                        src={`/products/${it.slug}.webp`}
+                        src={it.image ?? `/products/${it.slug}.webp`}
                         alt={it.name}
                         fill
                         sizes="64px"

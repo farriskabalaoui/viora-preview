@@ -8,17 +8,18 @@ type Props = {
   slug: string;
   name: string;
   priceFrom: number;
+  image: string;
   outOfStock?: boolean;
 };
 
-export function AddToCart({ slug, name, priceFrom, outOfStock }: Props) {
+export function AddToCart({ slug, name, priceFrom, image, outOfStock }: Props) {
   const { add, setOpen } = useCart();
   const { t } = useI18n();
   const [recent, setRecent] = useState(false);
 
   function handleAdd() {
     if (outOfStock) return;
-    add({ slug, name, priceFrom }, 1);
+    add({ slug, name, priceFrom, image }, 1);
     setRecent(true);
     setTimeout(() => setRecent(false), 1500);
     setOpen(true);

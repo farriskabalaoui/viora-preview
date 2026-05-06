@@ -15,6 +15,7 @@ export type CartItem = {
   name: string;
   priceFrom: number;
   qty: number;
+  image?: string;
 };
 
 type Ctx = {
