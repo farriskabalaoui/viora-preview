@@ -10,12 +10,12 @@ type Props = {
   className?: string;
 };
 
-// Brand-band colors on the vial labels. Active GREEN palette.
-// To revert to BLUE: ["#007EFF"], ["#007EFF", "#0EA5E9"], ["#007EFF", "#0EA5E9", "#1E40AF"]
+// Brand-band colors on the vial labels — sourced from Brand Guideline 2025.
+// Forest green primary, Treatment teal accent, deeper forest for triple-stack contrast.
 const PALETTES: Record<Variant, string[]> = {
-  single: ["#0E4F4D"],
-  blend: ["#0E4F4D", "#147a76"],
-  stack: ["#0E4F4D", "#147a76", "#063b39"],
+  single: ["#284C3E"],
+  blend: ["#284C3E", "#56B2B1"],
+  stack: ["#284C3E", "#56B2B1", "#1a3528"],
 };
 
 // All vials sit on a baseline so they look like they share a surface.

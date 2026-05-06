@@ -45,13 +45,15 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" aria-hidden="true">
-                <path d="M10 14 L21 14 L32 44 L43 14 L54 14 L37 53 L27 53 Z" fill="#0E4F4D" />
+            <Link href="/" className="inline-flex items-center gap-3">
+              <svg viewBox="0 0 64 64" className="h-10 w-10" fill="none" aria-hidden="true">
+                <rect x="5.5" y="5.5" width="53" height="53" rx="11" stroke="#284C3E" strokeWidth="3.5" fill="white" />
+                <path d="M15 17 L23 17 L32 39 L41 17 L43 17 L43 50 L37 50 L37 28 L34 35 L30 35 L20 17 Z" fill="#284C3E" />
+                <path d="M44 12 Q52 13 52 22 Q52 26 49 28 Q45 28 43 24 Q42 17 44 12 Z" fill="#284C3E" />
               </svg>
               <div className="flex flex-col leading-none">
-                <span className="text-lg font-bold tracking-tight text-foreground">VIORA</span>
-                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.22em] text-foreground/60">
+                <span className="font-display text-xl font-extrabold tracking-tight text-brand">VIORA</span>
+                <span className="mt-0.5 font-display text-[9px] font-medium uppercase tracking-[0.28em] text-brand/80">
                   Health Care
                 </span>
               </div>
