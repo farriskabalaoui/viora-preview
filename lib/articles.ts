@@ -47,18 +47,42 @@ export function articleHeroImage(article: Article): string {
 }
 
 /**
+ * Slugs that have confirmed individual peptide photos at /products/[slug].webp.
+ * Used to filter heroPeptides composition — stack/blend slugs would 404.
+ */
+const PEPTIDE_PHOTO_SLUGS = new Set([
+  "bpc-157",
+  "ghk-cu",
+  "glp-2-t",
+  "glp-3-reta",
+  "igf-1-lr3",
+  "ipamorelin",
+  "mots-c",
+  "nad-plus",
+  "oxytocin",
+  "pt-141",
+  "selank",
+  "semax",
+  "tesamorelin",
+]);
+
+/**
  * Get the multi-vial peptide list for an article hero (if it should be multi).
- * Returns null for single-vial heros.
+ * Returns null for single-vial heros. Filters to slugs with confirmed photos.
  */
 export function articleHeroPeptides(article: Article): string[] | null {
-  if (article.heroPeptides) return article.heroPeptides;
-  // For comparison or methodology articles, show 2-3 vials if related product list has them
+  if (article.heroPeptides) {
+    const filtered = article.heroPeptides.filter((s) => PEPTIDE_PHOTO_SLUGS.has(s));
+    return filtered.length >= 2 ? filtered : null;
+  }
   if (
     (article.category === "Comparison" || article.category === "Methodology") &&
-    article.relatedProductSlugs &&
-    article.relatedProductSlugs.length >= 2
+    article.relatedProductSlugs
   ) {
-    return article.relatedProductSlugs.slice(0, 3);
+    const filtered = article.relatedProductSlugs.filter((s) =>
+      PEPTIDE_PHOTO_SLUGS.has(s),
+    );
+    if (filtered.length >= 2) return filtered.slice(0, 3);
   }
   return null;
 }
@@ -245,6 +269,7 @@ export const articles: Article[] = [
     publishedAt: "2026-03-11",
     readMinutes: 9,
     relatedProductSlugs: ["semax", "selank", "viora-mood-balance-stack"],
+    heroPeptides: ["semax", "selank"],
     body: [
       {
         type: "p",
@@ -568,6 +593,7 @@ export const articles: Article[] = [
       "bpc-tb-500",
       "cjc-1295-ipamorelin",
     ],
+    heroImage: "/products/bpc-tb-500.webp",
     body: [
       {
         type: "p",
