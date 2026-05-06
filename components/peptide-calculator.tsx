@@ -58,6 +58,9 @@ export function PeptideCalculator() {
   const [doseUnit, setDoseUnit] = useState<"mcg" | "mg">("mcg");
   const [doseIsOther, setDoseIsOther] = useState(false);
 
+  // Active quick-pick (cleared when user manually changes any input)
+  const [activeQuickPick, setActiveQuickPick] = useState<string | null>(null);
+
   const result = useMemo(() => {
     if (vialMg <= 0 || waterMl <= 0 || doseMg <= 0) return null;
     const concentrationMgPerMl = vialMg / waterMl;
@@ -88,6 +91,14 @@ export function PeptideCalculator() {
     } else {
       setDoseOther("");
     }
+
+    // Auto-select smallest syringe that fits this preset's draw volume
+    const concentration = q.vialMg / q.waterMl;
+    const drawUnits = (q.doseMg / concentration) * 100;
+    const fittingSyringe = SYRINGES.find((s) => s.unitsMax >= drawUnits) ?? SYRINGES[SYRINGES.length - 1];
+    setSyringe(fittingSyringe);
+
+    setActiveQuickPick(q.label);
   }
 
   return (
@@ -107,15 +118,22 @@ export function PeptideCalculator() {
       {/* Quick picks — compact single row */}
       <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5">
         <span className="mr-1 text-xs text-foreground/55">Quick start:</span>
-        {QUICK_PICKS.map((q) => (
-          <button
-            key={q.label}
-            onClick={() => applyQuickPick(q)}
-            className="rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground/80 transition-colors hover:border-brand hover:bg-brand-soft hover:text-brand"
-          >
-            {q.label}
-          </button>
-        ))}
+        {QUICK_PICKS.map((q) => {
+          const active = activeQuickPick === q.label;
+          return (
+            <button
+              key={q.label}
+              onClick={() => applyQuickPick(q)}
+              className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                active
+                  ? "border-brand bg-brand font-semibold text-brand-foreground"
+                  : "border-border bg-background text-foreground/80 hover:border-brand hover:bg-brand-soft hover:text-brand"
+              }`}
+            >
+              {q.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Inputs — 2 column compact */}
@@ -131,7 +149,10 @@ export function PeptideCalculator() {
               return (
                 <button
                   key={s.label}
-                  onClick={() => setSyringe(s)}
+                  onClick={() => {
+                    setSyringe(s);
+                    setActiveQuickPick(null);
+                  }}
                   className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2 text-left transition-all ${
                     selected
                       ? "border-brand bg-brand-soft"
@@ -173,12 +194,14 @@ export function PeptideCalculator() {
               setVialMg(v);
               setVialIsOther(false);
               setVialOther("");
+              setActiveQuickPick(null);
             }}
             onOther={(text) => {
               setVialIsOther(true);
               setVialOther(text);
               const n = Number(text);
               if (!isNaN(n) && n > 0) setVialMg(n);
+              setActiveQuickPick(null);
             }}
             otherSuffix="mg"
             otherPlaceholder="Enter vial quantity (mg)"
@@ -195,12 +218,14 @@ export function PeptideCalculator() {
               setWaterMl(v);
               setWaterIsOther(false);
               setWaterOther("");
+              setActiveQuickPick(null);
             }}
             onOther={(text) => {
               setWaterIsOther(true);
               setWaterOther(text);
               const n = Number(text);
               if (!isNaN(n) && n > 0) setWaterMl(n);
+              setActiveQuickPick(null);
             }}
             otherSuffix="ml"
             otherPlaceholder="Enter water volume (ml)"
@@ -220,6 +245,7 @@ export function PeptideCalculator() {
                       setDoseMg(d.mg);
                       setDoseIsOther(false);
                       setDoseOther("");
+                      setActiveQuickPick(null);
                     }}
                     className={`rounded-full px-3 py-1.5 text-xs transition-colors ${
                       sel
@@ -239,6 +265,7 @@ export function PeptideCalculator() {
                     if (!isNaN(n) && n > 0)
                       setDoseMg(doseUnit === "mcg" ? n / 1000 : n);
                   }
+                  setActiveQuickPick(null);
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs transition-colors ${
                   doseIsOther
