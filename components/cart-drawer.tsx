@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/lib/cart-context";
@@ -86,11 +87,14 @@ export function CartDrawer() {
               <ul className="divide-y divide-border">
                 {items.map((it) => (
                   <li key={it.slug} className="flex gap-4 py-4">
-                    <div className="flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-muted">
-                      <svg viewBox="0 0 64 64" className="h-10 w-10" fill="none" aria-hidden>
-                        <path d="M22 8h20v6h-2v8h-3v36h-10V22h-3v-8h-2z" fill="#cbd5e1" />
-                        <rect x="22" y="22" width="20" height="14" fill="#007EFF" />
-                      </svg>
+                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-xl bg-muted/40">
+                      <Image
+                        src={`/products/${it.slug}.webp`}
+                        alt={it.name}
+                        fill
+                        sizes="64px"
+                        className="object-contain p-1"
+                      />
                     </div>
                     <div className="flex flex-1 flex-col">
                       <Link
