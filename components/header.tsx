@@ -32,10 +32,10 @@ export function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center">
           <span>{t("contact.help")}</span>
           <a
-            href="tel:+13109996246"
+            href="tel:+19549951406"
             className="font-semibold text-brand transition-opacity hover:opacity-80"
           >
-            +1 (310) 999-VIORA
+            +1 (954) 995-1406
           </a>
         </div>
       </div>
