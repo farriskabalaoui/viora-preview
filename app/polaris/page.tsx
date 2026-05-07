@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CoaVerifyForm } from "@/components/coa-verify-form";
+import { PolarisHeader } from "@/components/polaris-header";
 
 export const metadata = {
   title: "Polaris Analytical · Independent Peptide Testing & COA Verification",
@@ -29,36 +31,7 @@ const SERVICES = [
 export default function PolarisPage() {
   return (
     <div className="min-h-screen bg-[#fafbfc] text-[#1a2342]">
-      {/* Header */}
-      <header className="border-b border-[#e4e8ee] bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-          <Link href="/polaris" className="flex items-center gap-2">
-            <PolarisLogo />
-            <div className="flex flex-col leading-none">
-              <span className="text-base font-bold tracking-tight text-[#1a2342]">
-                POLARIS
-              </span>
-              <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.25em] text-[#5a6a7e]">
-                Analytical
-              </span>
-            </div>
-          </Link>
-          <nav className="hidden gap-7 sm:flex">
-            <a href="#services" className="text-sm text-[#1a2342]/75 hover:text-[#0a4d6f]">
-              Services
-            </a>
-            <a href="#methods" className="text-sm text-[#1a2342]/75 hover:text-[#0a4d6f]">
-              Methods
-            </a>
-            <a href="#verify" className="text-sm font-semibold text-[#0a4d6f]">
-              Verify a COA
-            </a>
-            <a href="#contact" className="text-sm text-[#1a2342]/75 hover:text-[#0a4d6f]">
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
+      <PolarisHeader />
 
       {/* Hero */}
       <section className="border-b border-[#e4e8ee] bg-white">
@@ -135,25 +108,10 @@ export default function PolarisPage() {
               Analytical COA. We'll surface the original analytical report.
             </p>
           </div>
-          <form className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <input
-              type="text"
-              placeholder="Batch number — e.g., POL-2649801"
-              className="flex-1 rounded-md border border-[#cdd5e0] bg-white px-4 py-3 text-sm outline-none focus:border-[#0a4d6f] focus:ring-1 focus:ring-[#0a4d6f]"
-            />
-            <button
-              type="submit"
-              className="rounded-md bg-[#0a4d6f] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            >
-              Verify
-            </button>
-          </form>
+          <CoaVerifyForm />
           <p className="mt-3 text-center text-xs text-[#5a6a7e]">
-            Don't have a batch number? Sample COAs available on the{" "}
-            <a href="#services" className="text-[#0a4d6f] hover:underline">
-              services page
-            </a>
-            .
+            Try a sample: <code className="rounded bg-white px-1.5 py-0.5 text-[#0a4d6f]">VHC-2649801</code>{" "}
+            or <code className="rounded bg-white px-1.5 py-0.5 text-[#0a4d6f]">VHC-1058642</code>.
           </p>
         </div>
       </section>

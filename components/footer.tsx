@@ -40,6 +40,7 @@ const cols = [
 export function Footer() {
   const pathname = usePathname();
   if (pathname?.startsWith("/growth")) return null;
+  if (pathname?.startsWith("/polaris")) return null;
 
   return (
     <footer className="mt-24 border-t border-border bg-muted/40">

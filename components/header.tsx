@@ -25,6 +25,7 @@ export function Header() {
   const pathname = usePathname();
   const { t } = useI18n();
   if (pathname?.startsWith("/growth")) return null;
+  if (pathname?.startsWith("/polaris")) return null;
 
   return (
     <>

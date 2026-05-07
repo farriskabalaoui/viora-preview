@@ -100,6 +100,7 @@ export function ChatWidget() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (pathname?.startsWith("/growth")) return;
+    if (pathname?.startsWith("/polaris")) return;
     if (open) return;
 
     let cancelled = false;
@@ -262,6 +263,7 @@ export function ChatWidget() {
   }
 
   if (pathname?.startsWith("/growth")) return null;
+  if (pathname?.startsWith("/polaris")) return null;
 
   return (
     <>
