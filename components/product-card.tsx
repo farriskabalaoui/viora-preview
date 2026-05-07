@@ -4,11 +4,18 @@ import Link from "next/link";
 import type { Product } from "@/lib/products";
 import { STACK_PEPTIDES, BLEND_PEPTIDES } from "@/lib/products";
 import { ProductPhoto } from "@/components/product-photo";
-import { stockStatusFor } from "@/lib/stock";
+import { stockStatusFor, type StockStatus } from "@/lib/stock";
 import { useI18n } from "@/lib/i18n-context";
 
-export function ProductCard({ product }: { product: Product }) {
-  const stock = stockStatusFor(product.slug);
+export function ProductCard({
+  product,
+  stock: stockOverride,
+}: {
+  product: Product;
+  /** Live stock from Ecwid (server-fetched). Falls back to local stub when omitted. */
+  stock?: StockStatus;
+}) {
+  const stock = stockOverride ?? stockStatusFor(product.slug);
   const { t } = useI18n();
 
   const peptides =

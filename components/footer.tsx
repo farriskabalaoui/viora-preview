@@ -106,7 +106,9 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm">
               <li>
                 <a
-                  href="https://instagram.com/viorahealthcare"
+                  href="https://www.instagram.com/viorahealthcare/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted-foreground transition-colors hover:text-brand"
                 >
                   Instagram
@@ -114,7 +116,9 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://tiktok.com/@viorahealthcare"
+                  href="https://www.tiktok.com/@viorahealthcare"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted-foreground transition-colors hover:text-brand"
                 >
                   TikTok
@@ -122,10 +126,28 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://facebook.com/viorahealthcare"
+                  href="https://www.facebook.com/fakeonepage"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted-foreground transition-colors hover:text-brand"
                 >
                   Facebook
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:hello@viorahealthcare.com"
+                  className="text-muted-foreground transition-colors hover:text-brand"
+                >
+                  hello@viorahealthcare.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+19549951406"
+                  className="text-muted-foreground transition-colors hover:text-brand"
+                >
+                  +1 (954) 995-1406
                 </a>
               </li>
             </ul>

@@ -5,6 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 
+function toE164(raw: string) {
+  const digits = raw.replace(/\D/g, "");
+  if (raw.trim().startsWith("+")) return "+" + digits;
+  if (digits.length === 10) return "+1" + digits;
+  if (digits.length === 11 && digits.startsWith("1")) return "+" + digits;
+  return "+" + digits;
+}
+
 function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,8 +58,9 @@ function SignupForm() {
         return;
       }
 
-      // TODO Phase 2: trigger Twilio SMS verification step before granting access
-      router.push(`/verify?returnTo=${encodeURIComponent(returnTo)}`);
+      router.push(
+        `/verify?returnTo=${encodeURIComponent(returnTo)}&phone=${encodeURIComponent(toE164(phone))}`,
+      );
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Signup failed";
       // If Supabase env not configured, show friendly message

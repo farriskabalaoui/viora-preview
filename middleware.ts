@@ -23,6 +23,24 @@ const PROTECTED_PREFIXES = [
 ];
 
 export async function middleware(req: NextRequest) {
+  // Multi-tenant: polarisanalytical.com is hosted on the same Vercel project
+  // and rewrites to /polaris/* so the Polaris site stays a subtree of the
+  // viora-preview build. Skip the auth middleware for that hostname entirely.
+  const host = (req.headers.get("host") ?? "").toLowerCase();
+  const isPolaris =
+    host === (process.env.POLARIS_HOSTNAME ?? "polarisanalytical.com") ||
+    host === `www.${process.env.POLARIS_HOSTNAME ?? "polarisanalytical.com"}`;
+
+  if (isPolaris) {
+    const path = req.nextUrl.pathname;
+    if (!path.startsWith("/polaris")) {
+      const rewriteUrl = req.nextUrl.clone();
+      rewriteUrl.pathname = `/polaris${path === "/" ? "" : path}`;
+      return NextResponse.rewrite(rewriteUrl);
+    }
+    return NextResponse.next();
+  }
+
   let res = NextResponse.next({ request: req });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

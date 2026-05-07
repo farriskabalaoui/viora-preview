@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { products, categories } from "@/lib/products";
+import { getStockMap } from "@/lib/ecwid-sync";
+import { stockStatusFor, type StockStatus } from "@/lib/stock";
 
 type Props = {
   searchParams: Promise<{ category?: string; tag?: string }>;
 };
+
+// Re-pull Ecwid stock at most once per minute on the edge.
+export const revalidate = 60;
 
 export default async function ProductsPage({ searchParams }: Props) {
   const sp = await searchParams;
@@ -17,6 +22,24 @@ export default async function ProductsPage({ searchParams }: Props) {
   }
   if (activeTag) {
     filtered = filtered.filter((p) => p.tags.includes(activeTag));
+  }
+
+  // Live stock overlay from Ecwid. If Ecwid is misconfigured/down, this
+  // returns an empty map and each card falls back to its local stub.
+  const ecwidStock = await getStockMap(
+    products.map((p) => ({ slug: p.slug, name: p.name })),
+  );
+  const stockBySlug = new Map<string, StockStatus>();
+  for (const p of products) {
+    const live = ecwidStock.get(p.slug);
+    if (!live) {
+      stockBySlug.set(p.slug, stockStatusFor(p.slug));
+      continue;
+    }
+    if (!live.inStock) stockBySlug.set(p.slug, "out_of_stock");
+    else if (live.quantity !== null && live.quantity <= 5)
+      stockBySlug.set(p.slug, "low_stock");
+    else stockBySlug.set(p.slug, "in_stock");
   }
 
   const tagsInCatalog = Array.from(new Set(products.flatMap((p) => p.tags)));
@@ -71,7 +94,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
       <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((p) => (
-          <ProductCard key={p.slug} product={p} />
+          <ProductCard key={p.slug} product={p} stock={stockBySlug.get(p.slug)} />
         ))}
       </div>
 
