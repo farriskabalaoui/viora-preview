@@ -1,15 +1,26 @@
-import Link from "next/link";
 import { CoaVerifyForm } from "@/components/coa-verify-form";
 import { PolarisHeader } from "@/components/polaris-header";
-import { PolarisLogo } from "@/components/polaris-logo";
+
+const POLARIS_TITLE = "Polaris Analytical · Independent Peptide Testing & COA Verification";
+const POLARIS_DESC =
+  "Polaris Analytical provides third-party HPLC and mass spectrometry testing for research peptides. Verify any Polaris-issued COA by batch number.";
 
 export const metadata = {
-  title: {
-    absolute: "Polaris Analytical · Independent Peptide Testing & COA Verification",
-  },
-  description:
-    "Polaris Analytical provides third-party HPLC and mass spectrometry testing for research peptides. Verify any Polaris-issued COA by batch number.",
+  title: { absolute: POLARIS_TITLE },
+  description: POLARIS_DESC,
   robots: { index: false, follow: false }, // not yet public
+  // Override Viora favicons inherited from app/icon.png + app/apple-icon.png
+  // so polarisanalytical.com shows its own compass-rose mark.
+  icons: {
+    icon: [
+      { url: "/polaris-favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/polaris-icon.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/polaris-apple-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/polaris-favicon-32.png",
+  },
+  openGraph: { title: POLARIS_TITLE, description: POLARIS_DESC, type: "website" as const },
+  twitter: { card: "summary" as const, title: POLARIS_TITLE, description: POLARIS_DESC },
 };
 
 const SERVICES = [
@@ -108,7 +119,7 @@ export default function PolarisPage() {
             </h2>
             <p className="mt-3 text-sm text-[#1a2342]/70">
               Enter the batch / lot number from the bottom of any Polaris
-              Analytical COA. We'll surface the original analytical report.
+              Analytical COA. We&apos;ll surface the original analytical report.
             </p>
           </div>
           <CoaVerifyForm />
