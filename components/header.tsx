@@ -69,7 +69,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <LangToggle className="hidden sm:inline-flex" />
             <Link
-              href="/contact"
+              href="/login"
               className="hidden text-sm text-foreground/75 transition-colors hover:text-brand lg:inline-block"
             >
               {t("nav.signin")}
@@ -120,7 +120,7 @@ export function Header() {
               <div className="flex items-center gap-2 py-4">
                 <LangToggle />
                 <Link
-                  href="/contact"
+                  href="/login"
                   onClick={() => setOpen(false)}
                   className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-medium text-foreground hover:border-brand hover:text-brand"
                 >
