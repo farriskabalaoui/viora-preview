@@ -119,7 +119,7 @@ function FilterChip({
   return (
     <Link
       href={href}
-      className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors ${
+      className={`inline-flex items-center rounded-full border px-3.5 py-2 text-xs font-medium transition-colors ${
         active
           ? "border-brand bg-brand text-brand-foreground"
           : "border-border bg-background text-muted-foreground hover:border-brand/50 hover:text-brand"

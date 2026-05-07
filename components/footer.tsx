@@ -91,7 +91,7 @@ export function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-muted-foreground transition-colors hover:text-brand"
+                      className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                     >
                       {l.label}
                     </Link>
@@ -110,7 +110,7 @@ export function Footer() {
                   href="https://www.instagram.com/viorahealthcare/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                 >
                   Instagram
                 </a>
@@ -120,7 +120,7 @@ export function Footer() {
                   href="https://www.tiktok.com/@viorahealthcare"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                 >
                   TikTok
                 </a>
@@ -130,7 +130,7 @@ export function Footer() {
                   href="https://www.facebook.com/fakeonepage"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                 >
                   Facebook
                 </a>
@@ -138,7 +138,7 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:hello@viorahealthcare.com"
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                 >
                   hello@viorahealthcare.com
                 </a>
@@ -146,7 +146,7 @@ export function Footer() {
               <li>
                 <a
                   href="tel:+19549951406"
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
                 >
                   +1 (954) 995-1406
                 </a>
