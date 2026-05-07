@@ -12,6 +12,7 @@ function Verify() {
 
   const [code, setCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resending, setResending] = useState(false);
   const [resentAt, setResentAt] = useState<number | null>(null);
@@ -45,7 +46,10 @@ function Verify() {
         setSubmitting(false);
         return;
       }
-      router.push(returnTo);
+      setSuccess(true);
+      setSubmitting(false);
+      // Brief pause so the user sees the success state before bouncing
+      setTimeout(() => router.push(returnTo), 1200);
     } catch {
       setError("Network error. Try again.");
       setSubmitting(false);
@@ -109,22 +113,36 @@ function Verify() {
   return (
     <div className="mx-auto flex min-h-[calc(100vh-300px)] max-w-md flex-col justify-center px-4 py-12 sm:px-6">
       <div className="text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-soft text-brand">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 4h4l2 5-3 2a11 11 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
-          </svg>
+        <div
+          className={`mx-auto flex h-14 w-14 items-center justify-center rounded-full transition-colors ${
+            success ? "bg-emerald-100 text-emerald-700" : "bg-brand-soft text-brand"
+          }`}
+        >
+          {success ? (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          ) : (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 4h4l2 5-3 2a11 11 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+            </svg>
+          )}
         </div>
         <h1 className="mt-6 font-display text-3xl font-bold tracking-tight text-foreground">
-          Verify your phone
+          {success ? "You're verified" : "Verify your phone"}
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          We texted a 6-digit code to <span className="font-mono">{masked}</span>.
+          {success ? (
+            <>Phone confirmed. Redirecting you now…</>
+          ) : (
+            <>We texted a 6-digit code to <span className="font-mono">{masked}</span>.</>
+          )}
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="mt-8 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8"
+        className={`mt-8 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8 ${success ? "pointer-events-none opacity-50" : ""}`}
       >
         <input
           type="text"
