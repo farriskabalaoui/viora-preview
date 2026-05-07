@@ -1,10 +1,26 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getSupabaseServer } from "@/lib/supabase/server";
 
 export const metadata = { title: "Your Account" };
 
-export default function AccountPage() {
-  // Phase 2: pull real user from Supabase + render real orders / COA history.
-  // For now: skeleton with the right structure so the redirect target works.
+export default async function AccountPage() {
+  const supabase = await getSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/signup?returnTo=/account");
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, phone, phone_verified_at, consent_version")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const greetingName =
+    profile?.full_name?.split(" ")[0] ||
+    user.email?.split("@")[0] ||
+    "Researcher";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
@@ -13,8 +29,9 @@ export default function AccountPage() {
           Researcher Portal
         </div>
         <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Your Account
+          Welcome, {greetingName}
         </h1>
+        <p className="mt-1 text-sm text-muted-foreground">{user.email}</p>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -55,7 +72,6 @@ export default function AccountPage() {
         />
       </div>
 
-      {/* Loyalty + recent orders skeleton */}
       <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 rounded-2xl border border-border bg-background p-6">
           <h2 className="font-display text-xl font-bold text-foreground">
@@ -83,6 +99,19 @@ export default function AccountPage() {
           </p>
         </div>
       </div>
+
+      {!profile?.phone_verified_at && (
+        <div className="mt-8 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Your phone isn't verified yet.{" "}
+          <Link
+            href={`/verify?phone=${encodeURIComponent(profile?.phone ?? "")}&returnTo=/account`}
+            className="font-semibold underline"
+          >
+            Verify now
+          </Link>{" "}
+          so we can SMS shipping updates.
+        </div>
+      )}
     </div>
   );
 }

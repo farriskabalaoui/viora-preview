@@ -5,7 +5,13 @@ const POLARIS_TITLE = "Polaris Analytical · Independent Peptide Testing & COA V
 const POLARIS_DESC =
   "Polaris Analytical provides third-party HPLC and mass spectrometry testing for research peptides. Verify any Polaris-issued COA by batch number.";
 
+// metadataBase override so og:image + og:url resolve under polarisanalytical.com
+// when this page is shared, instead of inheriting the Viora base from the root layout.
+const POLARIS_BASE = new URL("https://polarisanalytical.com");
+const POLARIS_OG_IMAGE = "/polaris-og.png";
+
 export const metadata = {
+  metadataBase: POLARIS_BASE,
   title: { absolute: POLARIS_TITLE },
   description: POLARIS_DESC,
   robots: { index: false, follow: false }, // not yet public
@@ -19,8 +25,22 @@ export const metadata = {
     apple: [{ url: "/polaris-apple-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/polaris-favicon-32.png",
   },
-  openGraph: { title: POLARIS_TITLE, description: POLARIS_DESC, type: "website" as const },
-  twitter: { card: "summary" as const, title: POLARIS_TITLE, description: POLARIS_DESC },
+  openGraph: {
+    title: POLARIS_TITLE,
+    description: POLARIS_DESC,
+    type: "website" as const,
+    url: "/",
+    siteName: "Polaris Analytical",
+    images: [
+      { url: POLARIS_OG_IMAGE, width: 1200, height: 630, alt: "Polaris Analytical" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: POLARIS_TITLE,
+    description: POLARIS_DESC,
+    images: [POLARIS_OG_IMAGE],
+  },
 };
 
 const SERVICES = [
