@@ -9,9 +9,11 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { batch } = await params;
   const coa = getCoa(batch);
-  if (!coa) return { title: "COA not found · Polaris Analytical" };
+  if (!coa) return { title: { absolute: "COA not found · Polaris Analytical" } };
   return {
-    title: `${coa.compound} batch ${coa.batch} · COA · Polaris Analytical`,
+    title: {
+      absolute: `${coa.compound} batch ${coa.batch} · COA · Polaris Analytical`,
+    },
     description: `Independent third-party Certificate of Analysis for ${coa.compound} batch ${coa.batch} — ${coa.purityResult} purity by UPLC/MS.`,
     robots: { index: false, follow: false },
   };

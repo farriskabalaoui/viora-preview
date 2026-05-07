@@ -3,7 +3,9 @@ import { CoaVerifyForm } from "@/components/coa-verify-form";
 import { PolarisHeader } from "@/components/polaris-header";
 
 export const metadata = {
-  title: "Polaris Analytical · Independent Peptide Testing & COA Verification",
+  title: {
+    absolute: "Polaris Analytical · Independent Peptide Testing & COA Verification",
+  },
   description:
     "Polaris Analytical provides third-party HPLC and mass spectrometry testing for research peptides. Verify any Polaris-issued COA by batch number.",
   robots: { index: false, follow: false }, // not yet public
