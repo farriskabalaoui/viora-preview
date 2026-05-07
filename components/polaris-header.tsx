@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { PolarisLogo } from "@/components/polaris-logo";
 
 const NAV = [
   { href: "#services", label: "Services" },
@@ -105,12 +106,3 @@ export function PolarisHeader() {
   );
 }
 
-function PolarisLogo() {
-  return (
-    <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" aria-hidden>
-      <circle cx="32" cy="32" r="28" stroke="#0a4d6f" strokeWidth="3" fill="white" />
-      <path d="M32 14 L34 30 L48 32 L34 34 L32 50 L30 34 L16 32 L30 30 Z" fill="#0a4d6f" />
-      <circle cx="32" cy="32" r="3" fill="white" />
-    </svg>
-  );
-}

@@ -222,10 +222,10 @@ export default async function ResearchPage({ searchParams }: Props) {
           </p>
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { name: "Tesamorelin", file: "/coas/Tesamorelin-purity.pdf", batch: "VHC-2649801" },
-              { name: "MOTS-c", file: "/coas/MOTS-c-purity.pdf", batch: "VHC-7934158" },
-              { name: "GHK-Cu", file: "/coas/GHK-Cu-purity.pdf", batch: "VHC-6183274" },
-              { name: "Retatrutide", file: "/coas/Retatrutide-purity.pdf", batch: "VHC-1058642" },
+              { name: "Tesamorelin", file: "/coas/polaris/VHC-2649801.pdf", batch: "VHC-2649801" },
+              { name: "MOTS-c", file: "/coas/polaris/VHC-7934158.pdf", batch: "VHC-7934158" },
+              { name: "GHK-Cu", file: "/coas/polaris/VHC-6183274.pdf", batch: "VHC-6183274" },
+              { name: "Retatrutide", file: "/coas/polaris/VHC-1058642.pdf", batch: "VHC-1058642" },
             ].map((coa) => (
               <a
                 key={coa.name}

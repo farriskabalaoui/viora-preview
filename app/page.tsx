@@ -162,10 +162,10 @@ export default function Home() {
             </p>
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {[
-                { name: "Tesamorelin", file: "/coas/Tesamorelin-purity.pdf" },
-                { name: "MOTS-C", file: "/coas/MOTS-c-purity.pdf" },
-                { name: "GHK-Cu", file: "/coas/GHK-Cu-purity.pdf" },
-                { name: "Retatrutide", file: "/coas/Retatrutide-purity.pdf" },
+                { name: "Tesamorelin", file: "/coas/polaris/VHC-2649801.pdf" },
+                { name: "MOTS-C", file: "/coas/polaris/VHC-7934158.pdf" },
+                { name: "GHK-Cu", file: "/coas/polaris/VHC-6183274.pdf" },
+                { name: "Retatrutide", file: "/coas/polaris/VHC-1058642.pdf" },
               ].map((coa) => (
                 <a
                   key={coa.name}

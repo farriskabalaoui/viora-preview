@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lato, Raleway } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -37,11 +38,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Multi-tenant: when served via the polarisanalytical.com host, the
+  // middleware rewrites paths into /polaris but `usePathname()` on the
+  // client still reports the URL bar (e.g. "/"). Inspecting the host
+  // header server-side is the only reliable way to suppress Viora chrome
+  // for the Polaris brand.
+  const host = (await headers()).get("host")?.toLowerCase() ?? "";
+  const polarisHost =
+    process.env.POLARIS_HOSTNAME ?? "polarisanalytical.com";
+  const isPolarisHost = host === polarisHost || host === `www.${polarisHost}`;
+
   return (
     <html
       lang="en"
@@ -50,11 +61,11 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground antialiased">
         <I18nProvider>
           <CartProvider>
-            <Header />
+            {!isPolarisHost && <Header />}
             <main className="flex-1">{children}</main>
-            <Footer />
-            <ChatWidget />
-            <CartDrawer />
+            {!isPolarisHost && <Footer />}
+            {!isPolarisHost && <ChatWidget />}
+            {!isPolarisHost && <CartDrawer />}
           </CartProvider>
         </I18nProvider>
       </body>

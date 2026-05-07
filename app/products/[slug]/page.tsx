@@ -38,10 +38,10 @@ export default async function ProductPage({ params }: Props) {
     .slice(0, 3);
 
   const coaMap: Record<string, string> = {
-    tesamorelin: "/coas/Tesamorelin-purity.pdf",
-    "mots-c": "/coas/MOTS-c-purity.pdf",
-    "ghk-cu": "/coas/GHK-Cu-purity.pdf",
-    "glp-3-reta": "/coas/Retatrutide-purity.pdf",
+    tesamorelin: "/coas/polaris/VHC-2649801.pdf",
+    "mots-c": "/coas/polaris/VHC-7934158.pdf",
+    "ghk-cu": "/coas/polaris/VHC-6183274.pdf",
+    "glp-3-reta": "/coas/polaris/VHC-1058642.pdf",
   };
   const coaFile = coaMap[product.slug];
 

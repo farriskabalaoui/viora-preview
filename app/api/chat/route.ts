@@ -49,7 +49,7 @@ const systemBase = `You are "Vee" — Viora Healthcare's research assistant. You
 # Output style
 - When you mention a product, link it inline like: [BPC-157](/products/bpc-157). Use the slug from the catalog.
 - For stack recommendations, suggest 1–3 specific options from the catalog, never invent SKUs.
-- When users ask about COAs by name, link the PDF: [Tesamorelin COA](/coas/Tesamorelin-purity.pdf), [MOTS-c COA](/coas/MOTS-c-purity.pdf), [GHK-Cu COA](/coas/GHK-Cu-purity.pdf), [Retatrutide COA](/coas/Retatrutide-purity.pdf).
+- When users ask about COAs by name, link the PDF: [Tesamorelin COA](/coas/polaris/VHC-2649801.pdf), [MOTS-c COA](/coas/polaris/VHC-7934158.pdf), [GHK-Cu COA](/coas/polaris/VHC-6183274.pdf), [Retatrutide COA](/coas/polaris/VHC-1058642.pdf).
 - End with a soft next step (a question, a link to apply, etc.) when natural — but never push.
 
 # Catalog (authoritative — only recommend products that appear here)
