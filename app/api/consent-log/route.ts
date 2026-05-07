@@ -1,34 +1,72 @@
 import { NextResponse } from "next/server";
+import { getSupabaseServer } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
 /**
  * Logs a consent click for compliance audit.
- * - Captures IP, user agent, timestamp, consent version, stage (signup|checkout)
- * - When Supabase is wired: writes to consent_log table linked to user
- * - For now: console-logs (replaceable in 30 sec once Supabase is live)
+ * Stages we record: "first_visit" (research-gate modal), "signup",
+ * "checkout", "reorder". user_id is null for first_visit (pre-auth).
+ * Writes to public.consent_log when Supabase is configured; falls back
+ * to console.log otherwise so dev still works without env.
  */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const headers = req.headers;
+    const h = req.headers;
 
-    const record = {
-      ts: body.ts ?? new Date().toISOString(),
-      stage: body.stage ?? "unknown",
-      consent_version: body.consent_version ?? "v1.0",
-      ip:
-        headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-        headers.get("x-real-ip") ??
-        "unknown",
-      user_agent: headers.get("user-agent") ?? "unknown",
-      referer: headers.get("referer") ?? "unknown",
-    };
+    const ip =
+      h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      h.get("x-real-ip") ??
+      null;
+    const user_agent = h.get("user-agent") ?? null;
+    const referer = h.get("referer") ?? null;
+    const stage = String(body.stage ?? "unknown");
+    const consent_version = String(body.consent_version ?? "v1.0");
 
-    // TODO: when Supabase is wired, persist to consent_log table:
-    //   const supabase = await getSupabaseServer();
-    //   await supabase.from("consent_log").insert(record);
-    console.log("[consent-log]", record);
+    let user_id: string | null = null;
+    let supabaseConfigured = false;
+    try {
+      const supabase = await getSupabaseServer();
+      supabaseConfigured = true;
+      const { data } = await supabase.auth.getUser();
+      user_id = data.user?.id ?? null;
+
+      const payload = {
+        age_confirmed: Boolean(body.age_confirmed),
+        research_use_acknowledged: Boolean(body.research_use_acknowledged),
+        ...body,
+      };
+      delete (payload as Record<string, unknown>).stage;
+      delete (payload as Record<string, unknown>).consent_version;
+
+      const { error } = await supabase.from("consent_log").insert({
+        user_id,
+        stage,
+        consent_version,
+        ip_address: ip,
+        user_agent,
+        referer,
+        payload,
+      });
+      if (error) throw error;
+    } catch (err) {
+      // Supabase missing or insert failed — degrade to console log so
+      // dev environments without env vars still work.
+      if (!supabaseConfigured) {
+        console.log("[consent-log fallback]", {
+          stage,
+          consent_version,
+          ip,
+          user_agent,
+          referer,
+          ...body,
+        });
+      } else {
+        console.error("[consent-log] supabase insert failed", err);
+        return NextResponse.json({ ok: false }, { status: 500 });
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

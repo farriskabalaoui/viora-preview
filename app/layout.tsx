@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ChatWidget } from "@/components/chat-widget";
 import { CartDrawer } from "@/components/cart-drawer";
+import { ResearchGate } from "@/components/research-gate";
 import { CartProvider } from "@/lib/cart-context";
 import { I18nProvider } from "@/lib/i18n-context";
 
@@ -66,6 +67,7 @@ export default async function RootLayout({
             {!isPolarisHost && <Footer />}
             {!isPolarisHost && <ChatWidget />}
             {!isPolarisHost && <CartDrawer />}
+            {!isPolarisHost && <ResearchGate />}
           </CartProvider>
         </I18nProvider>
       </body>
