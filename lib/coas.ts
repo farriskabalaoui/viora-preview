@@ -36,8 +36,8 @@ export const POLARIS_LAB = {
   contactEmail: "contact@polarisanalytical.com",
   hostname: "polarisanalytical.com",
   signatory: {
-    name: "Dr. M. Reyes",
-    title: "Lead Analytical Chemist",
+    name: "Aleksey Yevtodiyenko PhD",
+    title: "Research and Formulation Chemist",
   },
 };
 
