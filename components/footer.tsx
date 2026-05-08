@@ -117,7 +117,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.tiktok.com/@viorahealthcare"
+                  href="https://www.tiktok.com/@viora.health"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
