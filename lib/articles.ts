@@ -234,7 +234,7 @@ export const articles: Article[] = [
       {
         type: "callout",
         variant: "warn",
-        text: "BPC-157 is intended strictly for in-vitro research and laboratory purposes only. It is not approved for human consumption, diagnostic, or therapeutic use. All experiments should be conducted by qualified professionals in appropriate research settings.",
+        text: "BPC-157 is intended strictly for laboratory research purposes only. It is not approved for human consumption, diagnostic, or therapeutic use. All experiments should be conducted by qualified professionals in appropriate research settings.",
       },
       { type: "h2", text: "Conclusion" },
       {
@@ -534,7 +534,7 @@ export const articles: Article[] = [
       {
         type: "callout",
         variant: "info",
-        text: "All reconstitution practices in this guide are for in-vitro research preparation only. They do not constitute medical or clinical instructions.",
+        text: "All reconstitution practices in this guide are for laboratory research preparation only. They do not constitute medical or clinical instructions.",
       },
     ],
   },
@@ -641,7 +641,7 @@ export const articles: Article[] = [
       {
         type: "callout",
         variant: "warn",
-        text: "GHK-Cu is intended strictly for in-vitro research and laboratory purposes only. Not approved for human consumption, diagnostic, or therapeutic use.",
+        text: "GHK-Cu is intended strictly for laboratory research purposes only. Not approved for human consumption, diagnostic, or therapeutic use.",
       },
     ],
     references: [
@@ -771,6 +771,18 @@ export const articles: Article[] = [
     ],
   },
 ];
+
+// Inject per-SKU research profiles derived from lib/product-research.ts so
+// every product in the catalog has a corresponding library article. Marvin
+// asked for this in the 2026-05-12 call: each SKU we sell should have a
+// research doc visible in the library.
+import { products } from "./products";
+import { productResearchToArticle } from "./product-research";
+
+for (const p of products) {
+  const a = productResearchToArticle(p.slug, p.name);
+  if (a) articles.push(a);
+}
 
 export function getArticle(slug: string) {
   return articles.find((a) => a.slug === slug);

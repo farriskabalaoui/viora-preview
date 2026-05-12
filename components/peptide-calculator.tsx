@@ -362,7 +362,7 @@ export function PeptideCalculator() {
 
       <p className="mt-5 text-center text-[11px] leading-relaxed text-foreground/55">
         For research use only. Calculator is a research math tool, not medical
-        guidance. All compounds for in-vitro research only.
+        guidance. All compounds for laboratory research only.
       </p>
     </div>
   );

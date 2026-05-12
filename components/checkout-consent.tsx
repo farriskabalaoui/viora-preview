@@ -56,7 +56,7 @@ export function CheckoutConsent({
         />
         <div className="text-sm leading-relaxed text-foreground">
           <strong className="font-semibold">I consent to this order.</strong>{" "}
-          I confirm this purchase is for in-vitro research use only, that I am
+          I confirm this purchase is for laboratory research use only, that I am
           21+, and that I accept the{" "}
           <Link
             href="/consent"

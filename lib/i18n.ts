@@ -12,9 +12,9 @@ export const dict = {
   en: {
     "banner.taglineRes": "Now accepting research applications",
     "banner.shipDate": "Orders ship June 1, 2026",
-    "nav.research_compounds": "Research Compounds",
+    "nav.research_compounds": "Products",
     "nav.stacks": "Stacks",
-    "nav.research_library": "Research Library",
+    "nav.research_library": "Research",
     "nav.about": "About",
     "nav.affiliate": "Affiliate",
     "nav.contact": "Contact",
@@ -79,7 +79,7 @@ export const dict = {
     "feature.purity": "≥99% HPLC Verified",
     "ruo.label": "Research Use Only:",
     "ruo.body":
-      "All products listed on this site are for in-vitro research only · Not for human consumption · Researchers must be 21+",
+      "All products are for laboratory research only · Not for human or animal use · Researchers must be 21+",
     "contact.help": "Need help? Text us, a team member replies in minutes",
     "hero.coa_label": "Latest COA",
     "vee.teaser_title": "Hi, I'm Vee",
@@ -91,9 +91,9 @@ export const dict = {
   es: {
     "banner.taglineRes": "Aceptando solicitudes de investigación",
     "banner.shipDate": "Pedidos envíos a partir del 1 de junio, 2026",
-    "nav.research_compounds": "Compuestos",
+    "nav.research_compounds": "Productos",
     "nav.stacks": "Stacks",
-    "nav.research_library": "Biblioteca",
+    "nav.research_library": "Investigación",
     "nav.about": "Nosotros",
     "nav.affiliate": "Afiliados",
     "nav.contact": "Contacto",
@@ -158,7 +158,7 @@ export const dict = {
     "feature.purity": "Verificado HPLC ≥99%",
     "ruo.label": "Solo para uso de investigación:",
     "ruo.body":
-      "Todos los productos en este sitio son únicamente para investigación in-vitro · No para consumo humano · Los investigadores deben ser mayores de 21",
+      "Todos los productos son únicamente para investigación de laboratorio · No para uso humano o animal · Los investigadores deben ser mayores de 21",
     "contact.help":
       "¿Necesitas ayuda? Envíanos un mensaje y un miembro del equipo responderá en minutos",
     "hero.coa_label": "Último COA",

@@ -22,9 +22,9 @@ export function AuthWall({ returnTo }: { returnTo?: string }) {
         Portal Access Required
       </h1>
       <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-        Viora products are sold strictly for in-vitro research use to verified
-        researchers and clinicians. Apply for portal access — approval typically
-        within one business day.
+        Viora products are sold strictly for laboratory research use to verified
+        researchers and clinicians. Sign in or create an account — approval is
+        typically within one business day.
       </p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Link

@@ -130,9 +130,9 @@ export default async function ArticlePage({ params }: Props) {
         {/* Compliance */}
         <div className="mt-10 rounded-xl border border-border bg-brand-soft p-4 text-xs leading-relaxed text-foreground/85">
           <strong>For research use only.</strong> All compounds referenced in this
-          article are intended strictly for in-vitro research and laboratory
-          experimentation. Not for human consumption, diagnostic, or therapeutic
-          use.
+          article are intended strictly for laboratory research and
+          experimentation. Not for human or animal consumption, diagnostic, or
+          therapeutic use.
         </div>
       </article>
 

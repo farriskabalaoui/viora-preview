@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
 
 export const metadata = { title: "Frequently Asked Questions" };
 
@@ -8,7 +9,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     a: (
       <>
         Research peptides are synthetic chains of amino acids used by scientists
-        and clinicians for in-vitro experimentation, biological pathway studies,
+        and clinicians for laboratory experimentation, biological pathway studies,
         and analytical research. Viora supplies high-purity research-grade peptides
         manufactured and tested in accredited facilities.
       </>
@@ -18,9 +19,10 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     q: "Are these peptides for human use?",
     a: (
       <>
-        <strong>No.</strong> Every Viora compound is sold strictly for in-vitro
-        research use only. They are not for human consumption, diagnostic, or
-        therapeutic application. Statements have not been evaluated by the FDA.
+        <strong>No.</strong> Every Viora compound is sold strictly for laboratory
+        research use only. They are not for human or animal consumption,
+        diagnostic, or therapeutic application. Statements have not been
+        evaluated by the FDA.
         See our full{" "}
         <Link href="/consent" className="font-medium text-brand hover:underline">
           Research Use Consent
@@ -193,8 +195,8 @@ export default function FAQPage() {
               research@viorahealthcare.com
             </a>{" "}
             or text{" "}
-            <a href="tel:+19549951406" className="font-medium text-brand hover:underline">
-              +1 (954) 995-1406
+            <a href={VIORA_PHONE_HREF} className="font-medium text-brand hover:underline">
+              {VIORA_PHONE_DISPLAY}
             </a>
             .
           </p>
@@ -254,10 +256,10 @@ export default function FAQPage() {
               Contact us
             </Link>
             <a
-              href="tel:+19549951406"
+              href={VIORA_PHONE_HREF}
               className="inline-flex items-center justify-center rounded-full border border-brand-foreground/30 px-6 py-3 text-sm font-semibold text-brand-foreground transition-colors hover:bg-white/10"
             >
-              Call +1 (954) 995-1406
+              Call {VIORA_PHONE_DISPLAY}
             </a>
           </div>
         </div>

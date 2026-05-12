@@ -1,3 +1,5 @@
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
+
 export const metadata = {
   title: "Shipping Policy",
   description: "How and where Viora Healthcare ships research compounds.",
@@ -93,7 +95,7 @@ export default function ShippingPage() {
       <h2>9. Questions</h2>
       <p>
         Email <a href="mailto:hello@viorahealthcare.com">hello@viorahealthcare.com</a> or
-        text <a href="tel:+19549951406">+1 (954) 995-1406</a>.
+        text <a href={VIORA_PHONE_HREF}>{VIORA_PHONE_DISPLAY}</a>.
       </p>
     </>
   );

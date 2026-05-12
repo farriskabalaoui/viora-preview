@@ -9,14 +9,15 @@ import { LangToggle } from "@/components/lang-toggle";
 import { CartButton } from "@/components/cart-button";
 import { FeatureBar } from "@/components/feature-bar";
 import type { DictKey } from "@/lib/i18n";
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
 
+// Simplified per Marvin's direction (2026-05-12): cut Stacks, FAQ, Affiliate
+// from the top bar — they live in the footer / are accessible from filters
+// on /products. Keep the top nav to 4 high-intent destinations.
 const nav: { href: string; key: DictKey }[] = [
   { href: "/products", key: "nav.research_compounds" },
-  { href: "/products?category=Stack", key: "nav.stacks" },
   { href: "/research", key: "nav.research_library" },
-  { href: "/faq", key: "nav.faq" },
   { href: "/about", key: "nav.about" },
-  { href: "/affiliate", key: "nav.affiliate" },
   { href: "/contact", key: "nav.contact" },
 ];
 
@@ -34,10 +35,10 @@ export function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center">
           <span>{t("contact.help")}</span>
           <a
-            href="tel:+19549951406"
+            href={VIORA_PHONE_HREF}
             className="font-semibold text-brand transition-opacity hover:opacity-80"
           >
-            +1 (954) 995-1406
+            {VIORA_PHONE_DISPLAY}
           </a>
         </div>
       </div>

@@ -94,7 +94,7 @@ export function ResearchGate() {
             Before you enter
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Viora supplies research compounds for in-vitro laboratory use only.
+            Viora supplies research compounds for laboratory laboratory use only.
             Please confirm the following before continuing.
           </p>
         </div>
@@ -120,7 +120,7 @@ export function ResearchGate() {
             />
             <span>
               I acknowledge that all products are for{" "}
-              <strong>in-vitro research use only</strong> — not for human
+              <strong>laboratory research use only</strong> — not for human
               consumption, diagnostic, or therapeutic use. Statements have not
               been evaluated by the FDA.
             </span>

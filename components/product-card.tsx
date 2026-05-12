@@ -26,8 +26,7 @@ export function ProductCard({
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group relative flex h-[520px] flex-col overflow-hidden rounded-2xl border border-border bg-[#f4f6f8] transition-all hover:-translate-y-1 hover:border-[#cbd5e1] hover:shadow-[0_20px_40px_-12px_rgba(31,38,71,0.18)]"
-      style={{ backgroundColor: "#f4f6f8" }}
+      className="group relative flex h-[520px] flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-[#cbd5e1] hover:shadow-[0_20px_40px_-12px_rgba(31,38,71,0.18)]"
     >
       {/* Top: text + CTA */}
       <div className="relative flex flex-col items-center px-6 pt-7 pb-4 text-center">

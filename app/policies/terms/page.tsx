@@ -1,3 +1,5 @@
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
+
 export const metadata = {
   title: "Terms of Service",
   description: "Viora Healthcare Terms of Service.",
@@ -22,7 +24,7 @@ export default function TermsPage() {
       <h2>1. Research Use Only</h2>
       <p>
         All compounds offered through the Services are sold as research chemicals for{" "}
-        <strong>in-vitro laboratory research only</strong>. They are{" "}
+        <strong>laboratory research only</strong>. They are{" "}
         <strong>not</strong> intended for human consumption, diagnostic, therapeutic,
         cosmetic, veterinary, or any other in-vivo use. None of our products have been
         evaluated by the U.S. Food and Drug Administration (FDA). No statement made by Viora,
@@ -145,7 +147,7 @@ export default function TermsPage() {
       <p>
         Questions about these Terms can be sent to{" "}
         <a href="mailto:hello@viorahealthcare.com">hello@viorahealthcare.com</a> or by text
-        at <a href="tel:+19549951406">+1 (954) 995-1406</a>.
+        at <a href={VIORA_PHONE_HREF}>{VIORA_PHONE_DISPLAY}</a>.
       </p>
     </>
   );

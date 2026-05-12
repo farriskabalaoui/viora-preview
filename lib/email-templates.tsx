@@ -38,7 +38,7 @@ export function welcomeEmail({ name }: { name: string }) {
   const html = shell(`
     <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:${FOREGROUND}">Welcome to Viora, ${name}</h1>
     <p style="margin:0 0 16px;font-size:15px;line-height:1.6">Your portal access is active. You can now browse the full research catalog, place orders, and track every COA per batch.</p>
-    <p style="margin:0 0 24px;font-size:15px;line-height:1.6">A reminder: every Viora compound is for in-vitro research use only. Not for human consumption, diagnostic, or therapeutic use.</p>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.6">A reminder: every Viora compound is for laboratory research use only. Not for human or animal consumption, diagnostic, or therapeutic use.</p>
     <a href="https://viorahealthcare.com/products" style="display:inline-block;padding:12px 24px;background:${BRAND};color:#fff;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px">Browse compounds</a>
     <p style="margin:24px 0 0;font-size:13px;color:${MUTED};line-height:1.6">Need help? Just reply to this email or text us at +1 (954) 995-1406.</p>
   `, `Your Viora portal access is active.`);

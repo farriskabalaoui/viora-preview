@@ -163,9 +163,9 @@ function SignupForm() {
             />
             <span>
               I acknowledge that all products purchased from Viora are for{" "}
-              <strong>in-vitro research use only</strong>. They are not for human
-              consumption, diagnostic, or therapeutic use. Statements have not been
-              evaluated by the FDA.
+              <strong>laboratory research use only</strong>. They are not for human
+              or animal consumption, diagnostic, or therapeutic use. Statements
+              have not been evaluated by the FDA.
             </span>
           </label>
 

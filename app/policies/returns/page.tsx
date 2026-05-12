@@ -1,3 +1,5 @@
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
+
 export const metadata = {
   title: "Returns Policy",
   description: "Viora Healthcare returns and refunds.",
@@ -30,7 +32,7 @@ export default function ReturnsPage() {
         You can cancel or modify your order any time before it has been packed and labeled —
         usually within 1–2 hours of placing the order during business hours. Contact us
         immediately at <a href="mailto:hello@viorahealthcare.com">hello@viorahealthcare.com</a>{" "}
-        or text <a href="tel:+19549951406">+1 (954) 995-1406</a>. Once a tracking number is
+        or text <a href={VIORA_PHONE_HREF}>{VIORA_PHONE_DISPLAY}</a>. Once a tracking number is
         generated, the order can no longer be canceled.
       </p>
 
@@ -82,7 +84,7 @@ export default function ReturnsPage() {
       <p>
         Questions about a return:{" "}
         <a href="mailto:hello@viorahealthcare.com">hello@viorahealthcare.com</a> or text{" "}
-        <a href="tel:+19549951406">+1 (954) 995-1406</a>.
+        <a href={VIORA_PHONE_HREF}>{VIORA_PHONE_DISPLAY}</a>.
       </p>
     </>
   );

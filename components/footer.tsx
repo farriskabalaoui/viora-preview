@@ -3,38 +3,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  VIORA_EMAIL,
+  VIORA_EMAIL_HREF,
+  VIORA_PHONE_DISPLAY,
+  VIORA_PHONE_HREF,
+} from "@/lib/contact";
 
-const cols = [
-  {
-    title: "Shop",
-    links: [
-      { href: "/products", label: "All Compounds" },
-      { href: "/products?category=Stack", label: "Stacks" },
-      { href: "/products?category=Blend", label: "Blends" },
-      { href: "/products?tag=Recovery", label: "Recovery" },
-      { href: "/products?tag=Anti-Aging", label: "Anti-Aging" },
-      { href: "/products?tag=Weight+Loss", label: "Weight Loss" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { href: "/research", label: "Research Library" },
-      { href: "/research#coa", label: "Lab Testing & COAs" },
-      { href: "/affiliate", label: "Affiliate Program" },
-      { href: "/about", label: "About Viora" },
-      { href: "/contact", label: "Contact" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "/policies/shipping", label: "Shipping Policy" },
-      { href: "/policies/returns", label: "Returns Policy" },
-      { href: "/policies/privacy", label: "Privacy Policy" },
-      { href: "/policies/terms", label: "Terms of Service" },
-    ],
-  },
+// Simplified per Marvin's direction (2026-05-12): cut 4 cols x 6 links each
+// down to 2 narrow cols. Less is more. Brand + newsletter on the left,
+// minimum-viable Shop and Company link sets, contact line at the bottom.
+const SHOP_LINKS = [
+  { href: "/products", label: "Products" },
+  { href: "/products?category=Stack", label: "Stacks" },
+  { href: "/research", label: "Research" },
+  { href: "/affiliate", label: "Affiliate" },
+];
+
+const COMPANY_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/policies/terms", label: "Terms" },
+  { href: "/policies/privacy", label: "Privacy" },
+  { href: "/policies/shipping", label: "Shipping" },
+  { href: "/policies/returns", label: "Returns" },
 ];
 
 export function Footer() {
@@ -43,22 +36,22 @@ export function Footer() {
   if (pathname?.startsWith("/polaris")) return null;
 
   return (
-    <footer className="mt-24 border-t border-border bg-muted/40">
+    <footer className="mt-24 border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
-          <div className="md:col-span-4">
+          {/* Brand + newsletter */}
+          <div className="md:col-span-5">
             <Link href="/" className="inline-flex items-center">
               <Image
                 src="/viora-logo-horizontal-tight-transparent.png"
                 alt="Viora Healthcare"
                 width={1080}
                 height={360}
-                className="h-12 w-auto"
+                className="h-10 w-auto"
               />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Lab-tested research peptides, third-party verified, physician-backed,
-              manufactured & packed in the United States.
+              Lab-tested research peptides, manufactured &amp; packed in the United States.
             </p>
             <form
               className="mt-6 flex max-w-sm gap-2"
@@ -81,87 +74,67 @@ export function Footer() {
               </button>
             </form>
           </div>
-          {cols.map((col) => (
-            <div key={col.title} className="md:col-span-2">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-                {col.title}
-              </h4>
-              <ul className="mt-4 space-y-3 text-sm">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                    >
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          <div className="md:col-span-2">
+
+          {/* Shop */}
+          <div className="md:col-span-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-              Connect
+              Shop
             </h4>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li>
-                <a
-                  href="https://www.instagram.com/viorahealthcare/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                >
-                  Instagram
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.tiktok.com/@viora.health"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                >
-                  TikTok
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.facebook.com/fakeonepage"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                >
-                  Facebook
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:hello@viorahealthcare.com"
-                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                >
-                  hello@viorahealthcare.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+19549951406"
-                  className="inline-block py-1.5 text-muted-foreground transition-colors hover:text-brand"
-                >
-                  +1 (954) 995-1406
-                </a>
-              </li>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {SHOP_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-muted-foreground transition-colors hover:text-brand"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
+          {/* Company */}
+          <div className="md:col-span-4">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
+              Company
+            </h4>
+            <ul className="mt-4 grid grid-cols-2 gap-y-2.5 text-sm">
+              {COMPANY_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-muted-foreground transition-colors hover:text-brand"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-6 space-y-1.5 text-sm">
+              <a
+                href={VIORA_PHONE_HREF}
+                className="block text-foreground transition-colors hover:text-brand"
+              >
+                {VIORA_PHONE_DISPLAY}
+              </a>
+              <a
+                href={VIORA_EMAIL_HREF}
+                className="block text-muted-foreground transition-colors hover:text-brand"
+              >
+                {VIORA_EMAIL}
+              </a>
+            </div>
+          </div>
         </div>
+
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
           <div>© 2026 Viora Health Care. All rights reserved.</div>
           <div className="max-w-2xl text-[11px] leading-relaxed">
-            <strong className="text-foreground/80">For research use only.</strong> All
-            products are intended for in-vitro research and laboratory experimentation.
-            Not for human consumption, diagnostic, or therapeutic use. Customers must
-            be 21+ and acknowledge all compliance requirements. Manufactured & packed
-            in the United States.
+            <strong className="text-foreground/80">For laboratory research only.</strong>{" "}
+            Not for human or animal consumption, diagnostic, or therapeutic use.
+            Researchers must be 21+. Manufactured &amp; packed in the United States.
           </div>
         </div>
       </div>

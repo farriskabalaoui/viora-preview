@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
 
 export const metadata = { title: "Research Use Consent" };
 
@@ -23,8 +24,8 @@ export default function ConsentPage() {
           <h2 className="text-2xl font-bold text-foreground">1. Acknowledgment of Research Use Only</h2>
           <p className="mt-3">
             I acknowledge and agree that all products purchased from Viora Healthcare
-            ("Viora") are intended <strong>strictly for in-vitro research use and
-            laboratory experimentation only</strong>. These products are not for
+            (&ldquo;Viora&rdquo;) are intended <strong>strictly for laboratory research
+            use and experimentation only</strong>. These products are not for
             human consumption, ingestion, injection, topical application, or any
             other form of human or animal use.
           </p>
@@ -141,8 +142,8 @@ export default function ConsentPage() {
             research@viorahealthcare.com
           </a>{" "}
           or call{" "}
-          <a href="tel:+19549951406" className="font-medium text-brand hover:underline">
-            +1 (954) 995-1406
+          <a href={VIORA_PHONE_HREF} className="font-medium text-brand hover:underline">
+            {VIORA_PHONE_DISPLAY}
           </a>
           . For institutional / bulk-purchase consent variations, contact us
           before placing an order.
