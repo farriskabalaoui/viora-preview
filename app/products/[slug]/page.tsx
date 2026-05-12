@@ -9,6 +9,8 @@ import {
 import { ProductCard } from "@/components/product-card";
 import { ProductPhoto } from "@/components/product-photo";
 import { AddToCart } from "@/components/add-to-cart";
+import { ProductResearchSection } from "@/components/product-research-section";
+import { getProductResearch } from "@/lib/product-research";
 import { stockStatusFor, stockLabel } from "@/lib/stock";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -33,17 +35,20 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   const stock = stockStatusFor(product.slug);
+  const research = getProductResearch(product.slug);
   const related = products
     .filter((p) => p.slug !== product.slug && p.category === product.category)
     .slice(0, 3);
 
-  const coaMap: Record<string, string> = {
-    tesamorelin: "/coas/polaris/VHC-2649801.pdf",
-    "mots-c": "/coas/polaris/VHC-7934158.pdf",
-    "ghk-cu": "/coas/polaris/VHC-6183274.pdf",
-    "glp-3-reta": "/coas/polaris/VHC-1058642.pdf",
+  // Map of product slug → COA batch identifier (the file is at
+  // /coas/polaris/<batch>.pdf, viewer route is /coa/<batch>).
+  const coaBatchMap: Record<string, string> = {
+    tesamorelin: "VHC-2649801",
+    "mots-c": "VHC-7934158",
+    "ghk-cu": "VHC-6183274",
+    "glp-3-reta": "VHC-1058642",
   };
-  const coaFile = coaMap[product.slug];
+  const coaBatch = coaBatchMap[product.slug];
 
   const stockBadgeClass =
     stock === "in_stock"
@@ -66,10 +71,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         {/* Image — real photo */}
         <div>
-          <div
-            className="relative aspect-square overflow-hidden rounded-3xl border border-border"
-            style={{ backgroundColor: "#f4f6f8" }}
-          >
+          <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-white">
             <ProductPhoto
               primary={product.image}
               alt={product.name}
@@ -176,15 +178,13 @@ export default async function ProductPage({ params }: Props) {
               image={product.image}
               outOfStock={stock === "out_of_stock"}
             />
-            {coaFile ? (
-              <a
-                href={coaFile}
-                target="_blank"
-                rel="noreferrer"
+            {coaBatch ? (
+              <Link
+                href={`/coa/${coaBatch}?from=${product.slug}`}
                 className="flex-1 rounded-full border border-border bg-background px-6 py-3 text-center text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
               >
-                View COA ↗
-              </a>
+                View COA
+              </Link>
             ) : (
               <Link
                 href="/research#coa"
@@ -202,6 +202,12 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Per-SKU research dossier — Overview / History / Structures /
+          Research Findings / References. Mirrored from lib/product-research.ts */}
+      {research && (
+        <ProductResearchSection data={research} productName={product.name} />
+      )}
 
       {/* Related */}
       {related.length > 0 && (
