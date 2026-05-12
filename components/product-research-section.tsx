@@ -1,4 +1,5 @@
 import type { ProductResearch } from "@/lib/product-research";
+import { StructureDiagram } from "@/components/structure-diagram";
 
 /**
  * Renders the per-product research dossier (Overview, History, Structures,
@@ -92,6 +93,8 @@ export function ProductResearchSection({
                     </div>
                   )}
                 </dl>
+                {/* 2D structure diagram (only renders if we have the PNG) */}
+                <StructureDiagram name={s.name} pubchemCid={s.pubchemId} />
               </div>
             ))}
           </div>
