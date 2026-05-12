@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n-context";
 import { LangToggle } from "@/components/lang-toggle";
@@ -10,7 +10,7 @@ import { CartButton } from "@/components/cart-button";
 import { FeatureBar } from "@/components/feature-bar";
 import type { DictKey } from "@/lib/i18n";
 import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
-import { getSupabaseBrowser } from "@/lib/supabase/client";
+import { useAuthState } from "@/lib/use-auth-state";
 
 // Simplified per Marvin's direction (2026-05-12): cut Stacks, FAQ, Affiliate
 // from the top bar — they live in the footer / are accessible from filters
@@ -23,43 +23,6 @@ const nav: { href: string; key: DictKey }[] = [
   { href: "/about", key: "nav.about" },
   { href: "/contact", key: "nav.contact" },
 ];
-
-/**
- * Track Supabase auth state in the header so we can show "Account" /
- * "Sign out" instead of the static "Sign in" link when a user is logged in.
- * Hydration-safe: starts in `unknown` so SSR + first client render match;
- * onAuthStateChange + getUser hydrate it after mount.
- */
-type AuthState = "unknown" | "in" | "out";
-
-function useAuthState(): AuthState {
-  const [state, setState] = useState<AuthState>("unknown");
-  useEffect(() => {
-    let mounted = true;
-    let unsubscribe: (() => void) | undefined;
-    (async () => {
-      try {
-        const supabase = getSupabaseBrowser();
-        const { data } = await supabase.auth.getUser();
-        if (!mounted) return;
-        setState(data.user ? "in" : "out");
-        const sub = supabase.auth.onAuthStateChange((_event, session) => {
-          if (!mounted) return;
-          setState(session?.user ? "in" : "out");
-        });
-        unsubscribe = () => sub.data.subscription.unsubscribe();
-      } catch {
-        // Supabase not configured — fall back to logged-out UI
-        if (mounted) setState("out");
-      }
-    })();
-    return () => {
-      mounted = false;
-      if (unsubscribe) unsubscribe();
-    };
-  }, []);
-  return state;
-}
 
 export function Header() {
   const [open, setOpen] = useState(false);

@@ -8,11 +8,13 @@ import { StackMarquee } from "@/components/stack-marquee";
 import { products } from "@/lib/products";
 import { coas } from "@/lib/coas";
 import { useI18n } from "@/lib/i18n-context";
+import { useAuthState } from "@/lib/use-auth-state";
 
 export default function Home() {
   const { t } = useI18n();
   const featured = products.filter((p) => p.featured).slice(0, 8);
   const stacks = products.filter((p) => p.category === "Stack");
+  const authState = useAuthState();
 
   return (
     <>
@@ -208,23 +210,44 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Bottom CTA — auth-aware. Signed-in users see "View your account"
+          + "Browse Catalog" instead of "Apply for Portal Access". */}
       <section className="border-y border-border bg-brand">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-14 text-center text-brand-foreground sm:px-6 lg:flex-row lg:text-left">
           <div>
             <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Ready to research with verified compounds?
+              {authState === "in"
+                ? "Welcome back. Ready to place an order?"
+                : "Ready to research with verified compounds?"}
             </h3>
             <p className="mt-2 max-w-2xl text-brand-foreground/80">
-              Apply for portal access today. Orders begin shipping June 1, 2026.
+              {authState === "in"
+                ? "Browse the full research catalog or revisit your last order. Orders begin shipping June 1, 2026."
+                : "Sign up for portal access today. Orders begin shipping June 1, 2026."}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium text-brand transition-opacity hover:opacity-90"
-            >
-              Apply for Portal Access
-            </Link>
+            {authState === "in" ? (
+              <Link
+                href="/account"
+                className="inline-flex items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium text-brand transition-opacity hover:opacity-90"
+              >
+                Your account →
+              </Link>
+            ) : authState === "out" ? (
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium text-brand transition-opacity hover:opacity-90"
+              >
+                Create researcher account
+              </Link>
+            ) : (
+              // Auth state still loading — render a placeholder of the
+              // same dimensions so the layout doesn't shift on hydration
+              <div className="inline-flex items-center justify-center rounded-full bg-background/20 px-6 py-3 text-sm font-medium text-brand-foreground/60">
+                &nbsp;
+              </div>
+            )}
             <Link
               href="/products"
               className="inline-flex items-center justify-center rounded-full border border-brand-foreground/30 px-6 py-3 text-sm font-medium text-brand-foreground transition-colors hover:bg-white/10"
