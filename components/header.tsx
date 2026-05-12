@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n-context";
 import { LangToggle } from "@/components/lang-toggle";
@@ -10,6 +10,7 @@ import { CartButton } from "@/components/cart-button";
 import { FeatureBar } from "@/components/feature-bar";
 import type { DictKey } from "@/lib/i18n";
 import { VIORA_PHONE_DISPLAY, VIORA_PHONE_HREF } from "@/lib/contact";
+import { getSupabaseBrowser } from "@/lib/supabase/client";
 
 // Simplified per Marvin's direction (2026-05-12): cut Stacks, FAQ, Affiliate
 // from the top bar — they live in the footer / are accessible from filters
@@ -21,10 +22,48 @@ const nav: { href: string; key: DictKey }[] = [
   { href: "/contact", key: "nav.contact" },
 ];
 
+/**
+ * Track Supabase auth state in the header so we can show "Account" /
+ * "Sign out" instead of the static "Sign in" link when a user is logged in.
+ * Hydration-safe: starts in `unknown` so SSR + first client render match;
+ * onAuthStateChange + getUser hydrate it after mount.
+ */
+type AuthState = "unknown" | "in" | "out";
+
+function useAuthState(): AuthState {
+  const [state, setState] = useState<AuthState>("unknown");
+  useEffect(() => {
+    let mounted = true;
+    let unsubscribe: (() => void) | undefined;
+    (async () => {
+      try {
+        const supabase = getSupabaseBrowser();
+        const { data } = await supabase.auth.getUser();
+        if (!mounted) return;
+        setState(data.user ? "in" : "out");
+        const sub = supabase.auth.onAuthStateChange((_event, session) => {
+          if (!mounted) return;
+          setState(session?.user ? "in" : "out");
+        });
+        unsubscribe = () => sub.data.subscription.unsubscribe();
+      } catch {
+        // Supabase not configured — fall back to logged-out UI
+        if (mounted) setState("out");
+      }
+    })();
+    return () => {
+      mounted = false;
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
+  return state;
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { t } = useI18n();
+  const authState = useAuthState();
   if (pathname?.startsWith("/growth")) return null;
   if (pathname?.startsWith("/polaris")) return null;
 
@@ -69,12 +108,25 @@ export function Header() {
           </nav>
           <div className="flex items-center gap-2">
             <LangToggle className="hidden sm:inline-flex" />
-            <Link
-              href="/login"
-              className="hidden text-sm text-foreground/75 transition-colors hover:text-brand lg:inline-block"
-            >
-              {t("nav.signin")}
-            </Link>
+            {/* Auth-aware account link: shows "Sign in" when logged out,
+                "Account" when logged in. Stays hidden during the brief
+                hydration window (`unknown`) so we don't flash the wrong
+                label on first paint. */}
+            {authState === "in" ? (
+              <Link
+                href="/account"
+                className="hidden text-sm text-foreground/75 transition-colors hover:text-brand lg:inline-block"
+              >
+                Account
+              </Link>
+            ) : authState === "out" ? (
+              <Link
+                href="/login"
+                className="hidden text-sm text-foreground/75 transition-colors hover:text-brand lg:inline-block"
+              >
+                {t("nav.signin")}
+              </Link>
+            ) : null}
             <CartButton />
             <Link
               href="/products"
@@ -120,13 +172,23 @@ export function Header() {
               ))}
               <div className="flex items-center gap-2 py-4">
                 <LangToggle />
-                <Link
-                  href="/login"
-                  onClick={() => setOpen(false)}
-                  className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-medium text-foreground hover:border-brand hover:text-brand"
-                >
-                  {t("nav.signin")}
-                </Link>
+                {authState === "in" ? (
+                  <Link
+                    href="/account"
+                    onClick={() => setOpen(false)}
+                    className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-medium text-foreground hover:border-brand hover:text-brand"
+                  >
+                    Account
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setOpen(false)}
+                    className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-medium text-foreground hover:border-brand hover:text-brand"
+                  >
+                    {t("nav.signin")}
+                  </Link>
+                )}
                 <Link
                   href="/products"
                   onClick={() => setOpen(false)}
