@@ -79,16 +79,30 @@ function SignupForm() {
     <div className="mx-auto flex min-h-[calc(100vh-300px)] max-w-md flex-col justify-center px-4 py-12 sm:px-6">
       <div className="text-center">
         <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Apply for Portal Access
+          Create your researcher account
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Researchers and clinicians only. Approval typically within 1 business day.
+          New here? Sign up below. Most accounts are approved within one
+          business day.
         </p>
+      </div>
+
+      {/* Prominent "already have an account" pill at the top — was buried
+          at the bottom of the form which made returning users think the
+          only option was to apply fresh */}
+      <div className="mt-6 rounded-full bg-muted/40 px-4 py-3 text-center text-sm">
+        <span className="text-muted-foreground">Already have an account?</span>{" "}
+        <Link
+          href={`/login?returnTo=${encodeURIComponent(returnTo)}`}
+          className="font-semibold text-brand hover:underline"
+        >
+          Sign in →
+        </Link>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="mt-8 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8"
+        className="mt-6 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8"
       >
         {/* Email */}
         <div>
@@ -207,15 +221,8 @@ function SignupForm() {
               : "bg-brand text-brand-foreground hover:opacity-90"
           }`}
         >
-          {submitting ? "Submitting…" : "Apply for Portal Access"}
+          {submitting ? "Submitting…" : "Create account"}
         </button>
-
-        <p className="text-center text-xs text-muted-foreground">
-          Already have an account?{" "}
-          <Link href={`/login?returnTo=${encodeURIComponent(returnTo)}`} className="font-medium text-brand hover:underline">
-            Log in
-          </Link>
-        </p>
       </form>
     </div>
   );

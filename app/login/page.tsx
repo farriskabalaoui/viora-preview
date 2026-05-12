@@ -44,16 +44,28 @@ function LoginForm() {
     <div className="mx-auto flex min-h-[calc(100vh-300px)] max-w-md flex-col justify-center px-4 py-12 sm:px-6">
       <div className="text-center">
         <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Sign In
+          Sign in
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Researcher portal access.
+          Welcome back. Sign in to view orders and access the research catalog.
         </p>
+      </div>
+
+      {/* Prominent "new here" pill, mirroring the signup page's sign-in
+          callout so users can switch modes easily either direction */}
+      <div className="mt-6 rounded-full bg-muted/40 px-4 py-3 text-center text-sm">
+        <span className="text-muted-foreground">New here?</span>{" "}
+        <Link
+          href={`/signup?returnTo=${encodeURIComponent(returnTo)}`}
+          className="font-semibold text-brand hover:underline"
+        >
+          Create an account →
+        </Link>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="mt-8 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8"
+        className="mt-6 space-y-5 rounded-2xl border border-border bg-background p-6 sm:p-8"
       >
         <div>
           <label className="text-xs font-medium uppercase tracking-wider text-foreground/70">
@@ -98,15 +110,8 @@ function LoginForm() {
           disabled={submitting}
           className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition hover:opacity-90 disabled:opacity-50"
         >
-          {submitting ? "Signing in…" : "Sign In"}
+          {submitting ? "Signing in…" : "Sign in"}
         </button>
-
-        <p className="text-center text-xs text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link href={`/signup?returnTo=${encodeURIComponent(returnTo)}`} className="font-medium text-brand hover:underline">
-            Apply for Portal Access
-          </Link>
-        </p>
       </form>
     </div>
   );

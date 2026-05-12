@@ -79,8 +79,13 @@ export async function middleware(req: NextRequest) {
   );
 
   if (needsAuth && !user) {
+    // Send unauthenticated visitors to /login (not /signup) — most
+    // people clicking a product link already have an account, and the
+    // login page now has a prominent "Create an account" link at the
+    // top for new researchers. Returning users were getting stuck on
+    // the signup form expecting to see a sign-in path.
     const redirect = req.nextUrl.clone();
-    redirect.pathname = "/signup";
+    redirect.pathname = "/login";
     redirect.searchParams.set("returnTo", path);
     return NextResponse.redirect(redirect);
   }
