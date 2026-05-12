@@ -11,6 +11,7 @@ import { ProductPhoto } from "@/components/product-photo";
 import { AddToCart } from "@/components/add-to-cart";
 import { ProductResearchSection } from "@/components/product-research-section";
 import { getProductResearch } from "@/lib/product-research";
+import { coasForProductSlug } from "@/lib/coas";
 import { stockStatusFor, stockLabel } from "@/lib/stock";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -40,15 +41,11 @@ export default async function ProductPage({ params }: Props) {
     .filter((p) => p.slug !== product.slug && p.category === product.category)
     .slice(0, 3);
 
-  // Map of product slug → COA batch identifier (the file is at
-  // /coas/polaris/<batch>.pdf, viewer route is /coa/<batch>).
-  const coaBatchMap: Record<string, string> = {
-    tesamorelin: "VHC-2649801",
-    "mots-c": "VHC-7934158",
-    "ghk-cu": "VHC-6183274",
-    "glp-3-reta": "VHC-1058642",
-  };
-  const coaBatch = coaBatchMap[product.slug];
+  // Resolved COA(s) for this product. For individuals + blends this is a
+  // single record; for stacks it's the component peptides' COAs (which
+  // surface separately in the buy-box).
+  const productCoas = coasForProductSlug(product.slug, STACK_PEPTIDES);
+  const primaryCoa = productCoas[0]; // for the "View COA" button
 
   const stockBadgeClass =
     stock === "in_stock"
@@ -178,16 +175,16 @@ export default async function ProductPage({ params }: Props) {
               image={product.image}
               outOfStock={stock === "out_of_stock"}
             />
-            {coaBatch ? (
+            {primaryCoa ? (
               <Link
-                href={`/coa/${coaBatch}?from=${product.slug}`}
+                href={`/coa/${primaryCoa.batch}?from=${product.slug}`}
                 className="flex-1 rounded-full border border-border bg-background px-6 py-3 text-center text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
               >
-                View COA
+                {productCoas.length > 1 ? `View COAs (${productCoas.length})` : "View COA"}
               </Link>
             ) : (
               <Link
-                href="/research#coa"
+                href="/coas"
                 className="flex-1 rounded-full border border-border bg-background px-6 py-3 text-center text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
               >
                 Lab Testing Info
@@ -202,6 +199,51 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Multi-COA section — only renders for stacks where the customer
+          gets multiple vials, each with its own batch + COA. */}
+      {productCoas.length > 1 && (
+        <section className="mt-16">
+          <div className="rounded-2xl border border-border bg-muted/30 p-6 sm:p-8">
+            <div className="text-xs font-semibold uppercase tracking-wider text-brand">
+              Per-component analytical reports
+            </div>
+            <h2 className="mt-2 font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              Every vial in this stack has its own COA
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Each peptide was tested independently by Polaris Analytical.
+              Click any batch below to view the full certificate of analysis.
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {productCoas.map((coa) => (
+                <Link
+                  key={coa.batch}
+                  href={`/coa/${coa.batch}?from=${product.slug}`}
+                  className="group flex flex-col rounded-xl bg-white p-4 ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:ring-black/[0.08] hover:shadow-md"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="text-sm font-semibold text-foreground group-hover:text-brand">
+                      {coa.compound}
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+                      <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                      Pass
+                    </span>
+                  </div>
+                  <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    {coa.batch}
+                  </div>
+                  <div className="mt-3 flex items-baseline justify-between text-xs">
+                    <span className="text-muted-foreground">Purity</span>
+                    <span className="font-semibold text-foreground">{coa.purityResult}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Per-SKU research dossier — Overview / History / Structures /
           Research Findings / References. Mirrored from lib/product-research.ts */}

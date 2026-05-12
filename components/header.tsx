@@ -14,10 +14,12 @@ import { getSupabaseBrowser } from "@/lib/supabase/client";
 
 // Simplified per Marvin's direction (2026-05-12): cut Stacks, FAQ, Affiliate
 // from the top bar — they live in the footer / are accessible from filters
-// on /products. Keep the top nav to 4 high-intent destinations.
+// on /products. Keep the top nav to 5 high-intent destinations.
+// COAs added per Marvin's follow-up — public certificate directory.
 const nav: { href: string; key: DictKey }[] = [
   { href: "/products", key: "nav.research_compounds" },
   { href: "/research", key: "nav.research_library" },
+  { href: "/coas", key: "nav.coas" },
   { href: "/about", key: "nav.about" },
   { href: "/contact", key: "nav.contact" },
 ];
