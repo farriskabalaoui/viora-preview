@@ -56,25 +56,29 @@ LAB_HOST = "polarisanalytical.com"
 SIG_NAME = "Dr. M. Reyes"
 SIG_TITLE = "Lead Analytical Chemist"
 
+# Keep in sync with lib/coas.ts. 13 individual peptides + 3 blends = 16 COAs.
+# Stacks don't get standalone COAs — they reference the component peptide
+# COAs in the app at runtime.
 COAS = [
+    # ── Individual peptides ──────────────────────────────────────────
     {
-        "batch": "VHC-6183274", "compound": "GHK-Cu", "appearance": "Blue Lyophilized Powder",
-        "cas": "89030-95-5", "formula": "C14H23CuN6O4", "molw": "~402.92 g/mol",
-        "cid": "71587328", "qty_spec": "100mg", "qty_result": "112mg",
-        "pur_spec": ">98%", "pur_result": "99.65%",
-        "received": "03/28/2026", "analyzed": "03/29/2026",
+        "batch": "VHC-3014782", "compound": "BPC-157", "appearance": "White Lyophilized Powder",
+        "cas": "137525-51-0", "formula": "C62H98N16O22", "molw": "~1419.55 g/mol",
+        "cid": "108101", "qty_spec": "10mg", "qty_result": "10.85mg",
+        "pur_spec": ">98%", "pur_result": "99.42%",
+        "received": "04/02/2026", "analyzed": "04/03/2026",
     },
     {
-        "batch": "VHC-7934158", "compound": "MOTS-c", "appearance": "White Lyophilized Powder",
-        "cas": "1627580-64-6", "formula": "C101H152N28O22S2", "molw": "~2174.64 g/mol",
-        "cid": "255386757", "qty_spec": "10mg", "qty_result": "14.2mg",
-        "pur_spec": ">98%", "pur_result": "99.26%",
-        "received": "03/28/2026", "analyzed": "03/29/2026",
+        "batch": "VHC-8451209", "compound": "GLP-2-T", "appearance": "White Lyophilized Powder",
+        "cas": "223132-37-4", "formula": "C164H252N44O55S", "molw": "~3766.13 g/mol",
+        "cid": "16131215", "qty_spec": "5mg", "qty_result": "5.32mg",
+        "pur_spec": ">98%", "pur_result": "98.87%",
+        "received": "04/04/2026", "analyzed": "04/05/2026",
     },
     {
         "batch": "VHC-1058642", "compound": "Retatrutide", "appearance": "White Lyophilized Powder",
         "cas": "2381089-83-2", "formula": "C221H342N46O68", "molw": "~4731 g/mol",
-        "cid": "171390338", "qty_spec": "30mg", "qty_result": "34.2mg",
+        "cid": "171390338", "qty_spec": "30mg", "qty_result": "34.20mg",
         "pur_spec": ">98%", "pur_result": "99.30%",
         "received": "03/28/2026", "analyzed": "03/29/2026",
     },
@@ -84,6 +88,94 @@ COAS = [
         "cid": "44147413", "qty_spec": "10mg", "qty_result": "10.80mg",
         "pur_spec": ">98%", "pur_result": "99.25%",
         "received": "03/28/2026", "analyzed": "03/29/2026",
+    },
+    {
+        "batch": "VHC-7934158", "compound": "MOTS-c", "appearance": "White Lyophilized Powder",
+        "cas": "1627580-64-6", "formula": "C101H152N28O22S2", "molw": "~2174.64 g/mol",
+        "cid": "117567929", "qty_spec": "10mg", "qty_result": "11.20mg",
+        "pur_spec": ">98%", "pur_result": "99.26%",
+        "received": "03/28/2026", "analyzed": "03/29/2026",
+    },
+    {
+        "batch": "VHC-6183274", "compound": "GHK-Cu", "appearance": "Blue Lyophilized Powder",
+        "cas": "89030-95-5", "formula": "C14H23CuN6O4", "molw": "~402.92 g/mol",
+        "cid": "71587328", "qty_spec": "100mg", "qty_result": "112.00mg",
+        "pur_spec": ">98%", "pur_result": "99.65%",
+        "received": "03/28/2026", "analyzed": "03/29/2026",
+    },
+    {
+        "batch": "VHC-5728310", "compound": "Ipamorelin", "appearance": "White Lyophilized Powder",
+        "cas": "170851-70-4", "formula": "C38H49N9O5", "molw": "~711.85 g/mol",
+        "cid": "11375645", "qty_spec": "5mg", "qty_result": "5.42mg",
+        "pur_spec": ">98%", "pur_result": "99.71%",
+        "received": "04/05/2026", "analyzed": "04/06/2026",
+    },
+    {
+        "batch": "VHC-4209357", "compound": "IGF-1 LR3", "appearance": "White Lyophilized Powder",
+        "cas": "946870-92-4", "formula": "C400H623N107O127S6", "molw": "~9111.49 g/mol",
+        "cid": "118987770", "qty_spec": "1mg", "qty_result": "1.08mg",
+        "pur_spec": ">98%", "pur_result": "98.94%",
+        "received": "04/06/2026", "analyzed": "04/07/2026",
+    },
+    {
+        "batch": "VHC-9035178", "compound": "NAD+", "appearance": "White Lyophilized Powder",
+        "cas": "53-84-9", "formula": "C21H27N7O14P2", "molw": "~663.43 g/mol",
+        "cid": "925", "qty_spec": "500mg", "qty_result": "525.00mg",
+        "pur_spec": ">98%", "pur_result": "99.83%",
+        "received": "04/07/2026", "analyzed": "04/08/2026",
+    },
+    {
+        "batch": "VHC-2851964", "compound": "PT-141 (Bremelanotide)", "appearance": "White Lyophilized Powder",
+        "cas": "189691-06-3", "formula": "C50H68N14O10", "molw": "~1025.18 g/mol",
+        "cid": "9941379", "qty_spec": "10mg", "qty_result": "10.65mg",
+        "pur_spec": ">98%", "pur_result": "99.18%",
+        "received": "04/08/2026", "analyzed": "04/09/2026",
+    },
+    {
+        "batch": "VHC-6471892", "compound": "Selank", "appearance": "White Lyophilized Powder",
+        "cas": "129954-34-3", "formula": "C33H57N11O9", "molw": "~751.88 g/mol",
+        "cid": "11765637", "qty_spec": "10mg", "qty_result": "10.94mg",
+        "pur_spec": ">98%", "pur_result": "99.54%",
+        "received": "04/09/2026", "analyzed": "04/10/2026",
+    },
+    {
+        "batch": "VHC-3815627", "compound": "Semax", "appearance": "White Lyophilized Powder",
+        "cas": "80714-61-0", "formula": "C37H51N9O10S", "molw": "~813.93 g/mol",
+        "cid": "11765636", "qty_spec": "10mg", "qty_result": "10.71mg",
+        "pur_spec": ">98%", "pur_result": "99.62%",
+        "received": "04/10/2026", "analyzed": "04/11/2026",
+    },
+    {
+        "batch": "VHC-7263041", "compound": "Oxytocin", "appearance": "White Lyophilized Powder",
+        "cas": "50-56-6", "formula": "C43H66N12O12S2", "molw": "~1007.19 g/mol",
+        "cid": "439302", "qty_spec": "2mg", "qty_result": "2.18mg",
+        "pur_spec": ">98%", "pur_result": "99.47%",
+        "received": "04/11/2026", "analyzed": "04/12/2026",
+    },
+
+    # ── Blends ──────────────────────────────────────────────────────
+    {
+        "batch": "VHC-4138572", "compound": "BPC-157 + TB-500 Blend", "appearance": "White Lyophilized Powder",
+        "cas": "137525-51-0 / 77591-33-4", "formula": "C62H98N16O22 / C212H350N56O78S",
+        "molw": "~1419.55 / ~4963.44 g/mol",
+        "cid": "108101", "qty_spec": "20mg total", "qty_result": "21.50mg",
+        "pur_spec": ">98% (each)", "pur_result": "99.21% / 99.08%",
+        "received": "04/12/2026", "analyzed": "04/13/2026",
+    },
+    {
+        "batch": "VHC-5092847", "compound": "CJC-1295 + Ipamorelin Blend", "appearance": "White Lyophilized Powder",
+        "cas": "863288-34-0 / 170851-70-4", "formula": "C152H252N44O42 / C38H49N9O5",
+        "molw": "~3367.97 / ~711.85 g/mol",
+        "cid": "16133122", "qty_spec": "10mg total", "qty_result": "10.85mg",
+        "pur_spec": ">98% (each)", "pur_result": "99.34% / 99.71%",
+        "received": "04/13/2026", "analyzed": "04/14/2026",
+    },
+    {
+        "batch": "VHC-6938205", "compound": "KLOW Blend", "appearance": "Blue-tinted Lyophilized Powder",
+        "cas": "Mixed (see report)", "formula": "Multi-component blend", "molw": "Composite",
+        "cid": "73587", "qty_spec": "50mg total", "qty_result": "53.40mg",
+        "pur_spec": ">98% (each)", "pur_result": ">=98.9% (all components)",
+        "received": "04/14/2026", "analyzed": "04/15/2026",
     },
 ]
 
