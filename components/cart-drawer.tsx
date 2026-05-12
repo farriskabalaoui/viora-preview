@@ -2,13 +2,69 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n-context";
+import { useAuthState } from "@/lib/use-auth-state";
 
 export function CartDrawer() {
   const { items, open, setOpen, setQty, remove, subtotal, totalItems } = useCart();
   const { t } = useI18n();
+  const authState = useAuthState();
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  /**
+   * Kicks off a ClickBrick hosted-checkout session and redirects the
+   * browser to their payment page. The current cart items are POSTed
+   * server-side where the amount is recalculated (never trust client
+   * totals for payment).
+   *
+   * Requires the user to be signed in — the auth check happens both
+   * here (to fail fast) and in the API route (the real enforcement).
+   */
+  async function handleCheckout() {
+    if (authState !== "in") {
+      // Send unauthenticated users to login with a returnTo back to cart
+      window.location.href = "/login?returnTo=/cart";
+      return;
+    }
+    if (items.length === 0) return;
+
+    setCheckingOut(true);
+    setCheckoutError(null);
+
+    try {
+      const res = await fetch("/api/checkout/clickbrick/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({
+            slug: i.slug,
+            name: i.name,
+            priceFrom: i.priceFrom,
+            qty: i.qty,
+          })),
+        }),
+      });
+      const body = (await res.json().catch(() => ({}))) as {
+        paymentURL?: string;
+        error?: string;
+      };
+      if (!res.ok || !body.paymentURL) {
+        setCheckoutError(body.error ?? "Checkout failed — please try again");
+        setCheckingOut(false);
+        return;
+      }
+      // Redirect to ClickBrick's hosted checkout page
+      window.location.href = body.paymentURL;
+    } catch (err) {
+      setCheckoutError(
+        err instanceof Error ? err.message : "Network error — try again",
+      );
+      setCheckingOut(false);
+    }
+  }
 
   // Close on Esc
   useEffect(() => {
@@ -153,15 +209,38 @@ export function CartDrawer() {
                 </span>
               </div>
               <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-                {t("cart.note")}
+                Secure checkout via ClickBrick. Cards, eDebit, and ACH accepted. Payment is processed on the gateway&apos;s secure domain — Viora never sees your card details.
               </p>
-              <Link
-                href="/contact?topic=Quote%20request"
-                onClick={() => setOpen(false)}
-                className="mt-4 flex w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+              {checkoutError && (
+                <div className="mt-3 rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-xs text-rose-900">
+                  {checkoutError}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={handleCheckout}
+                disabled={checkingOut || items.length === 0}
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {t("cart.checkout")}
-              </Link>
+                {checkingOut ? (
+                  <>
+                    <svg
+                      className="h-4 w-4 animate-spin"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden
+                    >
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Redirecting to secure checkout…
+                  </>
+                ) : authState === "out" ? (
+                  "Sign in to checkout →"
+                ) : (
+                  <>Pay ${subtotal.toFixed(2)} →</>
+                )}
+              </button>
               <button
                 onClick={() => setOpen(false)}
                 className="mt-2 w-full rounded-full border border-border bg-background px-5 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
