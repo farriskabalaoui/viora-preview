@@ -823,17 +823,26 @@ export function getProductResearch(slug: string): ProductResearch | undefined {
 // ─────────────────────────────────────────────────────────────────────────
 
 import type { Article } from "./articles";
+import type { Product } from "./products";
 
 /**
  * Build a library Article for a single product slug from its research data.
  * Returns null if either the product or research entry is missing.
+ *
+ * Image strategy:
+ *  - heroImage: pulled from the Product's own image field (a real .webp path)
+ *  - heroPeptides: for stacks/blends with components, returns the component
+ *    slugs so the ProductPhoto composer renders a multi-vial composition.
+ *    For individual peptides this stays null so a single-vial render is used.
  */
 export function productResearchToArticle(
   slug: string,
-  productName: string,
+  product: Product,
 ): Article | null {
   const r = PRODUCT_RESEARCH[slug];
   if (!r) return null;
+
+  const productName = product.name;
 
   // Section list — mirrors the on-product layout for consistency.
   const body: Article["body"] = [
@@ -862,6 +871,13 @@ export function productResearchToArticle(
   body.push({ type: "ul", items: r.keyAreas });
   body.push({ type: "p", text: r.closingSummary });
 
+  // For stacks/blends with explicit component peptides, render the article
+  // hero as a multi-vial composite. For individual peptides, just use the
+  // product's own image — heroPeptides stays undefined so a single vial
+  // renders.
+  const heroPeptides =
+    r.components && r.components.length >= 2 ? r.components : undefined;
+
   return {
     slug: `profile-${slug}`,
     title: `${productName} — Research Profile`,
@@ -870,6 +886,8 @@ export function productResearchToArticle(
     publishedAt: "2026-05-12",
     readMinutes: Math.max(3, Math.ceil(r.overview.length / 600) + r.structures.length),
     body,
+    heroImage: product.image,
+    heroPeptides,
     references: r.references.map((ref) => ({
       authors: ref.authors,
       title: ref.title,

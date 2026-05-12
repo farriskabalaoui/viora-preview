@@ -91,10 +91,7 @@ export default async function ArticlePage({ params }: Props) {
         </header>
 
         {/* Hero image */}
-        <div
-          className="relative mt-10 aspect-[16/9] overflow-hidden rounded-3xl border border-border"
-          style={{ backgroundColor: "#f4f6f8" }}
-        >
+        <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_20px_40px_-12px_rgba(31,38,71,0.14)] ring-1 ring-black/[0.04]">
           <ProductPhoto
             primary={articleHeroImage(article)}
             alt={article.title}

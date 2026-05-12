@@ -46,10 +46,7 @@ export default function AboutPage() {
               from synthesis to fulfillment — entirely within the United States.
             </p>
           </div>
-          <div
-            className="relative aspect-square overflow-hidden rounded-3xl border border-border"
-            style={{ backgroundColor: "#f4f6f8" }}
-          >
+          <div className="relative aspect-square overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_20px_40px_-12px_rgba(31,38,71,0.14)] ring-1 ring-black/[0.04]">
             <div
               className="relative h-full w-full"
               style={{

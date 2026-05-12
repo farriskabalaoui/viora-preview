@@ -87,12 +87,9 @@ export default async function ResearchPage({ searchParams }: Props) {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
           <Link
             href={`/research/${featuredHero.slug}`}
-            className="group grid grid-cols-1 gap-8 overflow-hidden rounded-3xl border border-border bg-[#f4f6f8] transition-all hover:border-brand/40 hover:shadow-lg lg:grid-cols-12"
+            className="group grid grid-cols-1 gap-8 overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_8px_24px_-12px_rgba(31,38,71,0.10)] ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(31,38,71,0.06),0_24px_40px_-12px_rgba(31,38,71,0.18)] hover:ring-black/[0.08] lg:grid-cols-12"
           >
-            <div
-              className="relative aspect-[4/3] overflow-hidden lg:col-span-6 lg:aspect-auto lg:min-h-[360px]"
-              style={{ backgroundColor: "#f4f6f8" }}
-            >
+            <div className="relative aspect-[4/3] overflow-hidden bg-white lg:col-span-6 lg:aspect-auto lg:min-h-[360px]">
               <span className="absolute left-5 top-5 z-20 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
                 Featured
               </span>
@@ -153,12 +150,9 @@ export default async function ResearchPage({ searchParams }: Props) {
             <Link
               key={a.slug}
               href={`/research/${a.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_8px_24px_-12px_rgba(31,38,71,0.10)] ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(31,38,71,0.06),0_24px_40px_-12px_rgba(31,38,71,0.18)] hover:ring-black/[0.08]"
             >
-              <div
-                className="relative aspect-[16/10] overflow-hidden"
-                style={{ backgroundColor: "#f4f6f8" }}
-              >
+              <div className="relative aspect-[16/10] overflow-hidden bg-white">
                 <ProductPhoto
                   primary={articleHeroImage(a)}
                   alt={a.title}

@@ -76,7 +76,7 @@ const PEPTIDE_PHOTO_SLUGS = new Set([
 export function articleHeroPeptides(article: Article): string[] | null {
   if (article.heroPeptides) {
     const filtered = article.heroPeptides.filter((s) => PEPTIDE_PHOTO_SLUGS.has(s));
-    return filtered.length >= 2 ? filtered : null;
+    return filtered.length >= 2 ? filtered.slice(0, 3) : null;
   }
   if (
     (article.category === "Comparison" || article.category === "Methodology") &&
@@ -780,7 +780,7 @@ import { products } from "./products";
 import { productResearchToArticle } from "./product-research";
 
 for (const p of products) {
-  const a = productResearchToArticle(p.slug, p.name);
+  const a = productResearchToArticle(p.slug, p);
   if (a) articles.push(a);
 }
 

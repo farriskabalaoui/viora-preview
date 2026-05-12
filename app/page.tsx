@@ -61,12 +61,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Right: real product photo on clean solid bg */}
+          {/* Right: real product photo on clean white card (matches the
+              product-card cleanup — pure white, no border, soft elevation) */}
           <div className="relative">
-            <div
-              className="relative aspect-square overflow-hidden rounded-3xl border border-border shadow-md"
-              style={{ backgroundColor: "#f4f6f8" }}
-            >
+            <div className="relative aspect-square overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_20px_40px_-12px_rgba(31,38,71,0.16)] ring-1 ring-black/[0.04]">
               <div
                 className="relative h-full w-full"
                 style={{
@@ -185,10 +183,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div
-            className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border"
-            style={{ backgroundColor: "#f4f6f8" }}
-          >
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_20px_40px_-12px_rgba(31,38,71,0.16)] ring-1 ring-black/[0.04]">
             <div
               className="relative h-full w-full"
               style={{
