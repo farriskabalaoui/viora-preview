@@ -135,7 +135,7 @@ const GLP_3_RETA: ProductResearch = {
       cas: "2381089-83-2",
       molecularFormula: "C₂₂₆H₃₆₈N₆₂O₇₁",
       molecularWeight: "4731.34 g/mol",
-      pubchemId: "164547104",
+      pubchemId: "171390338",
     },
   ],
   researchFindings:
@@ -166,7 +166,7 @@ const TESAMORELIN: ProductResearch = {
       cas: "218949-48-5",
       molecularFormula: "C₂₂₁H₃₆₆N₇₂O₆₇S",
       molecularWeight: "5135.86 g/mol",
-      pubchemId: "16129704",
+      pubchemId: "44147413",
     },
   ],
   researchFindings:
@@ -227,7 +227,7 @@ const GHK_CU: ProductResearch = {
       cas: "89030-95-5",
       molecularFormula: "C₁₄H₂₃CuN₆O₄",
       molecularWeight: "402.91 g/mol",
-      pubchemId: "73587",
+      pubchemId: "71587328",
     },
   ],
   researchFindings:
@@ -286,6 +286,7 @@ const IGF_1_LR3: ProductResearch = {
       cas: "946870-92-4",
       molecularFormula: "C₄₀₀H₆₂₃N₁₀₇O₁₂₇S₆",
       molecularWeight: "9111.49 g/mol",
+      pubchemId: "118987770",
     },
   ],
   researchFindings:
@@ -544,7 +545,7 @@ const KLOW: ProductResearch = {
       cas: "89030-95-5",
       molecularFormula: "C₁₄H₂₃CuN₆O₄",
       molecularWeight: "402.91 g/mol",
-      pubchemId: "73587",
+      pubchemId: "71587328",
     },
   ],
   researchFindings:

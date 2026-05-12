@@ -10,6 +10,7 @@ import path from "node:path";
  * peptide + fetch its structure.
  */
 const CID_TO_SLUG: Record<string, string> = {
+  // Individual peptides
   "108101": "bpc-157",
   "16131215": "glp-2-t",
   "171390338": "glp-3-reta",
@@ -23,6 +24,10 @@ const CID_TO_SLUG: Record<string, string> = {
   "11765637": "selank",
   "11765636": "semax",
   "439302": "oxytocin",
+  // Blend-component peptides that appear in PeptideStructure[] but
+  // aren't standalone SKUs:
+  "16129610": "tb-500",
+  "16133122": "cjc-1295",
 };
 
 /**
