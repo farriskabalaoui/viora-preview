@@ -42,6 +42,23 @@ export default function ForgotPasswordPage() {
     }
   }
 
+  async function resend() {
+    if (!email) return;
+    setSubmitting(true);
+    try {
+      const supabase = getSupabaseBrowser();
+      const redirectTo =
+        typeof window !== "undefined"
+          ? `${window.location.origin}/reset-password`
+          : "/reset-password";
+      await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    } catch {
+      // Silent — the success UI is already shown
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   if (sent) {
     return (
       <div className="mx-auto flex min-h-[calc(100vh-300px)] max-w-md flex-col justify-center px-4 py-12 sm:px-6">
@@ -60,16 +77,25 @@ export default function ForgotPasswordPage() {
             we&apos;ve sent a password reset link. It expires in 1 hour.
           </p>
           <p className="mt-4 text-xs text-muted-foreground">
-            Didn&apos;t see it? Check spam, or{" "}
+            Didn&apos;t see it? Check spam folder first. Otherwise:
+          </p>
+          <div className="mt-3 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={resend}
+              disabled={submitting}
+              className="rounded-full border border-border bg-background px-5 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand disabled:opacity-50"
+            >
+              {submitting ? "Resending..." : "Resend email"}
+            </button>
             <button
               type="button"
               onClick={() => setSent(false)}
-              className="font-medium text-brand hover:underline"
+              className="text-xs text-muted-foreground hover:text-brand"
             >
-              try a different email
+              Try a different email
             </button>
-            .
-          </p>
+          </div>
           <Link
             href="/login"
             className="mt-6 inline-block text-sm font-medium text-brand hover:underline"
