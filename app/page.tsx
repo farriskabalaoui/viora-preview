@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product-card";
 import { TrustBar } from "@/components/trust-bar";
 import { StackMarquee } from "@/components/stack-marquee";
 import { products } from "@/lib/products";
+import { coas } from "@/lib/coas";
 import { useI18n } from "@/lib/i18n-context";
 
 export default function Home() {
@@ -143,75 +144,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Lab Testing Proof */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-          <div>
-            <div className="text-xs font-medium uppercase tracking-wider text-brand">
-              Lab Testing & COAs
-            </div>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              Every batch, independently verified.
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Every Viora batch is independently tested by accredited third-party
-              laboratories using HPLC and mass spectrometry. Certificates of Analysis
-              are publicly available — no account needed.
-            </p>
-            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {[
-                { name: "Tesamorelin", file: "/coas/polaris/VHC-2649801.pdf" },
-                { name: "MOTS-C", file: "/coas/polaris/VHC-7934158.pdf" },
-                { name: "GHK-Cu", file: "/coas/polaris/VHC-6183274.pdf" },
-                { name: "Retatrutide", file: "/coas/polaris/VHC-1058642.pdf" },
-              ].map((coa) => (
-                <a
-                  key={coa.name}
-                  href={coa.file}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3 transition-colors hover:border-brand hover:bg-brand-soft"
-                >
-                  <div>
-                    <div className="text-sm font-semibold text-foreground group-hover:text-brand">
-                      {coa.name}
-                    </div>
-                    <div className="text-xs text-muted-foreground">Purity COA · PDF</div>
-                  </div>
-                  <span className="text-brand">↗</span>
-                </a>
-              ))}
-            </div>
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_20px_40px_-12px_rgba(31,38,71,0.16)] ring-1 ring-black/[0.04]">
-            <div
-              className="relative h-full w-full"
-              style={{
-                filter:
-                  "drop-shadow(0 16px 22px rgba(31, 38, 71, 0.16)) drop-shadow(0 4px 6px rgba(31, 38, 71, 0.08))",
-              }}
-            >
-              <Image
-                src="/products/tesamorelin.webp"
-                alt="Lab-tested research peptide"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain p-10"
-              />
-            </div>
-            <div className="pointer-events-none absolute inset-0 flex items-end p-8">
-              <div className="rounded-2xl border border-border bg-background/95 p-5 backdrop-blur">
-                <div className="text-xs font-medium uppercase tracking-wider text-brand">
-                  Quality Standard
-                </div>
-                <div className="mt-1 text-xl font-semibold text-foreground">
-                  HPLC + Mass Spec on every batch.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Lab Testing Proof — directs visitors to the full /coas index
+          (was previously hardcoded to 4 PDFs which opened in new tabs) */}
+      <LabTestingProofSection />
 
       {/* CTA */}
       {/* Amber bottle differentiator */}
@@ -313,5 +248,117 @@ function Stat({ value, label }: { value: string; label: string }) {
         {label}
       </div>
     </div>
+  );
+}
+
+/**
+ * Lab Testing / COA proof section — replaces a hardcoded 4-PDF block
+ * that opened PDFs in new tabs. Now reads from the lib/coas.ts registry
+ * (16 entries) and routes every card to the inline /coa/[batch] viewer
+ * so visitors stay on the site (Marv's "don't leave the site" directive).
+ *
+ * Big "View all" card directs to /coas for the searchable index.
+ */
+function LabTestingProofSection() {
+  const total = coas.length;
+  const featured = coas.slice(0, 6); // first 6 as a preview strip
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      {/* Header */}
+      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <div className="max-w-2xl">
+          <div className="text-xs font-medium uppercase tracking-wider text-brand">
+            Lab Testing &amp; COAs
+          </div>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Every batch, independently verified.
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            All {total} Viora batches are tested by{" "}
+            <Link href="/polaris" className="font-medium text-brand hover:underline">
+              Polaris Analytical
+            </Link>{" "}
+            using HPLC and mass spectrometry. Every certificate is publicly
+            verifiable — no account needed.
+          </p>
+        </div>
+        <Link
+          href="/coas"
+          className="inline-flex flex-none items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+        >
+          Browse all {total} COAs
+          <span aria-hidden>→</span>
+        </Link>
+      </div>
+
+      {/* Preview strip — 6 COAs + a "View all" tile */}
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {featured.map((coa) => (
+          <Link
+            key={coa.batch}
+            href={`/coa/${coa.batch}?from=${coa.slug}`}
+            className="group flex flex-col rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(31,38,71,0.04),0_8px_24px_-12px_rgba(31,38,71,0.10)] ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(31,38,71,0.06),0_24px_40px_-12px_rgba(31,38,71,0.18)] hover:ring-black/[0.08]"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-brand-soft text-brand">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden
+                >
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+                <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                Pass
+              </span>
+            </div>
+            <h3 className="mt-4 line-clamp-2 text-sm font-bold leading-tight tracking-tight text-foreground group-hover:text-brand">
+              {coa.compound}
+            </h3>
+            <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              {coa.batch}
+            </div>
+            <div className="mt-3 flex items-baseline justify-between text-xs">
+              <span className="text-muted-foreground">Purity</span>
+              <span className="font-semibold text-foreground">
+                {coa.purityResult}
+              </span>
+            </div>
+          </Link>
+        ))}
+
+        {/* "View all" tile in brand color — visually anchors the grid */}
+        <Link
+          href="/coas"
+          className="group flex flex-col justify-between rounded-2xl bg-brand p-5 text-brand-foreground shadow-[0_4px_8px_rgba(31,38,71,0.06),0_24px_40px_-12px_rgba(31,38,71,0.18)] transition-all hover:-translate-y-0.5 hover:opacity-95"
+        >
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-brand-foreground/70">
+              Full Registry
+            </div>
+            <h3 className="mt-3 font-display text-lg font-bold leading-tight tracking-tight">
+              All {total} certificates
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-brand-foreground/80">
+              HPLC + mass spec reports for every compound + blend we ship.
+              Search by batch number, compound, or CAS.
+            </p>
+          </div>
+          <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold">
+            Browse the index
+            <span aria-hidden>→</span>
+          </div>
+        </Link>
+      </div>
+    </section>
   );
 }
