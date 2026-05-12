@@ -4,6 +4,12 @@
  * footer, link, and policy reads from here.
  */
 
+// Current public number: Jordan's line (used as the team forwarding number
+// until the OpenPhone shared inbox is provisioned).
+// Future public number: +17543184672 / +1 (754) 318-4672 — the dedicated
+// Viora Twilio line Marv created. Swap the two constants below to cut over
+// once OpenPhone is set up and the team is in the shared inbox.
+
 // E.164 format (no spaces, no dashes) — used for tel: links + API validation
 export const VIORA_PHONE_E164 = "+19549951406";
 
