@@ -48,13 +48,15 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
-    q: "How do you ship? Is shipping temperature-controlled?",
+    q: "How do you ship?",
     a: (
       <>
-        All Viora orders ship from our U.S. facility via discreet, insulated
-        packaging. Temperature-sensitive compounds ship overnight with cold-pack
-        protection. You'll receive tracking the moment your order ships, and SMS
-        alerts at every status change.
+        All Viora orders ship from our U.S. facility in discreet, unbranded
+        outer packaging. Every compound ships as stable lyophilized powder —
+        no refrigeration is required in transit. You&apos;ll receive a tracking
+        number as soon as your order leaves our facility, plus SMS alerts at
+        every status change. <strong>Storage after reconstitution</strong> with
+        bacteriostatic water requires refrigeration at 2–8 °C.
       </>
     ),
   },

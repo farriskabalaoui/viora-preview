@@ -83,14 +83,27 @@ SKU_ROWS = [
     ("EPI-10",     "Epitalon",               "Epitalon",           "10mg", "",    "Anti-Aging",                                  "single", 2,    "307297-39-8",       "Kyle to confirm dose. Direct Peptides has 10mg"),
     ("GLUT-500",   "Glutathione",            "Glutathione",        "500mg","",    "Anti-Aging",                                  "single", 50,   "70-18-8",           "500mg most common per Kyle. 1500mg variant possible"),
 
-    # ── Blends ──────────────────────────────────────────────────────
-    ("WOLV-10-10", "Wolverine Blend",        "BPC-157 + TB-500",   "10mg + 10mg","","Longevity",                                  "blend",  "",   "",                  "Per call: both at 10mg, not 5+5"),
-    ("CJCIPA-10-10","CJC-1295 + Ipamorelin", "CJC-1295 + Ipamorelin","10mg + 10mg","","Longevity",                               "blend",  "",   "",                  "Both at 10mg per call"),
-    ("GLOW-",      "Glow Blend",             "GHK-Cu + ?",         "?",    "",    "Anti-Aging",                                  "blend",  "",   "",                  "DOSAGE? Need component breakdown from Marvin"),
+    # ── Blends (multi-peptide bundles in one vial) ──────────────────
+    ("WOLV-10-10", "Wolverine Blend",        "BPC-157 + TB-500",   "10mg + 10mg","75",  "Longevity",                                  "blend",  "",   "",                  "Current price $75. Per call: both at 10mg, not 5+5"),
+    ("CJCIPA-10-10","CJC-1295 + Ipamorelin", "CJC-1295 + Ipamorelin","10mg + 10mg","75","Longevity",                                "blend",  "",   "",                  "Current price $75. Both at 10mg per call"),
+    ("GLOW-",      "Glow Blend",             "GHK-Cu + ?",         "?",    "85",   "Anti-Aging",                                  "blend",  "",   "",                  "Current price $85. DOSAGE? Need component breakdown from Marvin"),
+
+    # ── Stacks (multiple separate vials sold as a bundle) ──────────
+    # Each stack = customer gets N separate vials with their own batches.
+    # Price column reflects current site price; needs your $5-below-DP cross-check.
+    ("STK-PREMWL", "Viora Premium Weight Loss Stack", "VH3-R + Tesamorelin + MOTS-c", "3 vials", "388", "Best Seller, Weight Loss", "stack", "", "", "Current price $388. Confirm components + dose mix"),
+    ("STK-WL",     "Viora Weight Loss Stack",         "Tesamorelin + VH3-R",         "2 vials", "303", "Weight Loss",              "stack", "", "", "Current price $303"),
+    ("STK-MET",    "Viora Metabolic Stack",           "VH3-R + MOTS-c + NAD+",       "3 vials", "430", "Energy",                   "stack", "", "", "Current price $430. NOTE: 'Metabolic Health' tag removed — using 'Energy' instead. Confirm or kill?"),
+    ("STK-GUT",    "Viora Gut Health Stack",          "BPC-157 + GLP-2 (Teduglutide)","2 vials","265", "Longevity",                "stack", "", "", "Current price $265. ⚠️ Includes Teduglutide which we're removing — replace with what?"),
+    ("STK-LNG",    "Viora Longevity Stack",           "NAD+ + MOTS-c + GHK-Cu",      "3 vials", "189", "Longevity, Anti-Aging",    "stack", "", "", "Current price $189"),
+    ("STK-HORM",   "Viora Hormone Signaling Stack",   "Tesamorelin + Ipamorelin + IGF-1 LR3","3 vials","102","REMOVE?",            "stack", "", "", "Current price $102. ⚠️ 'Hormone' tag removed per call. Kill this stack or rename?"),
+    ("STK-MOOD",   "Viora Mood & Balance Stack",      "Selank + Semax + Oxytocin",   "3 vials", "70",  "Cognitive",                "stack", "", "", "Current price $70. ⚠️ Contains Oxytocin (REMOVE candidate). Keep without Oxytocin? Or drop entire stack?"),
+    ("STK-INT",    "Viora Intimacy Research Stack",   "PT-141 + Oxytocin",           "2 vials", "50",  "REMOVE?",                  "stack", "", "", "Current price $50. ⚠️ Contains Oxytocin (REMOVE candidate). Kill?"),
+    ("STK-CEO",    "Viora CEO Stack",                 "NAD+ + Semax + Selank",       "3 vials", "100", "Cognitive, Energy",        "stack", "", "", "Current price $100. Confirm — performance positioning"),
 
     # ── SKUs to consider — were in old code but NOT confirmed for launch ─
     ("REMOVE-1",   "GLP-2 (Teduglutide)",    "Teduglutide",        "5mg",  "",    "REMOVE",                                      "single", "",   "223132-37-4",       "Decision: replace with Tirzepatide (VH2-T)? Or keep both?"),
-    ("REMOVE-2",   "Oxytocin",               "Oxytocin",           "2mg",  "",    "REMOVE?",                                     "single", "",   "50-56-6",           "Was in catalog — keep or drop?"),
+    ("REMOVE-2",   "Oxytocin",               "Oxytocin",           "2mg",  "",    "REMOVE?",                                     "single", "",   "50-56-6",           "Was in catalog — keep or drop? Affects 3 stacks (Mood, Intimacy)"),
     ("REMOVE-3",   "DSIP",                   "DSIP",               "",     "",    "REMOVE",                                      "single", "",   "62568-57-4",        "Confirmed NOT in inventory per Jordan — remove"),
     ("REMOVE-4",   "5-Amino 1MQ",            "5-Amino 1MQ",        "",     "",    "REMOVE",                                      "single", "",   "",                  "Confirmed NOT in inventory per Jordan — remove"),
 ]
@@ -273,6 +286,15 @@ INSTRUCTIONS = [
     "10. Notes — anything else: special handling, restrictions, marketing positioning, etc.",
     "",
     "RED rows are REMOVE candidates — confirm by leaving them red, OR delete the row entirely if we're definitely dropping that SKU.",
+    "",
+    "BLENDS vs STACKS:",
+    "   • Blend = one vial containing multiple peptides (Wolverine = BPC + TB-500 in one vial)",
+    "   • Stack = multiple separate vials sold as a bundle (Premium Weight Loss = 3 separate vials)",
+    "",
+    "STACK COMPOSITION QUESTIONS to resolve:",
+    "   • Gut Health Stack currently includes Teduglutide which we're removing — pick a replacement or kill the stack",
+    "   • Hormone Signaling Stack — 'Hormone' tag was removed on the call. Kill the stack or just rename it?",
+    "   • Mood & Balance + Intimacy Research stacks both contain Oxytocin (REMOVE candidate). Kill the stacks or restructure without Oxytocin?",
     "",
     "Send the completed sheet back to Farris. He'll bulk-update the storefront, COA registry, and label generation from it in one batch.",
 ]

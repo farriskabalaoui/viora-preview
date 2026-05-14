@@ -14,9 +14,11 @@ import { useAuthState } from "@/lib/use-auth-state";
 
 // Simplified per Marvin's direction (2026-05-12): cut Stacks, FAQ, Affiliate
 // from the top bar — they live in the footer / are accessible from filters
-// on /products. Keep the top nav to 5 high-intent destinations.
-// COAs added per Marvin's follow-up — public certificate directory.
+// on /products. Home button added per Marvin's follow-up ("we probably need
+// a home button") — the logo already routes there but an explicit text link
+// makes the way back obvious from deep pages.
 const nav: { href: string; key: DictKey }[] = [
+  { href: "/", key: "nav.home" },
   { href: "/products", key: "nav.research_compounds" },
   { href: "/research", key: "nav.research_library" },
   { href: "/coas", key: "nav.coas" },

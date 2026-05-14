@@ -12,6 +12,7 @@ export const dict = {
   en: {
     "banner.taglineRes": "Now accepting research applications",
     "banner.shipDate": "Orders ship June 1, 2026",
+    "nav.home": "Home",
     "nav.research_compounds": "Products",
     "nav.stacks": "Stacks",
     "nav.research_library": "Research",
@@ -41,7 +42,7 @@ export const dict = {
       "Sourcing and quality reviewed by licensed physicians and PhD chemists.",
     "trust.us": "Made in the U.S.",
     "trust.us_body":
-      "Manufactured & packed in the United States — discreet, temperature-controlled fulfillment.",
+      "Manufactured & packed in the United States — discreet, fast fulfillment.",
     "trust.portal": "Secure Portal",
     "trust.portal_body":
       "Bank-grade 256-bit encryption with audit-logged access controls and per-row data protection.",
@@ -92,6 +93,7 @@ export const dict = {
   es: {
     "banner.taglineRes": "Aceptando solicitudes de investigación",
     "banner.shipDate": "Pedidos envíos a partir del 1 de junio, 2026",
+    "nav.home": "Inicio",
     "nav.research_compounds": "Productos",
     "nav.stacks": "Stacks",
     "nav.research_library": "Investigación",
@@ -173,6 +175,7 @@ export const dict = {
   ar: {
     "banner.taglineRes": "نقبل طلبات الأبحاث الآن",
     "banner.shipDate": "بدء الشحن في 1 يونيو 2026",
+    "nav.home": "الرئيسية",
     "nav.research_compounds": "المركّبات البحثية",
     "nav.stacks": "الحزم",
     "nav.research_library": "مكتبة الأبحاث",

@@ -4,6 +4,22 @@ import { products, categories } from "@/lib/products";
 import { getStockMap } from "@/lib/ecwid-sync";
 import { stockStatusFor, type StockStatus } from "@/lib/stock";
 
+/**
+ * The 6 tag categories Marvin signed off on (2026-05-12 product call).
+ * Any tag on a product NOT in this list is ignored by the filter UI —
+ * stale categories like "Hormone" and "Metabolic Health" no longer
+ * surface as browse chips. (Per-product tag arrays get scrubbed when
+ * Jordan/Marv send back the SKU master spreadsheet.)
+ */
+const ALLOWED_TAGS = new Set([
+  "Best Seller",
+  "Weight Loss",
+  "Anti-Aging",
+  "Longevity",
+  "Cognitive",
+  "Energy",
+]);
+
 type Props = {
   searchParams: Promise<{ category?: string; tag?: string }>;
 };
@@ -42,7 +58,12 @@ export default async function ProductsPage({ searchParams }: Props) {
     else stockBySlug.set(p.slug, "in_stock");
   }
 
-  const tagsInCatalog = Array.from(new Set(products.flatMap((p) => p.tags)));
+  // Only surface tags that appear in BOTH the catalog AND the canonical list.
+  // Filters out legacy "Hormone", "Metabolic Health", etc. without touching
+  // per-product tag arrays (those get scrubbed when the SKU sheet lands).
+  const tagsInCatalog = Array.from(
+    new Set(products.flatMap((p) => p.tags)),
+  ).filter((t) => ALLOWED_TAGS.has(t));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">

@@ -33,7 +33,7 @@ export default function AboutPage() {
               Our Mission
             </div>
             <h2 className="mt-2 text-3xl font-semibold tracking-tight">
-              High-purity peptides — without compromise.
+              High-purity research peptides — without compromise.
             </h2>
             <p className="mt-4 text-muted-foreground">
               Every batch we ship has been independently verified to ≥99% purity by
@@ -92,7 +92,7 @@ export default function AboutPage() {
               {
                 title: "Made in the U.S.",
                 body:
-                  "Manufactured and packed in the United States — discreet, temperature-controlled fulfillment.",
+                  "Manufactured and packed in the United States — discreet, fast fulfillment from our U.S. facility.",
               },
               {
                 title: "Enterprise-Grade Security",

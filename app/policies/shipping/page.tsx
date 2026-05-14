@@ -13,8 +13,9 @@ export default function ShippingPage() {
 
       <p>
         All Viora orders ship from our U.S. facility via discreet packaging — exterior
-        labels do not reference the contents. Cold-chain compounds are packed with insulated
-        liners and ice packs as needed.
+        labels do not reference the contents. Every compound ships as stable lyophilized
+        powder; no refrigeration is required during transit. Storage after reconstitution
+        with bacteriostatic water requires refrigeration at 2–8 °C (see Section 8 below).
       </p>
 
       <h2>1. Where We Ship</h2>

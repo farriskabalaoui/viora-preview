@@ -38,8 +38,8 @@ export default function ReturnsPage() {
 
       <h2>3. Damaged on arrival</h2>
       <p>
-        If your package arrives with visible damage, broken vials, or compromised cold-chain
-        materials:
+        If your package arrives with visible damage, broken vials, or otherwise
+        compromised packaging:
       </p>
       <ol>
         <li>Photograph the outer carton, the inner packaging, and the affected vials before unpacking further.</li>

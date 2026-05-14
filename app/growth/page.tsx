@@ -188,7 +188,7 @@ const apps = [
       },
       {
         title: "Bulk + Custom Compounding",
-        body: "Higher-ticket service: custom blend ratios, bulk vials, cold-chain shipping at scale. $5K+ orders. Margin lift vs retail.",
+        body: "Higher-ticket service: custom blend ratios, bulk vials, dedicated account-rep handling at scale. $5K+ orders. Margin lift vs retail.",
       },
       {
         title: "Account Manager Dashboard",

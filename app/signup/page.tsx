@@ -27,6 +27,15 @@ function SignupForm() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Per Kyle's legal advice from 2026-05-12 product call: force users to
+  // actually OPEN the Research Use Consent + Terms docs before they can
+  // tick the consent checkbox. Adds a layer of "they actively reviewed
+  // it" — harder to argue in court they never saw the doc when their
+  // click on the link is what unlocked the checkbox.
+  const [consentDocOpened, setConsentDocOpened] = useState(false);
+  const [termsDocOpened, setTermsDocOpened] = useState(false);
+  const consentDocsReady = consentDocOpened && termsDocOpened;
+
   const allConsentsChecked = age21 && researchUse && acceptTerms;
   const formValid = email && password.length >= 8 && phone && allConsentsChecked;
 
@@ -188,22 +197,51 @@ function SignupForm() {
               type="checkbox"
               required
               checked={acceptTerms}
+              disabled={!consentDocsReady}
               onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-0.5 h-4 w-4 flex-none accent-brand"
+              className="mt-0.5 h-4 w-4 flex-none accent-brand disabled:cursor-not-allowed disabled:opacity-50"
+              title={
+                !consentDocsReady
+                  ? "Open both linked documents below first"
+                  : undefined
+              }
             />
             <span>
               I have read and accept the{" "}
-              <Link href="/consent" className="font-medium text-brand hover:underline" target="_blank">
+              <Link
+                href="/consent"
+                className="font-medium text-brand hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setConsentDocOpened(true)}
+              >
                 Full Research Use Consent
-              </Link>{" "}
+              </Link>
+              {consentDocOpened && (
+                <span aria-label="opened" className="ml-1 text-brand">✓</span>
+              )}{" "}
               and{" "}
-              <Link href="/policies/terms" className="font-medium text-brand hover:underline" target="_blank">
+              <Link
+                href="/policies/terms"
+                className="font-medium text-brand hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setTermsDocOpened(true)}
+              >
                 Terms of Service
               </Link>
+              {termsDocOpened && (
+                <span aria-label="opened" className="ml-1 text-brand">✓</span>
+              )}
               . I understand orders are non-refundable once shipped, and I am
               personally responsible for safe handling and disposal.
             </span>
           </label>
+          {!consentDocsReady && (
+            <p className="ml-7 text-xs text-muted-foreground">
+              Please open both linked documents above before checking this box.
+            </p>
+          )}
         </div>
 
         {error && (
