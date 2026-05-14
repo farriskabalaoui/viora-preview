@@ -9,6 +9,7 @@ import {
 import { ProductCard } from "@/components/product-card";
 import { ProductPhoto } from "@/components/product-photo";
 import { AddToCart } from "@/components/add-to-cart";
+import { StickyProductCTA } from "@/components/sticky-product-cta";
 import { ProductResearchSection } from "@/components/product-research-section";
 import { getProductResearch } from "@/lib/product-research";
 import { coasForProductSlug } from "@/lib/coas";
@@ -167,6 +168,11 @@ export default async function ProductPage({ params }: Props) {
           </div>
 
           {/* Add to Cart + COA */}
+          {/* Sentinel — when this scrolls out of view, the sticky bottom
+              CTA fades in. Lives next to the primary Add to Cart so they
+              never overlap on screen. */}
+          <div id="primary-buybox-anchor" aria-hidden className="h-0" />
+
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <AddToCart
               slug={product.slug}
@@ -264,6 +270,18 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      {/* Sticky bottom CTA — appears once the primary buy-box scrolls
+          out of view. Always has a one-click path to add without
+          scrolling back up. */}
+      <StickyProductCTA
+        slug={product.slug}
+        name={product.name}
+        priceFrom={product.priceFrom}
+        image={product.image}
+        sizes={product.sizes}
+        outOfStock={stock === "out_of_stock"}
+      />
     </div>
   );
 }

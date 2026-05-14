@@ -146,6 +146,10 @@ export default function Home() {
         </div>
       </section>
 
+      {/* "Our Process" — 3-card explainer of how we make + ship.
+          Marvin asked for a Direct-Peptides-style process section. */}
+      <OurProcessSection />
+
       {/* Lab Testing Proof — directs visitors to the full /coas index
           (was previously hardcoded to 4 PDFs which opened in new tabs) */}
       <LabTestingProofSection />
@@ -381,6 +385,154 @@ function LabTestingProofSection() {
             <span aria-hidden>→</span>
           </div>
         </Link>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * "Our Process" — 3-card explainer of the manufacturing → testing →
+ * fulfillment flow. Marvin liked Direct Peptides' equivalent section
+ * on the call and asked for the same on our site.
+ *
+ * Photos are stylized SVG illustrations on branded gradient backgrounds
+ * so we don't depend on real photoshoot assets (Marvin's team can drop
+ * in real photos later by swapping the `<svg>` blocks for `<Image>`s).
+ */
+function OurProcessSection() {
+  const steps = [
+    {
+      step: "STEP 1",
+      title: "Precision Lyophilization",
+      body: "Manufactured in a controlled U.S. facility under strict compounding standards. Every batch undergoes freeze-drying for shelf stability.",
+      icon: (
+        // Microscope / lab icon
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 18h8" />
+          <path d="M3 22h18" />
+          <path d="M14 22a7 7 0 100-14h-1" />
+          <path d="M9 14h2" />
+          <path d="M9 12a2 2 0 01-2-2V6h6v4a2 2 0 01-2 2h-2z" />
+          <path d="M12 6V3a1 1 0 00-1-1H9a1 1 0 00-1 1v3" />
+        </svg>
+      ),
+    },
+    {
+      step: "STEP 2",
+      title: "Verified Purity",
+      body: "Every batch independently tested by Polaris Analytical with HPLC and mass spectrometry. Public COAs — no account needed.",
+      icon: (
+        // Beaker / vial icon
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M9 3h6" />
+          <path d="M10 3v6L4.5 18.5A2 2 0 006.2 21h11.6a2 2 0 001.7-2.5L14 9V3" />
+          <path d="M7 14h10" />
+          <circle cx="10.5" cy="17.5" r="0.5" fill="currentColor" />
+          <circle cx="13.5" cy="16.5" r="0.5" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      step: "STEP 3",
+      title: "Same-Day Fulfillment",
+      body: "Orders placed by 2pm ET ship the same day from our U.S. facility. Discreet packaging, tracking by SMS.",
+      icon: (
+        // Shipping box icon
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      {/* Header */}
+      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <div className="max-w-2xl">
+          <div className="text-xs font-medium uppercase tracking-wider text-brand">
+            How we work
+          </div>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Our process.
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            From compounding to your door — every step controlled and
+            documented.
+          </p>
+        </div>
+        <Link
+          href="/products"
+          className="inline-flex flex-none items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+        >
+          View Products
+          <span aria-hidden>→</span>
+        </Link>
+      </div>
+
+      {/* 3 step cards */}
+      <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+        {steps.map((s) => (
+          <div
+            key={s.step}
+            className="relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(31,38,71,0.04),0_8px_24px_-12px_rgba(31,38,71,0.10)] ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(31,38,71,0.06),0_24px_40px_-12px_rgba(31,38,71,0.18)]"
+          >
+            {/* Top: branded gradient with icon */}
+            <div
+              className="relative flex h-48 items-center justify-center text-brand-foreground"
+              style={{
+                background:
+                  "linear-gradient(135deg, #284C3E 0%, #1F3F33 40%, #142B22 100%)",
+              }}
+            >
+              <div className="opacity-90">{s.icon}</div>
+              {/* subtle leaf pattern overlay for brand polish */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(236,243,238,0.15),transparent_60%)]" />
+            </div>
+
+            {/* Bottom: text */}
+            <div className="flex flex-1 flex-col p-6">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                {s.step}
+              </div>
+              <h3 className="mt-2 text-xl font-bold tracking-tight text-foreground">
+                {s.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {s.body}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
